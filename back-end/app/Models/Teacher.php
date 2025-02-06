@@ -17,8 +17,4 @@ class Teacher extends Model
     public function subjects(){
         return $this->hasMany(Subject::class);
     }
-
-    public function notifications(){
-        return $this->hasMany(Notification::class);
-    }
 }
