@@ -20,8 +20,8 @@ return new class extends Migration
             $table->enum("gender",["female","male"]);
             $table->string("address")->nullable();
             $table->string("phone")->unique()->nullable();
-            $table->string("user_name")->unique()->nullable();
-            $table->string("picture")->nullable();
+            $table->string("username")->unique()->nullable();
+            $table->string("profile_picture")->nullable();
             $table->timestamps();
         });
     }
