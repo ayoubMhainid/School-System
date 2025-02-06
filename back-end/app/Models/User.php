@@ -6,8 +6,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
@@ -18,9 +19,9 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
         'email',
         'password',
+        'role'
     ];
 
     /**
@@ -33,6 +34,18 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    public function getJWTIdentifier()
+    {
+        return $this->key;
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [
+            'role' => $this->role,
+        ];
+    }
+
     /**
      * Get the attributes that should be cast.
      *
@@ -44,5 +57,21 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function student(){
+        return $this->hasOne(Student::class);
+    }
+
+    public function teacher(){
+        return $this->hasOne(Teacher::class);
+    }
+
+    public function admin(){
+        return $this->hasOne(Admin::class);
+    }
+
+    public function attendances(){
+        return $this->hasMany(Attendance::class);
     }
 }
