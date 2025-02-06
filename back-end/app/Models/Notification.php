@@ -6,11 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Notification extends Model
 {
-    public function student(){
-        return $this->belongsTo(Student::class);
-    }
-
-    public function teacher(){
-        return $this->belongsTo(Teacher::class);
+    public function sender(){
+        return $this->belongsTo(User::class,"sender_id");
     }
 }

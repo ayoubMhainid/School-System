@@ -17,8 +17,4 @@ class Student extends Model
     public function marks(){
         return $this->hasMany(Mark::class);
     }
-
-    public function notifications(){
-        return $this->hasMany(Notification::class);
-    }
 }

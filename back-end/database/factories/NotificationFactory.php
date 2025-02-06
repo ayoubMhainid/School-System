@@ -2,14 +2,14 @@
 
 namespace Database\Factories;
 
-use App\Models\Exam;
 use App\Models\Student;
+use App\Models\Teacher;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Mark>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Notification>
  */
-class MarkFactory extends Factory
+class NotificationFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -19,10 +19,10 @@ class MarkFactory extends Factory
     public function definition(): array
     {
         return [
-            'exam_id' => Exam::inRandomOrder()->value('id'),
             'student_id' => Student::inRandomOrder()->value('id'),
-            'mark' => fake()->numberBetween(0,20),
-            'remark' => fake()->text(100),
+            'teacher_id' => Teacher::inRandomOrder()->value('id'),
+            'content' => fake()->text(50),
+            'status' => fake()->randomElement(["seen","delivred"]),
         ];
     }
 }

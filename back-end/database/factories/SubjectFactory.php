@@ -19,7 +19,7 @@ class SubjectFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => Teacher::inRandomOrder()->value('id'),
+            'teacher_id' => Teacher::inRandomOrder()->value('id'),
             'class_id' => Classe::inRandomOrder()->value('id'),
             'name' => fake()->name(),
         ];

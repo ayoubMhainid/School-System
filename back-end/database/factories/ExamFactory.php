@@ -19,7 +19,7 @@ class ExamFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => Subject::inRandomOrder()->value('id'),
+            'subject_id' => Subject::inRandomOrder()->value('id'),
             'class_id' => Classe::inRandomOrder()->value('id'),
             'exam_name' => fake()->name(),
             'date' => fake()->dateTimeBetween('2024-10-01', '2025-06-31')->format('Y-m-d'),

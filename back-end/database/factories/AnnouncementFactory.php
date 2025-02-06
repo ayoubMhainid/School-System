@@ -2,13 +2,13 @@
 
 namespace Database\Factories;
 
-use App\Models\User;
+use App\Models\Admin;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Attendance>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Announcement>
  */
-class AttendanceFactory extends Factory
+class AnnouncementFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,11 +18,10 @@ class AttendanceFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => User::inRandomOrder()->value('id'),
-            'date' => fake()->dateTimeBetween('2024-10-01', '2025-06-31')->format('Y-m-d'),
+            'admin_id' => Admin::inRandomOrder()->value('id'),
             'receiver' => fake()->randomElement(["students","teachers"]),
             'title' => fake()->name(),
-            'message'=> fake()->text(),
+            'message' =>fake()->text(),
         ];
     }
 }
