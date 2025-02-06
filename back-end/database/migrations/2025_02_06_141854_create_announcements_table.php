@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('announcements', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("admin_id")->constrained("admin")->onDelete("cascade");
+            $table->foreignId("admin_id")->constrained("admins")->onDelete("cascade");
             $table->enum("receiver",["students","teachers"]);
             $table->string("title");
             $table->text("message");

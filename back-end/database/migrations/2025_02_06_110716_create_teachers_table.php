@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string("phone")->unique()->nullable();
             $table->string("address")->nullable();
             $table->string("specialization")->nullable();
-            $table->string("picture")->nullable();
+            $table->string("profile_picture")->nullable();
             $table->timestamps();
         });
     }
