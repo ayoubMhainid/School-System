@@ -27,17 +27,17 @@ class DatabaseSeeder extends Seeder
     {
         
 
-        // User::factory(20)->create();
-        // Teacher::factory(20)->create();
-        // Classe::factory(20)->create();
-        // Student::factory(20)->create();
-        // Admin::factory(20)->create();
-        // Subject::factory(20)->create();
-        // Announcement::factory(20)->create();
-        // Event::factory(20)->create();
-        // Exam::factory(20)->create();
-        // Mark::factory(20)->create();
-        // Notification::factory(20)->create();
+        User::factory(80)->create();
+        Teacher::factory(20)->create();
+        Classe::factory(20)->create();
+        Student::factory(20)->create();
+        Admin::factory(20)->create();
+        Subject::factory(20)->create();
+        Announcement::factory(20)->create();
+        Event::factory(20)->create();
+        Exam::factory(20)->create();
+        Mark::factory(20)->create();
+        Notification::factory(20)->create();
         Attendance::factory(20)->create();
         
     }
