@@ -20,9 +20,7 @@ class AttendanceFactory extends Factory
         return [
             'user_id' => User::inRandomOrder()->value('id'),
             'date' => fake()->dateTimeBetween('2024-10-01', '2025-06-31')->format('Y-m-d'),
-            'receiver' => fake()->randomElement(["students","teachers"]),
-            'title' => fake()->name(),
-            'message'=> fake()->text(),
+            'status' => fake()->randomElement(["absent","late"]),
         ];
     }
 }

@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Models\Student;
-use App\Models\Teacher;
+
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Foundation\Auth\User;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Notification>
@@ -19,8 +19,8 @@ class NotificationFactory extends Factory
     public function definition(): array
     {
         return [
-            'student_id' => Student::inRandomOrder()->value('id'),
-            'teacher_id' => Teacher::inRandomOrder()->value('id'),
+            'sender_id' => User::inRandomOrder()->value('id'),
+            'receiver_id' => User::inRandomOrder()->value('id'),
             'content' => fake()->text(50),
             'status' => fake()->randomElement(["seen","delivred"]),
         ];
