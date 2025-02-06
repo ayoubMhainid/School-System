@@ -8,23 +8,23 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
-    public function checkUserLogin(Request $request){
-        try{
+    public function checkUserLogin(Request $request)
+    {
+        try {
 
-            $user_credentials = $request->only(["email","password"]);
+            $user_credentials = $request->only(["email", "password"]);
 
-            if(!$token = JWTAuth::attempt($user_credentials)){
+            if (!$token = JWTAuth::attempt($user_credentials)) {
                 return response()->json([
                     "message" => "Email or password incorrect!",
-                ],401);
+                ], 401);
             }
 
             return response()->json([
                 "role" => JWTAuth::user()->role,
                 "token" => $token,
             ]);
-
-        }catch(Exception $ex){
+        } catch (Exception $ex) {
             return response()->json([
                 "message" => $ex->getMessage(),
             ]);
