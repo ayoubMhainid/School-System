@@ -46,7 +46,7 @@ export const Login = () => {
   };
   return (
     <form onSubmit={handleSubmit}>
-      <div className="flex justify-center items-center ">
+      {/* <div className="flex justify-center items-center ">
         <div>
           <input
             name="email"
@@ -70,8 +70,8 @@ export const Login = () => {
           >
             login
           </button>
-        </div>
-      </div>
+        </div> 
+      </div>*/}
     </form>
   );
 };
