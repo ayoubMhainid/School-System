@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Student extends Model
 {
+    use HasFactory;
+
     public function user(){
         return $this->belongsTo(User::class);
     }
@@ -16,9 +19,5 @@ class Student extends Model
 
     public function marks(){
         return $this->hasMany(Mark::class);
-    }
-
-    public function notifications(){
-        return $this->hasMany(Notification::class);
     }
 }

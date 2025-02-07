@@ -1,13 +1,9 @@
 import {
-  ArrowRightOnRectangleIcon,
   BuildingStorefrontIcon,
-  InboxStackIcon,
   Squares2X2Icon,
-  TagIcon,
   UserCircleIcon,
   UserGroupIcon,
   UsersIcon,
-  FlagIcon,
   ShoppingBagIcon,
   BellIcon,
   ChatBubbleLeftRightIcon,
@@ -15,48 +11,96 @@ import {
   MagnifyingGlassIcon,
   FolderIcon,
   HomeIcon,
+  MegaphoneIcon,
+  ClipboardDocumentCheckIcon,
+  CalendarDaysIcon,
+  DocumentTextIcon,
 } from "@heroicons/react/24/outline";
 
 export const ADMINLINKS = [
+  {
+    SVG: <UserCircleIcon strokeWidth="1" className="w-5 h-5" />,
+    TEXT: "Profile",
+    LINK: "/admin/profile",
+  },
   {
     SVG: <Squares2X2Icon strokeWidth="1" className="w-5 h-5" />,
     TEXT: "Dashboard",
     LINK: "/admin/dashboard",
   },
   {
-    SVG: <UsersIcon strokeWidth="1" className="w-5 h-5" />,
-    TEXT: "Users",
-    LINK: "/admin/usersList",
-  },
-  {
-    SVG: <FlagIcon strokeWidth="1" className="w-5 h-5" />,
-    TEXT: "Reported products",
-    LINK: "/admin/reportedProducts",
-  },
-  {
-    SVG: <InboxStackIcon strokeWidth="1" className="w-5 h-5" />,
-    TEXT: "Pending products",
-    LINK: "/admin/pendingProducts",
-  },
-  {
-    SVG: <TagIcon strokeWidth="1" className="w-5 h-5" />,
-    TEXT: "Categories",
-    LINK: "/admin/categories",
-  },
-  {
-    SVG: <BuildingStorefrontIcon strokeWidth="1" className="w-5 h-5" />,
-    TEXT: "Stores",
-    LINK: "/admin/stores",
+    SVG: <UserCircleIcon strokeWidth="1" className="w-5 h-5" />,
+    TEXT: "Teachers",
+    LINK: "/admin/teachers",
   },
   {
     SVG: <UserGroupIcon strokeWidth="1" className="w-5 h-5" />,
-    TEXT: "Our Team",
-    LINK: "/admin/team",
+    TEXT: "Students",
+    LINK: "/admin/studentsList",
   },
+  {
+    SVG: <ClipboardDocumentCheckIcon strokeWidth="1" className="w-5 h-5" />,
+    TEXT: "Attendances",
+    LINK: "/admin/attendances",
+  },
+  {
+    SVG: <MegaphoneIcon strokeWidth="1" className="w-5 h-5" />,
+    TEXT: "Announcement",
+    LINK: "/admin/announcementList",
+  },
+  {
+    SVG: <CalendarDaysIcon strokeWidth="1" className="w-5 h-5" />,
+    TEXT: "Events",
+    LINK: "/admin/categories",
+  },
+  {
+    SVG: <DocumentTextIcon strokeWidth="1" className="w-5 h-5" />,
+    TEXT: "Exams",
+    LINK: "/admin/exams",
+  },
+];
+
+export const TEACHERLINKS = [
+  // {
+  //   SVG: <HomeIcon strokeWidth="1" className="w-5 h-5" />,
+  //   TEXT: "Home",
+  //   LINK: "/user/home",
+  // },
   {
     SVG: <UserCircleIcon strokeWidth="1" className="w-5 h-5" />,
     TEXT: "Profile",
-    LINK: "/admin/profile",
+    LINK: "/user/profile",
+  },
+  {
+    SVG: <MagnifyingGlassIcon strokeWidth="1" className="w-5 h-5" />,
+    TEXT: "Search",
+    LINK: "/teacher/searchs",
+  },
+  {
+    SVG: <UserGroupIcon strokeWidth="1" className="w-5 h-5" />,
+    TEXT: "Students",
+    LINK: "/teacher/studentsList",
+  },
+  {
+    SVG: <ChatBubbleLeftRightIcon strokeWidth="1" className="w-5 h-5" />,
+    TEXT: "Classes",
+    LINK: "/teacher/classes",
+  },
+  {
+    SVG: <FolderIcon strokeWidth="1" className="w-5 h-5" />,
+    TEXT: "Exams",
+    LINK: "/teacher/exams",
+  },
+  {
+    SVG: <BellIcon strokeWidth="1" className="w-5 h-5" />,
+    TEXT: "Notifications",
+    LINK: "/teacher/notifications",
+  },
+
+  {
+    SVG: <BookmarkIcon strokeWidth="1" className="w-5 h-5" />,
+    TEXT: "Subjects",
+    LINK: "/teacher/subjects",
   },
 ];
 

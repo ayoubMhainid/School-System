@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("teacher_id")->constrained("teachers")->onDelete("cascade");
-            $table->foreignId("student_id")->constrained("students")->onDelete("cascade");
+            $table->foreignId("sender_id")->constrained("users")->onDelete("cascade");
+            $table->foreignId("receiver_id")->constrained("users")->onDelete("cascade");
             $table->text("content");
             $table->enum("status",["seen","delivred"]);
             $table->timestamps();
