@@ -23,6 +23,7 @@ export const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     setNotification(null);
     setLoading(true);
     try {
@@ -43,8 +44,10 @@ export const Login = () => {
     } catch (error) {
       setLoading(false);
       if (error.response) {
-        console.log(response);
-        setNotification({ type: "error", message: error.response });
+        setNotification({
+          type: "error",
+          message: error.response.data.message,
+        });
       } else {
         setNotification({ type: "error", message: "try later agin" });
       }

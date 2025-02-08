@@ -1,9 +1,7 @@
 import axios from "axios";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 export const checkUserLogin = async (data) => {
-  const response = await axios.post(
-    "http://localhost:8000/api/auth/checkUserLogin",
-    data
-  );
+  const response = await axios.post(`${apiUrl}/auth/checkUserLogin`, data);
   return response;
 };
