@@ -11,8 +11,7 @@ class AuthController extends Controller
     public function checkUserLogin(Request $request)
     {
         try {
-
-            $user_credentials = $request->only(["email", "password"]);
+            $user_credentials = $request->only("email", "password");
 
             if (!$token = JWTAuth::attempt($user_credentials)) {
                 return response()->json([
@@ -27,7 +26,7 @@ class AuthController extends Controller
         } catch (Exception $ex) {
             return response()->json([
                 "message" => $ex->getMessage(),
-            ]);
+            ],500);
         }
     }
 }

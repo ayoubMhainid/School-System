@@ -15,7 +15,9 @@ class AdminController extends Controller
             $admins = Admin::all();
             return response()->json($admins, 200);
         }catch(\Exception $e){
-            return response()->json(['error' => 'Internal Server Error', 'message' => $e->getMessage()], 500);
+            return response()->json([
+                'message' => $e->getMessage()
+            ],500);
         }
     }
 
@@ -32,7 +34,7 @@ class AdminController extends Controller
             if ($existingUser) {
                 return response()->json(['error' => 'User already exists'], 409);
             }
-            
+
             $user = User::create([
                 'email' => $validatedData['email'],
                 'password' => Hash::make($validatedData['password']),
@@ -44,7 +46,7 @@ class AdminController extends Controller
                 'phone' => $validatedData['phone'],
                 'user_id' => $user->id
             ]);
-            return response()->json($admin, 201);
+            return response()->json($admin, 200);
 
         }catch (ValidationException $e) {
             return response()->json(['error' => 'Validation Error', 'message' => $e->errors()], 422);

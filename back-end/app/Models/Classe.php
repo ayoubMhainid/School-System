@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Classe extends Model
 {
     use HasFactory;
+    protected $fillable = ['class_name','section','teacher_id'];
 
     public function students(){
         return $this->hasMany(Student::class);
