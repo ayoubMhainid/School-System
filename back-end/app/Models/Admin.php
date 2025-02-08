@@ -9,6 +9,8 @@ class Admin extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['full_name', 'phone', 'user_id'];
+
     public function announcements(){
         return $this->hasMany(Announcement::class);
     }
