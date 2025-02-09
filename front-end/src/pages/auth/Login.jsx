@@ -54,10 +54,7 @@ export const Login = () => {
           <div>
             <h1 className="text-4xl">Sign in</h1>
             <h4>
-              D'ont have an account ?
-              <Link to={"/register"} className="text-blue-500 underline">
-                Sign up
-              </Link>
+              Ask admin to create an account for you
             </h4>
           </div>
           <div>
@@ -81,12 +78,6 @@ export const Login = () => {
               value={formData.password}
               onChange={handleCahnge}
             />
-            <Link
-              className="float-end text-blue-500 underline"
-              to={"/forgotPassword"}
-            >
-              Forgot Password?
-            </Link>
           </div>
           <Button type={"submit"} text={"Sign in"} loading={loading} />
         </div>
