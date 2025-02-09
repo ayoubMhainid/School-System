@@ -6,6 +6,7 @@ use App\Http\Controllers\ClassController;
 use App\Http\Middleware\CheckRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TeacherController;
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
@@ -29,4 +30,11 @@ Route::prefix("class")->group(function(){
     Route::get("/getClasses", [ClassController::class ,"getClasses"]);
     Route::post("/createClass", [ClassController::class ,"createClass"]);
     Route::delete("/deleteClass/{id}", [ClassController::class, "deleteClass"]);
+});
+
+Route::prefix("teacher")->group(function(){
+    Route::get("/getTeachers",[TeacherController::class,"getTeachers"]);
+    Route::post("/createTeacher",[TeacherController::class,"createTeacher"]);
+    Route::put("/updateTeacher/{id}",[TeacherController::class,"updateTeacher"]);
+    Route::delete("/deleteTeacher/{id}",[TeacherController::class,"deleteTeacher"]);
 });
