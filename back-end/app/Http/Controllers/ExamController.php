@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Exam;
+use Exception;
+use Illuminate\Support\Facades\Validator;
+
 
 class ExamController extends Controller
 {
@@ -29,4 +32,36 @@ class ExamController extends Controller
             ], 500);
         }
     }
+
+    public function createExam(Request $request)
+{
+    try {
+        $validator = Validator::make($request->all(), [
+            "subject_id" => "required|exists:subjects,id",
+            "class_id" => "required|exists:classes,id",
+            "exam_name" => "required|string|max:255",
+            "date" => "required|date",
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                "message" => "Validation error",
+                "errors" => $validator->errors()
+            ], 422);
+        }
+
+        $exam = Exam::create($validator->validated());
+
+        return response()->json([
+            "message" => "Exam created successfully",
+            "exam" => $exam
+        ], 201);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            "message" => "An error occurred while creating the exam.",
+            "error" => $e->getMessage()
+        ], 500);
+    }
+}
 }
