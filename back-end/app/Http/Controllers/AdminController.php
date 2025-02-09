@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Admin;
 use App\Models\User;
+use App\Models\Admin;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
@@ -35,6 +36,10 @@ class AdminController extends Controller
                 return response()->json(['error' => 'User already exists'], 409);
             }
 
+            $randNumber = rand(100,999999);
+            $randString = Str::random(4);
+            $generatedUsername = $randString . $randNumber;
+
             $user = User::create([
                 'email' => $validatedData['email'],
                 'password' => Hash::make($validatedData['password']),
@@ -44,7 +49,8 @@ class AdminController extends Controller
             $admin = Admin::create([
                 'full_name' => $validatedData['full_name'],
                 'phone' => $validatedData['phone'],
-                'user_id' => $user->id
+                'user_id' => $user->id,
+                "username" => $generatedUsername
             ]);
             return response()->json($admin, 200);
 

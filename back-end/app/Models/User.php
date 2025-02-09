@@ -19,7 +19,6 @@ class User extends Authenticatable implements JWTSubject
      * @var list<string>
      */
     protected $fillable = [
-        'id',
         'email',
         'password',
         'role'
@@ -37,7 +36,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function getJWTIdentifier()
     {
-        return (string) $this->key;
+        return $this->getKey();
     }
 
     public function getJWTCustomClaims()
