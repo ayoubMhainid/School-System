@@ -5,6 +5,7 @@ import { Input } from "../../components/UI/Input";
 import { Label } from "../../components/UI/Label";
 import { Button } from "../../components/UI/Button";
 import { Notification } from "../../components/UI/Notification";
+import { useAppContext } from "../../context/AppContext";
 
 export const Login = () => {
   const [notification, setNotification] = useState({});
@@ -15,32 +16,25 @@ export const Login = () => {
     password: "",
   });
   const navigate = useNavigate();
+  const { setUser } = useAppContext();
 
   const handleCahnge = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     setNotification(null);
     setLoading(true);
     try {
       const response = await checkUserLogin(formData);
       setLoading(false);
-      if (response.status === 200) {
-        if (response.data.role == "admin") {
-          localStorage.setItem("token", response.data.token);
-          navigate("/admin/dashboard");
-        } else if (response.data.role == "teacher") {
-          localStorage.setItem("token", response.data.token);
-          navigate("/teacher/home");
-        } else {
-          localStorage.setItem("token", response.data.token);
-          navigate("/student/home");
-        }
-      }
+
+      localStorage.setItem("user", response.data);
+      setUser(response.data);
+      response.data.role == "admin"
+        ? navigate("/admin/dashboard")
+        : navigate("/home");
     } catch (error) {
       setLoading(false);
       if (error.response) {
@@ -56,7 +50,7 @@ export const Login = () => {
   return (
     <form onSubmit={handleSubmit}>
       <div className="flex justify-center items-center h-[100vh]">
-        <div className="bg-white border border-gray-300 rounded-md shadow-2xl flex flex-col justify-evenly w-[85%] h-[75%] sm:w-[500px] sm:h-[400px] p-3 sm:p-6">
+        <div className="bg-dark border border-gray-300 rounded-md shadow-2xl flex flex-col justify-evenly w-[85%] h-[75%] sm:w-[500px] sm:h-[400px] p-3 sm:p-6">
           <div>
             <h1 className="text-4xl">Sign in</h1>
             <h4>
