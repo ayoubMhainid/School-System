@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\CheckAuthentication;
-use Tymon\JWTAuth\Facades\JWTAuth;
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
@@ -46,8 +45,9 @@ Route::prefix("student")->group(function(){
 
 Route::prefix("teacher")->group(function(){
     Route::get("/getTeachers",[TeacherController::class,"getTeachers"])->middleware(CheckRole::class . ":admin");
+    Route::get("/getTeacher/{id}",[TeacherController::class, "getTeacher"])->middleware(CheckAuthentication::class);
     Route::post("/createTeacher",[TeacherController::class,"createTeacher"])->middleware(CheckRole::class . ":admin");
-    Route::put("/updateTeacher/{id}",[TeacherController::class,"updateTeacher"])->middleware(CheckAuthentication::class);
+    Route::put("/updateTeacher",[TeacherController::class,"updateTeacher"])->middleware(CheckAuthentication::class);
     Route::delete("/deleteTeacher/{id}",[TeacherController::class,"deleteTeacher"])->middleware(CheckRole::class . ":admin");
 });
 

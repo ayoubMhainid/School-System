@@ -9,13 +9,16 @@ use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Exception;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
+use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 
 class TeacherController extends Controller
 {
     public function getTeachers(){
         try{
-            $teachers = Teacher::all();
+            $teachers = Teacher::latest()
+                                ->paginate(10);
             return response()->json([
                 "teachers" => $teachers
             ],201);
@@ -23,6 +26,26 @@ class TeacherController extends Controller
             return response()->json([
                 "message" => $e->getMessage()
             ],500);
+        }
+    }
+
+    public function getTeacher($id){
+        try{
+            $teacher = Teacher::find($id);
+            if($teacher){
+                return response()->json([
+                    "teacher" => $teacher
+                ]);
+            }
+
+            return response()->json([
+                "message" => "No teacher with this id"
+            ]);
+
+        }catch(Exception $ex){
+            return response()->json([
+                "message" => $ex->getMessage(),
+            ]);
         }
     }
 
@@ -73,19 +96,22 @@ class TeacherController extends Controller
             ], 500);
         }
     }
-    public function updateTeacher(Request $request,$id){
+    public function updateTeacher(Request $request){
         try{
-            $teacher = Teacher::find($id);
+            $user = JWTAuth::parseToken()->authenticate();
+            $teacher = Teacher::where("id",$user->id)->first();
 
             if(!$teacher){
                 return response()->json([
-                    "message" => "Teacher doesn't exist"
-                ],404);
+                    "message" => "Unauthorized"
+                ],401);
             }
 
             $validation = $request->validate([
                 'full_name' => 'required|string|max:255',
-                'username' => 'required|string|unique:teachers,username',
+                'username' => [
+                    Rule::unique('teachers', 'username')->ignore($teacher->id),
+                ],
                 'phone' => 'required|string|max:13|unique:teachers,phone,' . $teacher->id,
                 'address' => 'required|string|max:500',
                 'specialization' => 'required|string|max:255',
@@ -114,7 +140,7 @@ class TeacherController extends Controller
             $teacher = Teacher::find($id);
             if(!$teacher){
                 return response()->json(['error' => 'Teacher not found'], 404);
-            } 
+            }
             $user = User::find($teacher->user_id);
             if (!$user){
                 return response()->json(['error'=> 'User Not found'],404);
