@@ -11,7 +11,6 @@ import { useAppContext } from "../context/AppContext";
 
 export const Layout = ({ loading }) => {
   const navigate = useNavigate();
-  // const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user, isMenuOpen, setIsMenuOpen } = useAppContext();
 
   const newdataSideBar = dataSideBar.filter(
