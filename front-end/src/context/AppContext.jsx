@@ -3,10 +3,8 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 const AppContext = createContext();
 
 const AppContextCom = ({ children }) => {
-  const [user, setUser] = useState({
-    role: "",
-    token: "",
-  });
+  const [user, setUser] = useState({});
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     const _user = localStorage.getItem("user");
@@ -16,6 +14,8 @@ const AppContextCom = ({ children }) => {
   const value = {
     user,
     setUser,
+    isMenuOpen,
+    setIsMenuOpen,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

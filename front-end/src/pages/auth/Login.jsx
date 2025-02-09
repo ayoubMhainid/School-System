@@ -9,7 +9,6 @@ import { useAppContext } from "../../context/AppContext";
 
 export const Login = () => {
   const [notification, setNotification] = useState({});
-  // const [userRole, setUserRole] = useState("");
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
@@ -53,9 +52,7 @@ export const Login = () => {
         <div className="bg-dark border border-gray-300 rounded-md shadow-2xl flex flex-col justify-evenly w-[85%] h-[75%] sm:w-[500px] sm:h-[400px] p-3 sm:p-6">
           <div>
             <h1 className="text-4xl">Sign in</h1>
-            <h4>
-              Ask admin to create an account for you
-            </h4>
+            <h4>Ask admin to create an account for you</h4>
           </div>
           <div>
             <Label text={"Email"} />

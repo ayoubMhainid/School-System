@@ -11,10 +11,13 @@ import { useAppContext } from "../context/AppContext";
 
 export const Layout = ({ loading }) => {
   const navigate = useNavigate();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { user } = useAppContext();
+  // const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user, isMenuOpen, setIsMenuOpen } = useAppContext();
 
-  const newdataSideBar = dataSideBar.filter((element) => element.ROLE == user);
+  const newdataSideBar = dataSideBar.filter(
+    (element) => element.ROLE == user.role
+  );
+
   return (
     <div
       onClick={() => {
@@ -53,7 +56,6 @@ export const Layout = ({ loading }) => {
             );
           })}
           <div
-            // onClick={logoutFromApp}
             className={`flex justify-baseline gap-1.5 items-center cursor-pointer hover:text-blue-700 duration-200 rounded-lg m-3`}
           >
             {!loading ? (
