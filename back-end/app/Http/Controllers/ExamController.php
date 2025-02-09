@@ -36,21 +36,13 @@ class ExamController extends Controller
     public function createExam(Request $request)
 {
     try {
-        $validator = Validator::make($request->all(), [
-            "subject_id" => "required|exists:subjects,id",
-            "class_id" => "required|exists:classes,id",
-            "exam_name" => "required|string|max:255",
-            "date" => "required|date",
-        ]);
+        $validator = $request->validate([
+        "subject_id" => "required|exists:subjects,id",
+        "class_id" => "required|exists:classes,id",
+        "exam_name" => "required|string|max:255",
+        "date" => "required|date",]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                "message" => "Validation error",
-                "errors" => $validator->errors()
-            ], 422);
-        }
-
-        $exam = Exam::create($validator->validated());
+        $exam = Exam::create($validator);
 
         return response()->json([
             "message" => "Exam created successfully",
