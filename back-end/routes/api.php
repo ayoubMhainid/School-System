@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ExamController;
 use App\Http\Middleware\CheckAuthentication;
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
@@ -56,4 +57,8 @@ Route::prefix("class")->group(function(){
     Route::get("/getClasses", [ClassController::class ,"getClasses"])->middleware(CheckAuthentication::class);
     Route::post("/createClass", [ClassController::class ,"createClass"])->middleware(CheckRole::class . ":admin");
     Route::delete("/deleteClass/{id}", [ClassController::class, "deleteClass"])->middleware(CheckRole::class . ":admin");
+});
+
+Route::prefix("exam")->group(function(){
+    Route::get('/getExams/{class_id}',[ExamController::class,"getExams"]);
 });
