@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\EventController;
@@ -80,4 +81,11 @@ Route::prefix("class")->group(function () {
 Route::prefix("exam")->group(function () {
     Route::get('/getExams/{class_id}', [ExamController::class, "getExams"]);
     Route::post('/createExam', [ExamController::class, "createExam"])->middleware(CheckRole::class . ":teacher");
+});
+
+
+Route::prefix("announcement")->group(function(){
+    Route::get("/getAnnouncements", [AnnouncementController::class, "getAnnouncements"])->middleware(CheckAuthentication::class);
+    Route::post("/createAnnuncement", [AnnouncementController::class, "createAnnouncement"])->middleware(CheckRole::class . ":admin");
+    Route::delete("/deleteAnnouncement/{id}", [AnnouncementController::class, "deleteAnnouncement"])->middleware(CheckRole::class . ":admin");
 });

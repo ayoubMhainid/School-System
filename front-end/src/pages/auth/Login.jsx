@@ -15,7 +15,7 @@ export const Login = () => {
     password: "",
   });
   const navigate = useNavigate();
-  const { setUser } = useAppContext();
+  const { user, setUser } = useAppContext();
 
   const handleCahnge = (e) => {
     const { name, value } = e.target;
@@ -29,7 +29,7 @@ export const Login = () => {
       const response = await checkUserLogin(formData);
       setLoading(false);
 
-      localStorage.setItem("user", response.data);
+      localStorage.setItem("user", JSON.stringify(response.data));
       setUser(response.data);
       response.data.role == "admin"
         ? navigate("/admin/dashboard")
