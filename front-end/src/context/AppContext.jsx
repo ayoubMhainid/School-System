@@ -8,7 +8,7 @@ const AppContextCom = ({ children }) => {
 
   useEffect(() => {
     const _user = localStorage.getItem("user");
-    setUser(_user);
+    setUser(JSON.parse(_user));
   }, []);
 
   const value = {

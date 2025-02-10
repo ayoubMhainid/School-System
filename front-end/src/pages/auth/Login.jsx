@@ -15,7 +15,7 @@ export const Login = () => {
     password: "",
   });
   const navigate = useNavigate();
-  const { user, setUser } = useAppContext();
+  const { setUser } = useAppContext();
 
   const handleCahnge = (e) => {
     const { name, value } = e.target;
