@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Models\Admin;
 use App\Models\Event;
 use Exception;
 use Illuminate\Http\Request;
@@ -38,23 +38,66 @@ class EventController extends Controller
     public function deleteEventById(Request $request, $id)
     {
         try {
-            // $user = JWTAuth::parseToken()->authenticate();
+            $user = JWTAuth::parseToken()->authenticate();
 
-            $event = Event::where("id", $id)->with("admin")->first();
+            $event = Event::where("id", $id)
+                ->with("admin")
+                ->first();
+
             if ($event) {
+                $event->delete();
                 return response()->json([
-                    "event" => $event,
-                    "admin_id" => $event->admin_id,
-                    "user_id" => $event->admin->user_id,
+                    "message" => "Event deleted Successfully!"
                 ]);
             }
             return response()->json([
                 "message" => "Event not found",
-            ]);
+            ], 404);
         } catch (Exception $ex) {
             return response()->json([
                 'message' => $ex->getMessage(),
             ], 500);
         };
+    }
+
+    public function createEvent(Request $request)
+    {
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+            $request->validate([
+                'title' => 'required',
+                'message' => 'required|max:400',
+                'image' => 'required|mimes:jpeg,jpg,png,webp|max:2048',
+            ]);
+
+            $file = $request->file('image');
+            $fileName = time() . "_" . $file->getClientOriginalName();
+
+            $title = $request->input("title");
+            $message = $request->input("message");
+            $event_picture = $fileName;
+
+            $admin = Admin::where('user_id', $user->id)
+                ->first();
+            if (!$admin) {
+                return response()->json([
+                    "message" => 'Unauthorized',
+                ], 401);
+            }
+            $file->move('storage/events', $fileName);
+            Event::create([
+                "admin_id" => $admin->id,
+                "title" => $title,
+                "message" => $message,
+                "event_picture" => $event_picture,
+            ]);
+            return response()->json([
+                "message" => "New event created successfully!",
+            ]);
+        } catch (Exception $ex) {
+            return response()->json([
+                "message" => $ex->getMessage(),
+            ], 500);
+        }
     }
 }

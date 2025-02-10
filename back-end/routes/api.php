@@ -14,6 +14,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ExamController;
 use App\Http\Middleware\CheckAuthentication;
 
+
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -39,7 +40,8 @@ Route::prefix("class")->group(function () {
 
 Route::prefix('event')->group(function () {
     Route::get("/getEvents", [EventController::class, 'getEvents']);
-    Route::delete("/deletEvent/{id}", [EventController::class, 'deleteEventById']);
+    Route::delete("/deletEvent/{id}", [EventController::class, 'deleteEventById'])->middleware(CheckRole::class . ":admin");
+    Route::post("/createEvent", [EventController::class, 'createEvent'])->middleware(CheckRole::class . ':admin');
 });
 
 Route::prefix("teacher")->group(function () {
@@ -84,7 +86,7 @@ Route::prefix("exam")->group(function () {
 });
 
 
-Route::prefix("announcement")->group(function(){
+Route::prefix("announcement")->group(function () {
     Route::get("/getAnnouncements", [AnnouncementController::class, "getAnnouncements"])->middleware(CheckAuthentication::class);
     Route::post("/createAnnuncement", [AnnouncementController::class, "createAnnouncement"])->middleware(CheckRole::class . ":admin");
     Route::delete("/deleteAnnouncement/{id}", [AnnouncementController::class, "deleteAnnouncement"])->middleware(CheckRole::class . ":admin");
