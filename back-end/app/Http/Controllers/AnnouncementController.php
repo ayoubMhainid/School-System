@@ -5,17 +5,37 @@ namespace App\Http\Controllers;
 use App\Models\Announcement;
 use Exception;
 use Illuminate\Http\Request;
+use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 
 class AnnouncementController extends Controller
 {
     public function getAnnouncements(){
         try{
-            $announcement = Announcement::latest()
+            $user = JWTAuth::parseToken()->authenticate();
+
+            $students_ann = Announcement::where("receiver","students")
+                                        ->latest()
                                         ->get();
 
-            if($announcement){
+            $teachers_ann = Announcement::where("receiver","teachers")
+                                        ->latest()
+                                        ->get();
+
+            if($students_ann || $teachers_ann){
+                if($user->role === 'student'){
+                    return response()->json([
+                        "announcements" => $students_ann
+                    ]);
+                }
+
+                if($user->role === 'teacher'){
+                    return response()->json([
+                        "announcements" => $teachers_ann
+                    ]);
+                }
+
                 return response()->json([
-                    'announcement' => $announcement
+                    "message" => "Unauthorized!"
                 ]);
             }else{
                 return response()->json([
@@ -28,7 +48,7 @@ class AnnouncementController extends Controller
             ],500);
         }
     }
-    public function createAnnouncements(Request $request){
+    public function createAnnouncement(Request $request){
         try{
             $request->validate([
                 "receiver" => "required|in:students,teachers",
@@ -54,7 +74,7 @@ class AnnouncementController extends Controller
         }
     }
 
-    public function deleteAnnouncements($id){
+    public function deleteAnnouncement($id){
         try{
             $announcement = Announcement::find($id);
             if($announcement){
