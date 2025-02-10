@@ -14,7 +14,7 @@ class ExamController extends Controller
     public function getExams($class_id)
     {
         try {
-            $exams = Exam::where('class_id', $class_id)->get();
+            $exams = Exam::where('class_id', $class_id)->paginate(10);
 
             if ($exams->isEmpty()) {
                 return response()->json([
