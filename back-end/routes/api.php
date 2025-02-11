@@ -13,6 +13,7 @@ use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ExamController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\SubjectController;
 use App\Http\Middleware\CheckAuthentication;
 
 
@@ -98,4 +99,11 @@ Route::prefix("notification")->middleware(CheckAuthentication::class)->group(fun
     Route::post("/createNotification", [NotificationController::class, "createNotification"]);
     Route::delete("/deleteNotification/{id}", [NotificationController::class, "deleteNotification"]);
     Route::put("/makeNotificationSeend/{id}", [NotificationController::class, "makeNotificationSeend"]);
+});
+
+
+Route::prefix("subject")->middleware(CheckRole::class . ":admin")->group(function(){
+    Route::get("/getSubjects", [SubjectController::class, "getSubjects"]);
+    Route::post("/createSubject", [SubjectController::class, "createSubject"]);
+    Route::delete("/deleteSubject/{id}", [SubjectController::class, "deleteSubject"]);
 });
