@@ -59,7 +59,7 @@ class AnnouncementController extends Controller
                 "admin_id" => "required|integer|exists:admins,id",
             ]);
 
-            Announcement::created([
+            Announcement::create([
                 "receiver" => $request->receiver,
                 "title" => $request->title,
                 "message" => $request->message,

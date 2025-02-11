@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ExamController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Middleware\CheckAuthentication;
 
 
@@ -88,6 +89,13 @@ Route::prefix("exam")->group(function () {
 
 Route::prefix("announcement")->group(function () {
     Route::get("/getAnnouncements", [AnnouncementController::class, "getAnnouncements"])->middleware(CheckAuthentication::class);
-    Route::post("/createAnnuncement", [AnnouncementController::class, "createAnnouncement"])->middleware(CheckRole::class . ":admin");
+    Route::post("/createNotification", [AnnouncementController::class, "createAnnouncement"])->middleware(CheckRole::class . ":admin");
     Route::delete("/deleteAnnouncement/{id}", [AnnouncementController::class, "deleteAnnouncement"])->middleware(CheckRole::class . ":admin");
+});
+
+Route::prefix("notification")->middleware(CheckAuthentication::class)->group(function () {
+    Route::get("/getNotifications", [NotificationController::class, "getNotifications"]);
+    Route::post("/createNotification", [NotificationController::class, "createNotification"]);
+    Route::delete("/deleteNotification/{id}", [NotificationController::class, "deleteNotification"]);
+    Route::put("/makeNotificationSeend/{id}", [NotificationController::class, "makeNotificationSeend"]);
 });
