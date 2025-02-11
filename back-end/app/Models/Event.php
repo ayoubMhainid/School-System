@@ -9,7 +9,11 @@ class Event extends Model
 {
     use HasFactory;
 
-    public function admin(){
+    protected $fillable = ['title', 'message', 'event_picture', 'admin_id'];
+
+
+    public function admin()
+    {
         return $this->belongsTo(Admin::class);
     }
 }

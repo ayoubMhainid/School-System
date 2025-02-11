@@ -5,30 +5,31 @@ namespace App\Http\Controllers;
 use App\Models\Announcement;
 use Exception;
 use Illuminate\Http\Request;
-use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AnnouncementController extends Controller
 {
-    public function getAnnouncements(){
-        try{
+    public function getAnnouncements()
+    {
+        try {
             $user = JWTAuth::parseToken()->authenticate();
 
-            $students_ann = Announcement::where("receiver","students")
-                                        ->latest()
-                                        ->get();
+            $students_ann = Announcement::where("receiver", "students")
+                ->latest()
+                ->get();
 
-            $teachers_ann = Announcement::where("receiver","teachers")
-                                        ->latest()
-                                        ->get();
+            $teachers_ann = Announcement::where("receiver", "teachers")
+                ->latest()
+                ->get();
 
-            if($students_ann || $teachers_ann){
-                if($user->role === 'student'){
+            if ($students_ann || $teachers_ann) {
+                if ($user->role === 'student') {
                     return response()->json([
                         "announcements" => $students_ann
                     ]);
                 }
 
-                if($user->role === 'teacher'){
+                if ($user->role === 'teacher') {
                     return response()->json([
                         "announcements" => $teachers_ann
                     ]);
@@ -37,19 +38,20 @@ class AnnouncementController extends Controller
                 return response()->json([
                     "message" => "Unauthorized!"
                 ]);
-            }else{
+            } else {
                 return response()->json([
                     'message' => 'No announcement available'
-                ],404);
+                ], 404);
             }
-        }catch(Exception $ex){
+        } catch (Exception $ex) {
             return response()->json([
                 "message" => $ex->getMessage(),
-            ],500);
+            ], 500);
         }
     }
-    public function createAnnouncement(Request $request){
-        try{
+    public function createAnnouncement(Request $request)
+    {
+        try {
             $request->validate([
                 "receiver" => "required|in:students,teachers",
                 "title" => "required|string|max:30",
@@ -67,29 +69,30 @@ class AnnouncementController extends Controller
             return response()->json([
                 "message" => "New announcement created successfully!"
             ]);
-        }catch(Exception $ex){
+        } catch (Exception $ex) {
             return response()->json([
                 "message" => $ex->getMessage(),
-            ],500);
+            ], 500);
         }
     }
 
-    public function deleteAnnouncement($id){
-        try{
+    public function deleteAnnouncement($id)
+    {
+        try {
             $announcement = Announcement::find($id);
-            if($announcement){
+            if ($announcement) {
                 return response()->json([
                     "message" => "Announcement deleted Successfully!"
                 ]);
-            }else{
+            } else {
                 return response()->json([
                     "message" => "Announcement not found"
                 ]);
             }
-        }catch(Exception $ex){
+        } catch (Exception $ex) {
             return response()->json([
                 "message" => $ex->getMessage(),
-            ],500);
+            ], 500);
         }
     }
 }

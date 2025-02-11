@@ -11,11 +11,18 @@ class Admin extends Model
 
     protected $fillable = ['full_name', 'phone', 'user_id'];
 
-    public function announcements(){
+    public function announcements()
+    {
         return $this->hasMany(Announcement::class);
     }
 
-    public function events(){
+    public function user()
+    {
+        return $this->belongsTo(Announcement::class);
+    }
+
+    public function events()
+    {
         return $this->hasMany(Event::class);
     }
 }

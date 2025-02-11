@@ -64,10 +64,11 @@ class EventController extends Controller
     {
         try {
             $user = JWTAuth::parseToken()->authenticate();
+
             $request->validate([
                 'title' => 'required',
                 'message' => 'required|max:400',
-                'image' => 'required|mimes:jpeg,jpg,png,webp|max:2048',
+                'image' => 'mimes:jpeg,jpg,png,webp|max:2048',
             ]);
 
             $file = $request->file('image');

@@ -9,7 +9,8 @@ class Announcement extends Model
 {
     use HasFactory;
 
-    public function admin(){
+    public function admin()
+    {
         return $this->belongsTo(Admin::class);
     }
 }
