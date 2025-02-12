@@ -34,11 +34,6 @@ Route::prefix("admin")->middleware(CheckRole::class . ":admin")->group(function 
     Route::delete("/deleteAdmin/{id}", [AdminController::class, "deleteAdmin"]);
 });
 
-Route::prefix("class")->group(function () {
-    Route::get("/getClasses", [ClassController::class, "getClasses"]);
-    Route::post("/createClass", [ClassController::class, "createClass"]);
-    Route::delete("/deleteClass/{id}", [ClassController::class, "deleteClass"]);
-});
 
 Route::prefix('event')->group(function () {
     Route::get("/getEvents", [EventController::class, 'getEvents']);
