@@ -6,8 +6,8 @@ export const SingleLink = ({ link, svg, text, ShowCss }) => {
   return (
     <div
       className={`${
-        link === currentPath ? "text-blue-700" : null
-      } flex gap-2 items-center cursor-pointer hover:text-blue-700 duration-200 rounded-lg ${
+        link === currentPath ? "text-blue-400" : null
+      } flex gap-2 items-center cursor-pointer hover:text-blue-400 duration-200 rounded-lg ${
         ShowCss && "px-2"
       } py-1`}
     >
