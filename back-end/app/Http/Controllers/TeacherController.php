@@ -54,7 +54,7 @@ class TeacherController extends Controller
         try{
             $teacher = Teacher::where("username","LIKE", "%$user%")
                                 ->latest()
-                                ->get();
+                                ->paginate(10);
             if($teacher){
                 return response()->json(["teachers" => $teacher]);
             }

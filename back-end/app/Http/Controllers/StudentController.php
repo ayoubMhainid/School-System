@@ -60,7 +60,7 @@ class StudentController extends Controller
         try {
             $students = Student::where('username', 'LIKE', "%$username%")
                                 ->latest()
-                                ->get();
+                                ->paginate(10);
             if(!$students){
                 response()->json([
                     "message" => "No student with this username"
