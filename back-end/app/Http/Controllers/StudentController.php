@@ -168,4 +168,24 @@ class StudentController extends Controller
             ], 500);
         }
     }
+    public function SearchStudentsByUsername ($username ){
+        try {
+            $student = Student::where("username",$username)->get();
+            if(!$student){
+                response()->json([
+                    "message" => "Student not found by this username"
+                ],404);
+            }
+
+            return response()->json([
+                "message" => "Search was successful",
+                "student" => $student
+            ]);
+
+        }catch(Exception $e){
+            return response()->json([
+                "message" => $e.getMessage()
+            ],500);
+        }
+    } 
 }

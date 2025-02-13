@@ -60,6 +60,7 @@ Route::prefix("student")->group(function () {
     Route::post("/createStudent", [StudentController::class, "createStudent"])->middleware(CheckRole::class . ':admin');
     Route::put("/updateStudentData", [StudentController::class, "updateStudent"])->middleware(CheckAuthentication::class);
     Route::delete("/deleteStudent/{id}", [StudentController::class, "deleteStudent"])->middleware(CheckRole::class . ':admin');
+    Route::get("/SearchStudentsByUsername/{username}",[StudentController::class,"SearchStudentsByUsername"])->middleware(CheckRole::class . ':admin');
 });
 
 
