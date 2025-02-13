@@ -56,60 +56,63 @@ class StudentController extends Controller
             ]);
         }
     }
-    public function SearchStudentsByUsername ($username ){
+    public function searchStudentsByUsername ($username ){
         try {
-            $students = Student::where('username', 'LIKE', "%$username%")->get();
-            if(!$student){
+            $students = Student::where('username', 'LIKE', "%$username%")
+                                ->latest()
+                                ->get();
+            if(!$students){
                 response()->json([
-                    "message" => "Student not found by this username"
+                    "message" => "No student with this username"
                 ],404);
             }
 
             return response()->json([
-                "message" => "Search was successful",
-                "student" => $student
+                "students" => $students
             ]);
 
         }catch(Exception $e){
             return response()->json([
-                "message" => $e.getMessage()
+                "message" => $e->getMessage()
             ],500);
         }
-    } 
+    }
 
-    public function FilterStudentsByClass ($class_id){
+    public function filterStudentsByClass ($class_id){
         try{
-            $students = Student::where("class_id",$class_id)->get();
+            $students = Student::where("class_id",(int) $class_id)->get();
+
             if(!$students){
                 return response()->json([
                     "message" => "students not found"
                 ],404);
             }
             return response()->json([
-                "message" => "search was successful",
                 "students" => $students
             ]);
         }catch(Exception $e){
             return response()->json([
-                "message" => $e.getMessage()
+                "message" => $e->getMessage()
             ],500);
         }
     }
-    public function FIlterStudentsByGender($gender){
+    public function filterStudentsByGender($gender){
         try{
-            $student_gender = Student::where("gender",$gender)->get();
-            if(!$student_gender){
+            $students = Student::where("gender",$gender)
+                                ->latest()
+                                ->paginate(10);
+                                
+            if(!$students){
                 return response()->json([
                     "message" => "Not Found"
                 ],404);
             }
             return response()->json([
-                "message" => "successfully",
-                "students" => $student_gender
+                "students" => $students
             ]);
         }catch(Exception $e){
             return response()->json([
-                "message" => $e.getMessage()
+                "message" => $e->getMessage()
             ],500);
         }
     }

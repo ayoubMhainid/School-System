@@ -57,9 +57,9 @@ Route::prefix("user")->middleware(CheckRole::class . ":admin")->group(function (
 Route::prefix("student")->group(function () {
     Route::get("/getStudents", [StudentController::class, "getStudents"])->middleware(CheckAuthentication::class);
     Route::get("/getStudent/{id}", [StudentController::class, "getStudent"])->middleware(CheckAuthentication::class);
-    Route::get("/SearchStudentsByUsername/{username}",[StudentController::class,"SearchStudentsByUsername"])->middleware(CheckRole::class . ':admin');
-    Route::get("/FilterStudentsByClass/{class_id}",[StudentController::class,"FilterStudentsByClass"])->middleware(CheckRole::class . ':admin');
-    Route::get("/FIlterStudentsByGender/{gender}",[StudentController::class,"FIlterStudentsByGender"])->middleware(CheckRole::class . ':admin');
+    Route::get("/searchStudentsByUsername/{username}",[StudentController::class,"searchStudentsByUsername"])->middleware(CheckRole::class . ':admin');
+    Route::get("/filterStudentsByClass/{class_id}",[StudentController::class,"filterStudentsByClass"])->middleware(CheckRole::class . ':admin');
+    Route::get("/filterStudentsByGender/{gender}",[StudentController::class,"filterStudentsByGender"])->middleware(CheckRole::class . ':admin');
     Route::post("/createStudent", [StudentController::class, "createStudent"])->middleware(CheckRole::class . ':admin');
     Route::put("/updateStudentData", [StudentController::class, "updateStudent"])->middleware(CheckAuthentication::class);
     Route::delete("/deleteStudent/{id}", [StudentController::class, "deleteStudent"])->middleware(CheckRole::class . ':admin');
