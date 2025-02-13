@@ -5,17 +5,15 @@ const AppContext = createContext();
 const AppContextCom = ({ children }) => {
   const [user, setUser] = useState({});
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const _user = localStorage.getItem("user");
-    setUser(JSON.parse(_user));
-  }, []);
+  const [addUserRole, setAddUserRole] = useState("");
 
   const value = {
     user,
     setUser,
     isMenuOpen,
     setIsMenuOpen,
+    addUserRole,
+    setAddUserRole,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
