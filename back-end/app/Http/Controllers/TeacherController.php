@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Classe;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Teacher;
@@ -46,6 +47,40 @@ class TeacherController extends Controller
             return response()->json([
                 "message" => $ex->getMessage(),
             ]);
+        }
+    }
+
+    public function getTeachersByUser($user){
+        try{
+            $teacher = Teacher::where("username", $user)->first();
+            if($teacher){
+                return response()->json(["teachers" => $teacher]);
+            }
+
+            return response()->json(["message" => "No teacher with this username"]);
+        }catch(Exception $e){
+            return response()->json(["message" => $e->getMessage()]);
+        };
+        
+    }
+
+    public function getTeachersByClass($id){
+        try{
+            $class = Classe::find($id);
+            if(!$class){
+                return response()->json(["message" => "Class not found"], 404);
+            }
+    
+            $teachers = Teacher::whereHas('class', function ($query) use ($id) {
+                $query->where('id', $id);
+                })->get();
+            if(!$teachers){
+                return response()->json(["message" => "No teacher with this class"]);
+            }
+    
+            return response()->json(["teachers" => $teachers]);
+        }catch(Exception $e){
+            return response()->json(["message" => $e->getMessage()], 500);
         }
     }
 

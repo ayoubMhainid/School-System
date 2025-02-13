@@ -67,6 +67,8 @@ Route::prefix("student")->group(function () {
 Route::prefix("teacher")->group(function () {
     Route::get("/getTeachers", [TeacherController::class, "getTeachers"])->middleware(CheckRole::class . ":admin");
     Route::get("/getTeacher/{id}", [TeacherController::class, "getTeacher"])->middleware(CheckAuthentication::class);
+    Route::get("/getTeachersByUser/{user}", [TeacherController::class, "getTeachersByUser"])->middleware(CheckAuthentication::class);
+    Route::get("/getTeachersByClass/{id}", [TeacherController::class, "getTeachersByClass"])->middleware(CheckAuthentication::class);
     Route::post("/createTeacher", [TeacherController::class, "createTeacher"])->middleware(CheckRole::class . ":admin");
     Route::put("/updateTeacher", [TeacherController::class, "updateTeacher"])->middleware(CheckAuthentication::class);
     Route::delete("/deleteTeacher/{id}", [TeacherController::class, "deleteTeacher"])->middleware(CheckRole::class . ":admin");
