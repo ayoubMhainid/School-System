@@ -30,6 +30,7 @@ export const Login = () => {
       setLoading(false);
 
       localStorage.setItem("user", JSON.stringify(response.data));
+      localStorage.setItem("token",response.data.token);
       setUser(response.data);
       response.data.role == "admin"
         ? navigate("/admin/dashboard")

@@ -8,14 +8,25 @@ import {
 } from "@heroicons/react/24/outline";
 import { CircularProgress } from "@mui/material";
 import { useAppContext } from "../context/AppContext";
+import { logout } from "../services/authServices";
 
-export const Layout = ({ loading }) => {
+export const Layout = () => {
   const navigate = useNavigate();
   const { user, isMenuOpen, setIsMenuOpen } = useAppContext();
+  const [loading,setLoading] = useState(false)
 
   const newdataSideBar = dataSideBar.filter(
     (element) => element.ROLE == user.role
   );
+
+  const LOGOUT = async () =>{
+    setLoading(true);
+    const response = await logout(localStorage.getItem('token'));
+    setLoading(false);
+    if(response.status === 200){
+      navigate('/sign_in');
+    }
+  }
 
   return (
     <div
@@ -58,7 +69,7 @@ export const Layout = ({ loading }) => {
             className={`flex justify-baseline gap-1.5 items-center cursor-pointer hover:text-blue-400 duration-200 rounded-lg m-3`}
           >
             {!loading ? (
-              <>
+              <div onClick={() => LOGOUT()} className="flex gap-2 items-center">
                 <div>
                   {
                     <ArrowRightOnRectangleIcon
@@ -70,7 +81,7 @@ export const Layout = ({ loading }) => {
                 <div>
                   <span className="text-lg font-normal">{"Logout"}</span>
                 </div>
-              </>
+              </div>
             ) : (
               <div className="flex justify-center items-center h-full w-full">
                 <CircularProgress size={"40px"} className="text-blue-700" />
