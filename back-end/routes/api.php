@@ -24,6 +24,7 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 
 Route::prefix("auth")->group(function () {
     Route::post("/checkUserLogin", [AuthController::class, "checkUserLogin"]); // check withen user credentials is valid
+    Route::post("/logout", [AuthController::class, "logout"])->middleware(CheckAuthentication::class);
 });
 
 
