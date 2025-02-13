@@ -52,7 +52,9 @@ class TeacherController extends Controller
 
     public function getTeachersByUser($user){
         try{
-            $teacher = Teacher::where("username", $user)->first();
+            $teacher = Teacher::where("username","LIKE", "%$user%")
+                                ->latest()
+                                ->get();
             if($teacher){
                 return response()->json(["teachers" => $teacher]);
             }
