@@ -7,32 +7,10 @@ use Illuminate\Http\Request;
 use App\Models\Exam;
 use Exception;
 use Illuminate\Support\Facades\Validator;
-
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class ExamController extends Controller
 {
-    public function getExams($class_id)
-    {
-        try {
-            $exams = Exam::where('class_id', $class_id)->paginate(10);
-
-            if ($exams->isEmpty()) {
-                return response()->json([
-                    'message' => 'No exams found for the given class ID.',
-                ], 404);
-            }
-            return response()->json([
-                'message' => 'Exams retrieved successfully.',
-                'data' => $exams,
-            ], 200);
-
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-            ], 500);
-        }
-    }
-
     public function createExam(Request $request)
 {
     try {
@@ -49,11 +27,25 @@ class ExamController extends Controller
             "exam" => $exam
         ], 201);
 
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         return response()->json([
             "message" => "An error occurred while creating the exam.",
             "error" => $e->getMessage()
         ], 500);
     }
 }
+    public function deleteExam($id){
+        try{
+
+            $exam = Exam::find($id);
+            if(!$exam){
+                return response()->json(["message"=> "exam not found"]);
+            }
+            $exam->delete();
+            response()->json(["message"=>"Exam deleted successfully"]);
+
+        }catch(Exception $e){
+            response()->json(["message"=>$e->getMessage()]);
+        }
+    }
 }

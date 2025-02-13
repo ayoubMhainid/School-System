@@ -79,8 +79,8 @@ Route::prefix("class")->group(function () {
 });
 
 Route::prefix("exam")->group(function () {
-    Route::get('/getExams/{class_id}', [ExamController::class, "getExams"]);
     Route::post('/createExam', [ExamController::class, "createExam"])->middleware(CheckRole::class . ":teacher");
+    Route::delete("/deleteExam/{id} ",[ExamController::class,"deleteExam"])->middleware(CheckRole::class .":teacher");
 });
 
 
