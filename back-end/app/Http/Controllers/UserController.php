@@ -16,7 +16,7 @@ class UserController extends Controller
             if(!$user){
                 return response()->json([
                     "message" => "Couldn't find the user"
-                ]);
+                ],404);
             }
 
             $request->validate([
@@ -38,7 +38,7 @@ class UserController extends Controller
         } catch (Exception $ex) {
             return response()->json([
                 "message" => $ex->getMessage(),
-            ]);
+            ],500);
         }
     }
 }

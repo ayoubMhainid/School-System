@@ -53,10 +53,10 @@ export const ManageStudents = () => {
 
   const searchStudents_FUNCTION = async () =>{
     const response = await searchStudents(localStorage.getItem('token'),username);
-    setPaginate(false);    
+    setPaginate(false);        
     
-    response.status === 200 ? response.data.students.length ? setStudents(response.data.students)
-    : setErrorMessage(errors.notFound) : setErrorMessage(errors.tryAgain);    
+    response.status === 200 ? response.data.students.data.length ? (setStudents(response.data.students.data),setErrorMessage(''))
+    : (setErrorMessage(errors.notFound), setStudents([])) : setErrorMessage(errors.tryAgain);    
   }
 
   const getStudentsByClass_FUNCTION = async () =>{
@@ -82,6 +82,7 @@ export const ManageStudents = () => {
     : ( setErrorMessage(errors.notFound) , setStudents([]) ) : setErrorMessage(errors.tryAgain);  
   }
 
+  
   useEffect(() =>{
     username !== '' ? searchStudents_FUNCTION() : getStudents_FUNCTION(1);
   },[username])
@@ -132,7 +133,8 @@ export const ManageStudents = () => {
                       keys={['full_name','username','gender','date_of_birth']} 
                       pagination={pagination}
                       paginate={paginate}
-                      getData={getStudents_FUNCTION}/>
+                      getData={getStudents_FUNCTION}
+                      toUpdateOrDelete={'User'}/>
             :null
           }
         </div>
