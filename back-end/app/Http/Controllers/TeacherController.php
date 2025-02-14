@@ -51,38 +51,39 @@ class TeacherController extends Controller
         }
     }
 
-    public function getTeachersByUser($user){
-        try{
-            $teacher = Teacher::where("username","LIKE", "%$user%")
-                                ->latest()
-                                ->paginate(10);
-            if($teacher){
+    public function getTeachersByUser($user)
+    {
+        try {
+            $teacher = Teacher::where("username", "LIKE", "%$user%")
+                ->latest()
+                ->paginate(10);
+            if ($teacher) {
                 return response()->json(["teachers" => $teacher]);
             }
 
             return response()->json(["message" => "No teacher with this username"]);
-        }catch(Exception $e){
+        } catch (Exception $e) {
             return response()->json(["message" => $e->getMessage()]);
         };
-        
     }
 
-    public function getTeachersByClass($id){
-        try{
+    public function getTeachersByClass($id)
+    {
+        try {
             $class = Classe::find($id);
-            if(!$class){
+            if (!$class) {
                 return response()->json(["message" => "Class not found"], 404);
             }
-    
+
             $teachers = Teacher::whereHas('class', function ($query) use ($id) {
                 $query->where('id', $id);
-                })->get();
-            if(!$teachers){
+            })->get();
+            if (!$teachers) {
                 return response()->json(["message" => "No teacher with this class"]);
             }
-    
+
             return response()->json(["teachers" => $teachers]);
-        }catch(Exception $e){
+        } catch (Exception $e) {
             return response()->json(["message" => $e->getMessage()], 500);
         }
     }
@@ -126,7 +127,7 @@ class TeacherController extends Controller
             return response()->json([
                 'message' => 'teacher created successfully',
                 'teacher' => $teacher
-            ], 201);
+            ], 200);
         } catch (Exception $e) {
             return response()->json([
                 'error' => $e->getMessage()

@@ -11,19 +11,21 @@ use Illuminate\Validation\ValidationException;
 
 class AdminController extends Controller
 {
-    public function getAdmins(Request $request){
-        try{
+    public function getAdmins(Request $request)
+    {
+        try {
             $admins = Admin::all();
             return response()->json($admins, 200);
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             return response()->json([
                 'message' => $e->getMessage()
-            ],500);
+            ], 500);
         }
     }
 
-    public function createAdmin(Request $request){
-        try{
+    public function createAdmin(Request $request)
+    {
+        try {
             $validatedData = $request->validate([
                 'full_name' => 'required|string',
                 'phone' => 'required|string|unique:admins',
@@ -36,7 +38,7 @@ class AdminController extends Controller
                 return response()->json(['error' => 'User already exists'], 409);
             }
 
-            $randNumber = rand(100,999999);
+            $randNumber = rand(100, 999999);
             $randString = Str::random(4);
             $generatedUsername = $randString . $randNumber;
 
@@ -52,9 +54,11 @@ class AdminController extends Controller
                 'user_id' => $user->id,
                 "username" => $generatedUsername
             ]);
-            return response()->json($admin, 200);
-
-        }catch (ValidationException $e) {
+            return response()->json([
+                "message" => "New Admin created successfully!",
+                "admin" => $admin,
+            ], 200);
+        } catch (ValidationException $e) {
             return response()->json(['error' => 'Validation Error', 'message' => $e->errors()], 422);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Internal Server Error', 'message' => $e->getMessage()], 500);
@@ -92,7 +96,6 @@ class AdminController extends Controller
             $admin->update($request->except(['profile_picture', 'email', 'password']));
 
             return response()->json(['message' => 'Admin updated successfully', 'admin' => $admin], 200);
-
         } catch (ValidationException $e) {
             return response()->json(['error' => 'Validation Error', 'message' => $e->errors()], 422);
         } catch (\Exception $e) {
@@ -100,20 +103,21 @@ class AdminController extends Controller
         }
     }
 
-    public function deleteAdmin(Request $request){
-        try{
+    public function deleteAdmin(Request $request)
+    {
+        try {
             $admin = Admin::find($request->id);
-            if(!$admin){
+            if (!$admin) {
                 return response()->json(['error' => 'Admin not found'], 404);
             }
             $user = User::find($admin->user_id);
-            if(!$user){
+            if (!$user) {
                 return response()->json(['error' => 'User not found'], 404);
             }
             $admin->delete();
             $user->delete();
             return response()->json(['message' => 'Admin deleted successfully'], 200);
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             return response()->json(['error' => 'Internal Server Error', 'message' => $e->getMessage()], 500);
         }
     }
