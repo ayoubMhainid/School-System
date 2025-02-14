@@ -71,5 +71,4 @@ class ClassController extends Controller
             ],500);
         }
     }
-
 }

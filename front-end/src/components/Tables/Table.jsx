@@ -54,7 +54,7 @@ export const Table = ({heads,data,viewButton,updateButton,deleteButton,keys,pagi
                                 <tr key={rowIndex}>
                                     {keys &&
                                         keys.map((key, colIndex) => (
-                                        <td key={colIndex} className='py-1 text-center'>{dataVar[key]}</td> 
+                                            <td key={colIndex} className='py-1 text-center'>{key.split('.').reduce((obj, prop) => obj?.[prop], dataVar)}</td> 
                                         ))}
                                     {(viewButton || updateButton || deleteButton) && (
                                         <td className="flex space-x-2 justify-center">

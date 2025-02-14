@@ -13,6 +13,15 @@ class AnnouncementController extends Controller
     {
         try {
             $user = JWTAuth::parseToken()->authenticate();
+            if($user->role === 'admin'){
+                $announcements = Announcement::with('admin')
+                                            ->latest()
+                                            ->paginate(15);
+
+                return response()->json([
+                    "announcements" => $announcements,
+                ]);
+            }
 
             $students_ann = Announcement::where("receiver", "students")
                 ->latest()

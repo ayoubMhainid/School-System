@@ -192,7 +192,7 @@ export const ManageStudents = () => {
           />
         ) : null}
       </div>
-      {openAddUser && <AddUser userRole="teacher" setOpen={setOpenAddUser} />}
+      {openAddUser && <AddUser userRole="student" setOpen={setOpenAddUser} />}
     </div>
   );
 };
