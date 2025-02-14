@@ -9,3 +9,13 @@ export const updateUserCredentials = async (token,data) =>{
     });
     return response;
 }
+
+
+export const deleteUser = async (token,id) =>{
+    const response = await axios.delete(`${apiUrl}/user/deleteUser/${id}`,{
+        headers : {
+            Authorization : `Bearer ${token}`
+        }
+    });
+    return response;
+}
