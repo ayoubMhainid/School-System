@@ -3,7 +3,7 @@ import { ButtonSvg } from '../UI/ButtonSvg'
 import { EyeIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
 import { Pagination } from '../UI/Paginations'
 
-export const Table = ({heads,data,viewButton,updateButton,deleteButton,keys,pagination,getData}) => {
+export const Table = ({heads,data,viewButton,updateButton,deleteButton,keys,pagination,paginate,getData}) => {
     
     const nextData = async () =>{
         if(pagination.lastPage <= pagination.currentPage){
@@ -66,7 +66,7 @@ export const Table = ({heads,data,viewButton,updateButton,deleteButton,keys,pagi
             </tbody>
         </table>
         {
-            pagination && <Pagination currentPage={pagination.currentPage} 
+            pagination && paginate && <Pagination currentPage={pagination.currentPage} 
                         lastPage={pagination.lastPage}
                         total={pagination.total}
                         next={nextData}

@@ -72,7 +72,7 @@ export const Login = () => {
               name={"password"}
               placholder={"********"}
               value={formData.password}
-              onChange={handleCahnge}
+              onChange={handleChange}
             />
           </div>
           <Button type={"submit"} text={"Sign in"} loading={loading} />

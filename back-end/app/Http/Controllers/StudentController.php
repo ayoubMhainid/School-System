@@ -56,6 +56,66 @@ class StudentController extends Controller
             ]);
         }
     }
+    public function searchStudentsByUsername ($username ){
+        try {
+            $students = Student::where('username', 'LIKE', "%$username%")
+                                ->latest()
+                                ->paginate(10);
+            if(!$students){
+                response()->json([
+                    "message" => "No student with this username"
+                ],404);
+            }
+
+            return response()->json([
+                "students" => $students
+            ]);
+
+        }catch(Exception $e){
+            return response()->json([
+                "message" => $e->getMessage()
+            ],500);
+        }
+    }
+
+    public function filterStudentsByClass ($class_id){
+        try{
+            $students = Student::where("class_id",(int) $class_id)->get();
+
+            if(!$students){
+                return response()->json([
+                    "message" => "students not found"
+                ],404);
+            }
+            return response()->json([
+                "students" => $students
+            ]);
+        }catch(Exception $e){
+            return response()->json([
+                "message" => $e->getMessage()
+            ],500);
+        }
+    }
+    public function filterStudentsByGender($gender){
+        try{
+            $students = Student::where("gender",$gender)
+                                ->latest()
+                                ->paginate(10);
+                                
+            if(!$students){
+                return response()->json([
+                    "message" => "Not Found"
+                ],404);
+            }
+            return response()->json([
+                "students" => $students
+            ]);
+        }catch(Exception $e){
+            return response()->json([
+                "message" => $e->getMessage()
+            ],500);
+        }
+    }
 
     public function createStudent(Request $request){
         try{

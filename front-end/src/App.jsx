@@ -7,12 +7,13 @@ import { Dashboard } from "./pages/admin/Dashboard";
 import { ManageStudents } from "./pages/admin/ManageStudents";
 import { PersisLogin } from "./pages/auth/PersisLogin";
 import { AddUser } from "./components/modals/AddUser";
+import { UpdateUser } from "./components/modals/UpdateUser";
 
 function App() {
   return (
     <Routes>
       <Route path="/sign_in" element={<Login />} />
-      <Route path="/add" element={<AddUser />} />
+      {/* <Route path="/delete" element={<UpdateUser />} /> */}
       <Route element={<PersisLogin />}>
         <Route element={<Layout />}>
           <Route path="/home" element={<Home />} />
