@@ -50,37 +50,38 @@ class TeacherController extends Controller
         }
     }
 
-    public function getTeachersByUser($user){
+    public function searchTeachersByUsername($username){
         try{
-            $teacher = Teacher::where("username","LIKE", "%$user%")
+            $teachers = Teacher::where("username","LIKE", "%$username%")
                                 ->latest()
                                 ->paginate(10);
-            if($teacher){
-                return response()->json(["teachers" => $teacher]);
+
+            if($teachers){
+                return response()->json([
+                    "teachers" => $teachers
+                ]);
             }
 
-            return response()->json(["message" => "No teacher with this username"]);
+            return response()->json([
+                "message" => "No teachers with this username"
+            ]);
         }catch(Exception $e){
             return response()->json(["message" => $e->getMessage()]);
         };
-        
+
     }
 
-    public function getTeachersByClass($id){
+    public function getClassesByTeacher($id){
         try{
-            $class = Classe::find($id);
-            if(!$class){
-                return response()->json(["message" => "Class not found"], 404);
-            }
-    
-            $teachers = Teacher::whereHas('class', function ($query) use ($id) {
-                $query->where('id', $id);
-                })->get();
-            if(!$teachers){
+            $classes = Teacher::where("id",$id)
+                                ->with('classes')
+                                ->get();
+
+            if(!$classes){
                 return response()->json(["message" => "No teacher with this class"]);
             }
-    
-            return response()->json(["teachers" => $teachers]);
+
+            return response()->json(["teachers" => $classes]);
         }catch(Exception $e){
             return response()->json(["message" => $e->getMessage()], 500);
         }

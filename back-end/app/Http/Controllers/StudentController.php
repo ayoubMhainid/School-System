@@ -17,7 +17,7 @@ class StudentController extends Controller
         try{
             $students = Student::latest()
                                 ->with('user')
-                                ->paginate(10);
+                                ->paginate(15);
             if($students){
                 return response()->json([
                     "students" => $students,
@@ -63,7 +63,7 @@ class StudentController extends Controller
             $students = Student::where('username', 'LIKE', "%$username%")
                                 ->with('user')
                                 ->latest()
-                                ->paginate(10);
+                                ->paginate(15);
             if(!$students){
                 response()->json([
                     "message" => "No student with this username"
@@ -106,7 +106,7 @@ class StudentController extends Controller
             $students = Student::where("gender",$gender)
                                 ->with('user')
                                 ->latest()
-                                ->paginate(10);
+                                ->paginate(15);
 
             if(!$students){
                 return response()->json([
