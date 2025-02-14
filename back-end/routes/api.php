@@ -95,6 +95,7 @@ Route::prefix("announcement")->group(function () {
     Route::delete("/deleteAnnouncement/{id}", [AnnouncementController::class, "deleteAnnouncement"])->middleware(CheckRole::class . ":admin");
 });
 
+
 Route::prefix("notification")->middleware(CheckAuthentication::class)->group(function () {
     Route::get("/getNotifications", [NotificationController::class, "getNotifications"]);
     Route::post("/createNotification", [NotificationController::class, "createNotification"]);

@@ -16,6 +16,7 @@ class StudentController extends Controller
     public function getStudents(){
         try{
             $students = Student::latest()
+                                ->with('user')
                                 ->paginate(10);
             if($students){
                 return response()->json([
@@ -38,6 +39,7 @@ class StudentController extends Controller
         try{
             $student = Student::where("id",$id)
                                 ->with("class")
+                                ->with('user')
                                 ->first();
 
             if($student){
@@ -59,6 +61,7 @@ class StudentController extends Controller
     public function searchStudentsByUsername ($username ){
         try {
             $students = Student::where('username', 'LIKE', "%$username%")
+                                ->with('user')
                                 ->latest()
                                 ->paginate(10);
             if(!$students){
@@ -80,7 +83,9 @@ class StudentController extends Controller
 
     public function filterStudentsByClass ($class_id){
         try{
-            $students = Student::where("class_id",(int) $class_id)->get();
+            $students = Student::where("class_id",(int) $class_id)
+                                ->with('user')
+                                ->get();
 
             if(!$students){
                 return response()->json([
@@ -99,9 +104,10 @@ class StudentController extends Controller
     public function filterStudentsByGender($gender){
         try{
             $students = Student::where("gender",$gender)
+                                ->with('user')
                                 ->latest()
                                 ->paginate(10);
-                                
+
             if(!$students){
                 return response()->json([
                     "message" => "Not Found"
