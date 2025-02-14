@@ -5,15 +5,15 @@ const AppContext = createContext();
 const AppContextCom = ({ children }) => {
   const [user, setUser] = useState({});
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  // const [addUserRole, setAddUserRole] = useState("student");
+  // const [widthOutlet, setWidthOutlet] = useState("");
 
   const value = {
     user,
     setUser,
     isMenuOpen,
     setIsMenuOpen,
-    // addUserRole,
-    // setAddUserRole,
+    // widthOutlet,
+    // setWidthOutlet,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

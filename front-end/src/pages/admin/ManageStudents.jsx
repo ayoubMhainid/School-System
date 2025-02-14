@@ -13,7 +13,7 @@ import { Table as TableSkeleton } from "../../components/Skeletons/Table";
 import { getClasses } from "../../services/classServices";
 import { errors } from "../../constants/Errors";
 import { AddUser } from "../../components/modals/AddUser";
-import { Notification } from "../../components/UI/Notification";
+import { useAppContext } from "../../context/AppContext";
 
 export const ManageStudents = () => {
   const [students, setStudents] = useState([]);
@@ -33,6 +33,7 @@ export const ManageStudents = () => {
     lastPage: 0,
     total: 0,
   });
+  const { isMenuOpen } = useAppContext();
 
   const getStudents_FUNCTION = async (page) => {
     setLoading(true);
@@ -129,70 +130,72 @@ export const ManageStudents = () => {
   }, []);
 
   return (
-    <div className="ml-6 mt-6 w-[85%]">
-      <div className="w-[100%] px-2">
-        <h1 className="text-3xl font-semibold">Manage students</h1>
-        <br></br>
-        <div className="sm:flex block justify-between w-[100%]">
-          <div className="sm:flex flex-row gap-2 block w-[70%]">
-            <Input
-              type={"text"}
-              placholder={"Search for student"}
-              border={"white"}
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-            <Select
-              title={"Filter by class"}
-              width={"50%"}
-              options={classes}
-              ky={"class_name"}
-              value={selectedClass}
-              onchange={(e) => setSelectedClass(e.target.value)}
-              valueToSelect={"id"}
-            />
-            <Select
-              title={"Filter by gender"}
-              width={"50%"}
-              options={["female", "male"]}
-              value={selectedGender}
-              onchange={(e) => setSelectedGender(e.target.value)}
-            />
-          </div>
-          <div>
-            <Button
-              text={"Add Student"}
-              width={"20%"}
-              onClick={() => {
-                setOpenAddUser(true);
-              }}
-            />
+    !isMenuOpen && (
+      <div className={`ml-6 mt-6 w-[81%]`}>
+        <div className="w-[100%] px-2">
+          <h1 className="text-3xl font-semibold">Manage students</h1>
+          <br></br>
+          <div className="sm:flex block justify-between w-[100%]">
+            <div className="sm:flex flex-row gap-2 block w-[70%]">
+              <Input
+                type={"text"}
+                placholder={"Search for student"}
+                border={"white"}
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+              <Select
+                title={"Filter by class"}
+                width={"50%"}
+                options={classes}
+                ky={"class_name"}
+                value={selectedClass}
+                onchange={(e) => setSelectedClass(e.target.value)}
+                valueToSelect={"id"}
+              />
+              <Select
+                title={"Filter by gender"}
+                width={"50%"}
+                options={["female", "male"]}
+                value={selectedGender}
+                onchange={(e) => setSelectedGender(e.target.value)}
+              />
+            </div>
+            <div>
+              <Button
+                text={"Add Student"}
+                width={"20%"}
+                onClick={() => {
+                  setOpenAddUser(true);
+                }}
+              />
+            </div>
           </div>
         </div>
+        <div className="mt-4 px-2">
+          {errorMessage && (
+            <span className="text-red-300 text-xl font-semibold">
+              {errorMessage}
+            </span>
+          )}
+          {loading && <TableSkeleton />}
+          {students && students.length && !loading ? (
+            <Table
+              heads={["Full name", "Username", "Gender", "Date of birth"]}
+              data={students}
+              viewButton={true}
+              updateButton={true}
+              deleteButton={true}
+              keys={["full_name", "username", "gender", "date_of_birth"]}
+              pagination={pagination}
+              paginate={paginate}
+              getData={getStudents_FUNCTION}
+              toUpdateOrDelete={"User"}
+            />
+          ) : null}
+        </div>
+        {openAddUser && <AddUser userRole="student" setOpen={setOpenAddUser} />}
       </div>
-      <div className="mt-4 px-2">
-        {errorMessage && (
-          <span className="text-red-300 text-xl font-semibold">
-            {errorMessage}
-          </span>
-        )}
-        {loading && <TableSkeleton />}
-        {students && students.length && !loading ? (
-          <Table
-            heads={["Full name", "Username", "Gender", "Date of birth"]}
-            data={students}
-            viewButton={true}
-            updateButton={true}
-            deleteButton={true}
-            keys={["full_name", "username", "gender", "date_of_birth"]}
-            pagination={pagination}
-            paginate={paginate}
-            getData={getStudents_FUNCTION}
-            toUpdateOrDelete={"User"}
-          />
-        ) : null}
-      </div>
-      {openAddUser && <AddUser userRole="student" setOpen={setOpenAddUser} />}
-    </div>
+    )
   );
 };
