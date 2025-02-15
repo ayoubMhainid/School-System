@@ -6,6 +6,7 @@ import { Home } from "./shared/Home";
 import { Dashboard } from "./pages/admin/Dashboard";
 import { ManageStudents } from "./pages/admin/ManageStudents";
 import { PersisLogin } from "./pages/auth/PersisLogin";
+import { ManageSubjects } from "./pages/admin/MannageSubjects";
 function App() {
   return (
     <Routes>
@@ -16,6 +17,7 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/admin/dashboard" element={<Dashboard />} />
           <Route path="/admin/students" element={<ManageStudents />} />
+          <Route path="/admin/Subjects" element={<ManageSubjects />} />
         </Route>
       </Route>
     </Routes>
