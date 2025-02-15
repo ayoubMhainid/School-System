@@ -5,6 +5,7 @@ import { Layout } from "./layouts/Layout";
 import { Home } from "./shared/Home";
 import { Dashboard } from "./pages/admin/Dashboard";
 import { ManageStudents } from "./pages/admin/ManageStudents";
+import { ManageTeam } from "./pages/admin/ManageTeam";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/admin/dashboard" element={<Dashboard />} />
         <Route path="/admin/students" element={<ManageStudents />} />
+        <Route path="/admin/team" element={<ManageTeam />} />
       </Route>
     </Routes>
   );

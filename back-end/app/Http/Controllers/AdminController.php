@@ -8,13 +8,22 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AdminController extends Controller
 {
     public function getAdmins(Request $request){
         try{
-            $admins = Admin::all();
-            return response()->json($admins, 200);
+            $user = JWTAuth::parseToken()->authenticate();
+
+            $admins = Admin::where('id',$user->id)
+                            ->with('user')
+                            ->paginate(15);
+
+            return response()->json([
+                "admins" => $admins
+            ]);
+
         }catch(\Exception $e){
             return response()->json([
                 'message' => $e->getMessage()
