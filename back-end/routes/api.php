@@ -28,11 +28,11 @@ Route::prefix("auth")->group(function () {
 });
 
 
-Route::prefix("admin")->middleware(CheckRole::class . ":admin")->group(function () {
-    Route::get("/getAdmins", [AdminController::class, "getAdmins"]);
-    Route::post("/createAdmin", [AdminController::class, "createAdmin"]);
-    Route::put("/updateAdmin/{id}", [AdminController::class, "updateAdmin"]);
-    Route::delete("/deleteAdmin/{id}", [AdminController::class, "deleteAdmin"]);
+Route::prefix("admin")->group(function () {
+    Route::get("/getAdmins", [AdminController::class, "getAdmins"])->middleware(CheckRole::class . ":admin");
+    Route::post("/createAdmin", [AdminController::class, "createAdmin"])->middleware(CheckRole::class . ":admin");
+    Route::put("/updateAdmin/{id}", [AdminController::class, "updateAdmin"])->middleware(CheckRole::class . ":admin");
+    Route::delete("/deleteAdmin/{id}", [AdminController::class, "deleteAdmin"])->middleware(CheckRole::class . ":super admin");
 });
 
 

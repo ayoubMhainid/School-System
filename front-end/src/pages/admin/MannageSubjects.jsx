@@ -3,11 +3,14 @@ import { useState } from "react"
 import { getSubjects } from "../../services/subjectServices";
 import { Table } from "../../components/Tables/Table";
 import { Table as TableSkeleton } from "../../components/Skeletons/Table";
+import { Button } from "../../components/UI/Button";
+import { Add } from "../../components/Modals/Add";
 
 
 export const ManageSubjects = () => {
     const [subject , setSubject] = useState([])
     const [loading, setLoading] = useState(false);
+    const [openAddSubject,setOpenAddSubject] = useState(false);
 
     const [paginate, setPaginate] = useState(false);
     const [pagination, setPagination] = useState({
@@ -37,11 +40,16 @@ export const ManageSubjects = () => {
       }, []);
     return (
         <div className={`ml-6 mt-6 w-[81%]`}>
-            <div className="w-[100%] px-2">
-            <h1 className="text-3xl font-semibold">Manage Subject</h1>
-            <br /><br />
+            <div className='w-[100%] px-2'>
+                <h1 className='text-3xl font-semibold'>Manage subjects</h1>
+                <br></br>
+                <div className='sm:flex block justify-between w-[100%]'>
+                    <div>
+                        <Button text={'Add Subject'} width={'20%'} onClick={() => setOpenAddSubject(true)}/>
+                    </div>
+                </div>
             </div>
-            <div>
+            <div className="mt-4 px-2">
                 {loading && <TableSkeleton />}
                 {
                     subject && subject.length && !loading ? (
@@ -56,9 +64,11 @@ export const ManageSubjects = () => {
                         paginate={paginate}
                         getData={getSubject}
                         toUpdateOrDelete={"Subject"}
-
                         />
                 ):null
+                }
+                {
+                    openAddSubject && <Add toAdd={'subject'} setOpen={setOpenAddSubject} />
                 }
             </div>
         </div>

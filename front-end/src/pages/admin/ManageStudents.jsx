@@ -12,8 +12,8 @@ import { Button } from "../../components/UI/Button";
 import { Table as TableSkeleton } from "../../components/Skeletons/Table";
 import { getClasses } from "../../services/classServices";
 import { errors } from "../../constants/Errors";
-import { AddUser } from "../../components/modals/AddUser";
 import { useAppContext } from "../../context/AppContext";
+import { Add } from "../../components/Modals/Add";
 
 export const ManageStudents = () => {
   const [students, setStudents] = useState([]);
@@ -194,7 +194,7 @@ export const ManageStudents = () => {
             />
           ) : null}
         </div>
-        {openAddUser && <AddUser userRole="student" setOpen={setOpenAddUser} />}
+        {openAddUser && <Add toAdd="student" setOpen={setOpenAddUser} />}
       </div>
     )
   );

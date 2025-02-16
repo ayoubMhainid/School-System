@@ -90,6 +90,7 @@ class AnnouncementController extends Controller
         try {
             $announcement = Announcement::find($id);
             if ($announcement) {
+                $announcement->delete();
                 return response()->json([
                     "message" => "Announcement deleted Successfully!"
                 ]);
