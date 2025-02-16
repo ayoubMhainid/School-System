@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
 import { Label } from "../UI/Label";
 import { Input } from "../UI/Input";
@@ -7,12 +7,17 @@ import { updateUserCredentials } from "../../services/userServices";
 import { errors } from "../../constants/Errors";
 import { Notification } from "../UI/Notification";
 import { Select } from "../UI/Select";
+import { getTeachers } from "../../services/teacherServices";
+import { getClasses } from "../../services/classServices";
+import { UpdateSubject } from "../../services/subjectServices";
 
 
 export const Update = ({ modal,setModal }) => {
-  console.log(modal);
+  const [teacher,setTeacher] = useState([]);
+  const [classes,setClasses] = useState([]);
+  const [selectedTeacher, setSelectedTeacher] = useState(modal?.data?.class_id);
+  const [selectedClass, setSelectedClass] = useState(modal?.data?.class_id);
   
-
   const [loading,setLoading] = useState(false);
   const [notification,setNotification] = useState(null);
   const [userCredentialsForm,setUserCredentialsForm] = useState({
@@ -21,15 +26,15 @@ export const Update = ({ modal,setModal }) => {
     password : '',
   });  
 
-  const [subjectData,setSubjectData] = useState({
-    id:modal?.data?.id,
-    subjectName:modal?.data?.name,
-    teacherName:modal?.data?.teacher?.full_name,
-    className:modal?.data?.class?.class_name,
-    teacherId:modal?.data?.teacher_id,
-    classId:modal?.data?.class_id,
-  })
-
+    const [subjectData,setSubjectData] = useState({
+      id:modal?.data?.id,
+      subjectName:modal?.data?.name,
+      teacherName:modal?.data?.teacher?.full_name,
+      className:modal?.data?.class?.class_name,
+      teacherId:modal?.data?.teacher_id,
+      classId:modal?.data?.class_id,
+    })
+  console.log(subjectData)
   const handleChangeUserCredentials = (e) =>{
     const {name,value} = e.target;
     setUserCredentialsForm((prevData) =>({
@@ -37,7 +42,27 @@ export const Update = ({ modal,setModal }) => {
       [name] : value,
     }));
   }
+  const getClasse = async () => {
+      setLoading(true);
+      const response = await getClasses(localStorage.getItem("token"));
+      if(response.data.classes){
+          setClasses(response.data.classes) 
+          setLoading(false)           
+      }     
+  }
+  const getTeacher = async () => {
+      setLoading(true);
+      const response = await getTeachers(localStorage.getItem("token"));
+      if(response.data){
+          setTeacher(response.data.teachers.data) 
+          setLoading(false)           
 
+      }     
+  }
+  useEffect(() => {
+      getClasse();
+      getTeacher();
+    }, []);
   const handleChangeSubject = (e) =>{
     const {name,value} = e.target;
     setSubjectData((prevData) =>({
@@ -64,7 +89,14 @@ export const Update = ({ modal,setModal }) => {
         : setNotification({type:"error",message : errors.tryAgain}) : setNotification({type : 'error',message : errors.notFound})
 
       }else if(modal.toUpdateOrDelete === 'Subject'){
-        // function to update the subject data
+        const response = await UpdateSubject(localStorage.getItem('token'),subjectData)
+        setLoading(false);
+        response.status === 200 ? response.data.message ? (setNotification({type:'success',message:response.data.message}),
+        setTimeout(() => {
+          setModal({type:''})
+        }, 3000))
+
+        : setNotification({type:"error",message : errors.tryAgain}) : setNotification({type : 'error',message : errors.notFound})
       }
     }catch(error){
       setLoading(false);
@@ -123,10 +155,37 @@ export const Update = ({ modal,setModal }) => {
                   />
 
                   <Label text={`Teacher (${subjectData.teacherName})`} /><br></br>
-                  <Select title={'Select teacher'} bg={'bg-white'} width={'100%'} border={'border-black'} onchange={handleChangeSubject}/>
+                  <Select 
+                    width={"100%"}
+                    bg={"white"}
+                    border={"black"}
+                    title={"change classe"}
+                    options={teacher}
+                    value={selectedTeacher} 
+                    onchange={(e) => {
+                      setSelectedTeacher(e.target.value);
+                      handleChangeSubject({ target: { name: 'teacherId', value: e.target.value } });
+                    }}
+                    ky={"full_name"} 
+                    valueToSelect="id"
+                  />                      
+                      
                   <br></br>
                   <Label text={`Class (${subjectData.className})`} /><br></br>
-                  <Select title={'Select Class'} bg={'bg-white'} width={'100%'} border={'border-black'} onchange={handleChangeSubject}/>
+                  <Select
+                    width={"100%"}
+                    bg={"white"}
+                    border={"black"}
+                    title={"Select Class"}
+                    options={classes}
+                    value={selectedClass}
+                    onchange={(e) => {
+                      setSelectedClass(e.target.value);
+                      handleChangeSubject({ target: { name: 'classId', value: e.target.value } });
+                    }}
+                    ky={"class_name"}
+                    valueToSelect="id"
+                  />
                 </>
               )
             }

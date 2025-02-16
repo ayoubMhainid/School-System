@@ -59,4 +59,31 @@ class SubjectController extends Controller
             return response()->json(['message' => $e->getMessage()], 500);
         }
     }
+    public function updateSubject(Request $request)
+    {
+        try {
+
+            
+            $subject = Subject::where('id' , $request->id)->first();
+            $request->validate([
+                "classId" => "required",
+                "teacherId" => "required",
+                "subject_name" => "required|string|max:100"
+            ]);
+
+            $subject->teacher_id = $request->teacherId;
+            $subject->class_id = $request->classId;
+            $subject->name = $request->subject_name;
+
+            $subject->save();
+
+            return response()->json([
+                'message' => "Subject updated successfully"
+            ]);
+        } catch (Exception $ex) {
+            return response()->json([
+                "message" => $ex->getMessage(),
+            ]);
+        }
+    }
 }

@@ -9,3 +9,11 @@ export const createTeacher = async (token, data) => {
   });
   return response;
 };
+export const getTeachers = async (token) =>{
+  const response = await axios.get(`${apiUrl}/teacher/getTeachers`,{
+      headers : {
+          Authorization : `Bearer ${token}`
+      }
+  });
+  return response;
+}

@@ -5,10 +5,14 @@ import { Table } from "../../components/Tables/Table";
 import { Table as TableSkeleton } from "../../components/Skeletons/Table";
 import { Button } from "../../components/UI/Button";
 import { Add } from "../../components/Modals/Add";
+import { getClasses } from "../../services/classServices";
+import { getTeachers } from "../../services/teacherServices";
 
 
 export const ManageSubjects = () => {
-    const [subject , setSubject] = useState([])
+    const [subject , setSubject] = useState([]);
+    const [classes,setClasses] = useState([]);
+    const [teacher,setTeacher] = useState([]);
     const [loading, setLoading] = useState(false);
     const [openAddSubject,setOpenAddSubject] = useState(false);
 
@@ -32,11 +36,26 @@ export const ManageSubjects = () => {
           });
         if (response.data){
             setSubject(response.data.data)
-            
         }
+    }
+    const getClasse = async () => {
+        setLoading(true);
+        const response = await getClasses(localStorage.getItem("token"));
+        if(response.data.classes){
+            setClasses(response.data.classes)            
+        }     
+    }
+    const getTeacher = async () => {
+        setLoading(true);
+        const response = await getTeachers(localStorage.getItem("token"));
+        if(response.data){
+            setTeacher(response.data.teachers.data)       
+        }     
     }
     useEffect(() => {
         getSubject(1);
+        getClasse();
+        getTeacher();
       }, []);
     return (
         <div className={`ml-6 mt-6 w-[81%]`}>
@@ -54,12 +73,12 @@ export const ManageSubjects = () => {
                 {
                     subject && subject.length && !loading ? (
                     <Table
-                        heads={["teacher_id", "class_id", "name"]}
+                        heads={["teacher name", "class name", "name"]}
                         data={subject}
                         viewButton={true}
                         updateButton={true}
                         deleteButton={true}
-                        keys={["teacher_id", "class_id", "name"]}
+                        keys={["teacher.full_name", "class.class_name", "name"]}
                         pagination={pagination}
                         paginate={paginate}
                         getData={getSubject}
