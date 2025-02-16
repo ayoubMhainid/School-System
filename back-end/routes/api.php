@@ -109,4 +109,5 @@ Route::prefix("subject")->middleware(CheckRole::class . ":admin")->group(functio
     Route::get("/getSubjects", [SubjectController::class, "getSubjects"]);
     Route::post("/createSubject", [SubjectController::class, "createSubject"]);
     Route::delete("/deleteSubject/{id}", [SubjectController::class, "deleteSubject"]);
+    Route::put("/updateSubject", [SubjectController::class, "updateSubject"]);
 });

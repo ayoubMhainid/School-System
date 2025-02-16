@@ -11,7 +11,7 @@ import {
   getTeachers,
   searchTeachersByUsername,
 } from "../../services/teacherServices";
-import { AddUser } from "../../components/modals/AddUser";
+import { Add } from "../../components/modals/Add";
 
 export const ManageTeacher = () => {
   const [openAddUser, setOpenAddUser] = useState(false);
@@ -173,11 +173,11 @@ export const ManageTeacher = () => {
               pagination={pagination}
               paginate={paginate}
               getData={getTeachers_FUNCTION}
-              toUpdateOrDelete={"Teacher"}
+              toUpdateOrDelete={"User"}
             />
           ) : null}
         </div>
-        {openAddUser && <AddUser userRole="teacher" setOpen={setOpenAddUser} />}
+        {openAddUser && <Add toAdd="teacher" setOpen={setOpenAddUser} />}
       </div>
     )
   );

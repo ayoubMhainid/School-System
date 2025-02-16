@@ -90,55 +90,33 @@ export const Add = ({ setOpen, toAdd }) => {
           <div className="bg-white w-full max-w-md px-8 py-6 rounded-lg shadow-xl">
             <div className="text-center">
               <h1 className="text-2xl font-semibold text-gray-800">
-                {
-                  `Add ${toAdd}`
-                }
+                {`Add ${toAdd}`}
               </h1>
               <p className="text-sm text-gray-500 mt-1">
-                {
-                  `Fill this inputs to add new ${toAdd}`
-                }
+                {`Fill this inputs to add new ${toAdd}`}
               </p>
             </div>
 
-<<<<<<< HEAD:front-end/src/components/Modals/AddUser.jsx
-            <Label text={"Fullname"} />
-            <Input
-              type="text"
-              name="full_name"
-              value={dataUser.full_name}
-              onChange={handleChange}
-              placholder="fullname"
-              border="black"
-              text="black"
-            />
-=======
-            {
-              toAdd !== _subject && (
-                <>
-                  <Label text={"fullname"} />
-                  <Input
-                    type="text"
-                    name="full_name"
-                    value={dataUser.full_name}
-                    onChange={handleChange}
-                    placholder="Ex: Joen doe"
-                    border="black"
-                    text="black"
-                  />
-                </>
-              )
-            }
->>>>>>> c6f1af8e4ad7dd9bdc60ea94138a9f8a52640a6c:front-end/src/components/Modals/Add.jsx
+            {toAdd !== _subject && (
+              <>
+                <Label text={"Fullname"} />
+                <Input
+                  type="text"
+                  name="full_name"
+                  value={dataUser.full_name}
+                  onChange={handleChange}
+                  placholder="Ex: Joen doe"
+                  border="black"
+                  text="black"
+                />
+              </>
+            )}
 
             {toAdd === _student && (
               <>
                 <div className="flex items-center">
                   <div className="w-[30%] flex">
-<<<<<<< HEAD:front-end/src/components/Modals/AddUser.jsx
                     <Label text={"Male"} />
-=======
->>>>>>> c6f1af8e4ad7dd9bdc60ea94138a9f8a52640a6c:front-end/src/components/Modals/Add.jsx
                     <Input
                       width={"900px"}
                       type="radio"
@@ -148,13 +126,9 @@ export const Add = ({ setOpen, toAdd }) => {
                       border="black"
                       text="black"
                     />
-                    <Label text={"male"} />
                   </div>
                   <div className="w-[30%] flex">
-<<<<<<< HEAD:front-end/src/components/Modals/AddUser.jsx
                     <Label text={"Female"} />
-=======
->>>>>>> c6f1af8e4ad7dd9bdc60ea94138a9f8a52640a6c:front-end/src/components/Modals/Add.jsx
                     <Input
                       width={"900px"}
                       type="radio"
@@ -164,7 +138,6 @@ export const Add = ({ setOpen, toAdd }) => {
                       border="black"
                       text="black"
                     />
-                    <Label text={"female"} />
                   </div>
                 </div>
                 <Label text={"Date de naissance"} />
@@ -179,35 +152,20 @@ export const Add = ({ setOpen, toAdd }) => {
               </>
             )}
 
-<<<<<<< HEAD:front-end/src/components/Modals/AddUser.jsx
-            <Label text={"Phone"} />
-            <Input
-              type="number"
-              name="phone"
-              value={dataUser.phone}
-              onChange={handleChange}
-              placholder="phone"
-              border="black"
-              text="black"
-            />
-=======
-            {
-              toAdd !== _subject && (
-                <>
-                  <Label text={"phone"} />
-                  <Input
-                    type="number"
-                    name="phone"
-                    value={dataUser.phone}
-                    onChange={handleChange}
-                    placholder="Ex: 0659520000"
-                    border="black"
-                    text="black"
-                  />
-                </>
-              )
-            }
->>>>>>> c6f1af8e4ad7dd9bdc60ea94138a9f8a52640a6c:front-end/src/components/Modals/Add.jsx
+            {toAdd !== _subject && (
+              <>
+                <Label text={"Phone"} />
+                <Input
+                  type="number"
+                  name="phone"
+                  value={dataUser.phone}
+                  onChange={handleChange}
+                  placholder="Ex: 0659520000"
+                  border="black"
+                  text="black"
+                />
+              </>
+            )}
 
             {toAdd === _teacher && (
               <>
@@ -224,28 +182,38 @@ export const Add = ({ setOpen, toAdd }) => {
               </>
             )}
 
-            {
-              toAdd === _subject && (
-                <>
-                  <Label text={"Subject name"} />
-                  <Input
-                    type="text"
-                    name="subject_name"
-                    value={dataUser.address}
-                    onChange={handleChange}
-                    placholder="Ex: CLOUD-NATIVE"
-                    border="black"
-                    text="black"
-                  />
+            {toAdd === _subject && (
+              <>
+                <Label text={"Subject name"} />
+                <Input
+                  type="text"
+                  name="subject_name"
+                  value={dataUser.address}
+                  onChange={handleChange}
+                  placholder="Ex: CLOUD-NATIVE"
+                  border="black"
+                  text="black"
+                />
 
-                  <Label text={'Teacher'} /><br></br>
-                  <Select title={'Select teacher'} bg={'bg-white'} width={'100%'} border={'border-black'}/>
-                  <br></br>
-                  <Label text={'Class'} /><br></br>
-                  <Select title={'Select Class'} bg={'bg-white'} width={'100%'} border={'border-black'}/>
-                </>
-              )
-            }
+                <Label text={"Teacher"} />
+                <br></br>
+                <Select
+                  title={"Select teacher"}
+                  bg={"bg-white"}
+                  width={"100%"}
+                  border={"border-black"}
+                />
+                <br></br>
+                <Label text={"Class"} />
+                <br></br>
+                <Select
+                  title={"Select Class"}
+                  bg={"bg-white"}
+                  width={"100%"}
+                  border={"border-black"}
+                />
+              </>
+            )}
 
             {toAdd !== _admin && toAdd !== _subject && (
               <>
@@ -255,72 +223,37 @@ export const Add = ({ setOpen, toAdd }) => {
                   name="address"
                   value={dataUser.address}
                   onChange={handleChange}
-<<<<<<< HEAD:front-end/src/components/Modals/AddUser.jsx
-                  placholder="address"
-=======
                   placholder="Ex: 213 Lot HAMA officiel, tiznit"
->>>>>>> c6f1af8e4ad7dd9bdc60ea94138a9f8a52640a6c:front-end/src/components/Modals/Add.jsx
                   border="black"
                   text="black"
                 />
               </>
             )}
 
-<<<<<<< HEAD:front-end/src/components/Modals/AddUser.jsx
-            <Label text={"Email"} />
-            <Input
-              type="text"
-              name="email"
-              value={dataUser.email}
-              onChange={handleChange}
-              placholder={`ex: ${
-                userRole === _student
-                  ? "student"
-                  : userRole === _teacher
-                  ? "teacher"
-                  : "exemple"
-              }@gmail.com`}
-              border="black"
-              text="black"
-            />
-            <Label text={"Password"} />
-            <Input
-              type="password"
-              name="password"
-              value={dataUser.password}
-              onChange={handleChange}
-              placholder="********"
-              border="black"
-              text="black"
-            />
-=======
-            {
-              toAdd !== _subject && (
-                <>
-                  <Label text={"Email"} />
-                  <Input
-                    type="text"
-                    name="email"
-                    value={dataUser.email}
-                    onChange={handleChange}
-                    placholder="ex: bijo@gmail.com"
-                    border="black"
-                    text="black"
-                  />
-                  <Label text={"Password"} />
-                  <Input
-                    type="password"
-                    name="password"
-                    value={dataUser.password}
-                    onChange={handleChange}
-                    placholder="********"
-                    border="black"
-                    text="black"
-                  />
-                </>
-              )
-            }
->>>>>>> c6f1af8e4ad7dd9bdc60ea94138a9f8a52640a6c:front-end/src/components/Modals/Add.jsx
+            {toAdd !== _subject && (
+              <>
+                <Label text={"Email"} />
+                <Input
+                  type="text"
+                  name="email"
+                  value={dataUser.email}
+                  onChange={handleChange}
+                  placholder="ex: bijo@gmail.com"
+                  border="black"
+                  text="black"
+                />
+                <Label text={"Password"} />
+                <Input
+                  type="password"
+                  name="password"
+                  value={dataUser.password}
+                  onChange={handleChange}
+                  placholder="********"
+                  border="black"
+                  text="black"
+                />
+              </>
+            )}
 
             {toAdd === _student && (
               <>
@@ -355,22 +288,9 @@ export const Add = ({ setOpen, toAdd }) => {
               />
               <Button
                 type="submit"
-<<<<<<< HEAD:front-end/src/components/Modals/AddUser.jsx
-                text={`Create ${
-                  userRole === _student
-                    ? "student"
-                    : userRole === _teacher
-                    ? "teacher"
-                    : "admin"
-                }`}
-                loading={loading}
-                bg="bg-blue-600"
-                color="text-white"
-=======
                 text={`Create ${toAdd}`}
                 loading={loading}
                 bg="bg-blue-600"
->>>>>>> c6f1af8e4ad7dd9bdc60ea94138a9f8a52640a6c:front-end/src/components/Modals/Add.jsx
               />
             </div>
           </div>

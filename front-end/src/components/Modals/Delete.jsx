@@ -10,13 +10,7 @@ export const Delete = ({ modal, setModal, listData, setNewData }) => {
   const [loading, setLoading] = useState(false);
   const [notificaton, setNotification] = useState(null);
 
-<<<<<<< HEAD
   const deleteUser_FUNCTION = async () => {
-=======
-  console.log(modal);
-  
-  const deleteUser_FUNCTION = async () =>{
->>>>>>> c6f1af8e4ad7dd9bdc60ea94138a9f8a52640a6c
     setNotification(null);
     setLoading(false);
     const response = await deleteUser(

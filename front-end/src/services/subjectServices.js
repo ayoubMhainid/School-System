@@ -20,3 +20,19 @@ export const deleteSubject = async (token,id) =>{
   });
   return response;
 }
+export const UpdateSubject = async (token,data) =>{
+  const response = await axios.put(`${apiUrl}/subject/updateSubject`,data,{
+      headers : {
+          Authorization : `Bearer ${token}`
+      }
+  });
+  return response;
+}
+export const AddSubjects = async (token,data) =>{
+  const response = await axios.post(`${apiUrl}/subject/createSubject`,data,{
+      headers : {
+          Authorization : `Bearer ${token}`
+      }
+  });
+  return response;
+}

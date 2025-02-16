@@ -21,13 +21,10 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/admin/dashboard" element={<Dashboard />} />
           <Route path="/admin/students" element={<ManageStudents />} />
-<<<<<<< HEAD
-          <Route path="/admin/Subjects" element={<ManageSubjects />} />
+          {/* <Route path="/admin/Subjects" element={<ManageSubjects />} /> */}
           <Route path="/admin/teachers" element={<ManageTeacher />} />
-=======
           <Route path="/admin/team" element={<ManageTeam />} />
           <Route path="/admin/subjects" element={<ManageSubjects />} />
->>>>>>> c6f1af8e4ad7dd9bdc60ea94138a9f8a52640a6c
         </Route>
       </Route>
     </Routes>
