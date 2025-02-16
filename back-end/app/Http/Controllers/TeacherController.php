@@ -20,16 +20,19 @@ class TeacherController extends Controller
     {
         try {
             $teachers = Teacher::latest()
+                ->with("user")
                 ->paginate(10);
             return response()->json([
                 "teachers" => $teachers
-            ], 201);
+            ], 200);
         } catch (Exception $e) {
             return response()->json([
                 "message" => $e->getMessage()
             ], 500);
         }
     }
+
+
 
     public function getTeacher($id)
     {
@@ -51,17 +54,17 @@ class TeacherController extends Controller
         }
     }
 
-    public function getTeachersByUser($user)
+    public function searchTeachersByUsername($username)
     {
         try {
-            $teacher = Teacher::where("username", "LIKE", "%$user%")
-                ->latest()
+            $teacher = Teacher::where("username", "LIKE", "%$username%")
+                ->latest()->with("user")
                 ->paginate(10);
             if ($teacher) {
                 return response()->json(["teachers" => $teacher]);
             }
 
-            return response()->json(["message" => "No teacher with this username"]);
+            return response()->json(["message" => "No teacher with this username"], 404);
         } catch (Exception $e) {
             return response()->json(["message" => $e->getMessage()]);
         };

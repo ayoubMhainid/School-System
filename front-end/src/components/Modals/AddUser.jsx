@@ -57,7 +57,6 @@ export const AddUser = ({ setOpen, userRole }) => {
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      console.log(error.response);
       error.response
         ? setNotification({
             type: "error",
@@ -108,7 +107,7 @@ export const AddUser = ({ setOpen, userRole }) => {
               </p>
             </div>
 
-            <Label text={"fullname"} />
+            <Label text={"Fullname"} />
             <Input
               type="text"
               name="full_name"
@@ -123,7 +122,7 @@ export const AddUser = ({ setOpen, userRole }) => {
               <>
                 <div className="flex items-center">
                   <div className="w-[30%] flex">
-                    <Label text={"male"} />
+                    <Label text={"Male"} />
                     <Input
                       width={"900px"}
                       type="radio"
@@ -135,7 +134,7 @@ export const AddUser = ({ setOpen, userRole }) => {
                     />
                   </div>
                   <div className="w-[30%] flex">
-                    <Label text={"female"} />
+                    <Label text={"Female"} />
                     <Input
                       width={"900px"}
                       type="radio"
@@ -147,7 +146,7 @@ export const AddUser = ({ setOpen, userRole }) => {
                     />
                   </div>
                 </div>
-                <Label text={"date de naissance"} />
+                <Label text={"Date de naissance"} />
                 <Input
                   type="date"
                   name="date_of_birth"
@@ -160,7 +159,7 @@ export const AddUser = ({ setOpen, userRole }) => {
               </>
             )}
 
-            <Label text={"phone"} />
+            <Label text={"Phone"} />
             <Input
               type="number"
               name="phone"
@@ -173,7 +172,7 @@ export const AddUser = ({ setOpen, userRole }) => {
 
             {userRole === _teacher && (
               <>
-                <Label text={"specialization"} />
+                <Label text={"Specialization"} />
                 <Input
                   type="text"
                   name="specialization"
@@ -188,13 +187,13 @@ export const AddUser = ({ setOpen, userRole }) => {
 
             {userRole !== _admin && (
               <>
-                <Label text={"address"} />
+                <Label text={"Address"} />
                 <Input
                   type="text"
                   name="address"
                   value={dataUser.address}
                   onChange={handleChange}
-                  placholder="your address"
+                  placholder="address"
                   border="black"
                   text="black"
                 />
@@ -207,7 +206,13 @@ export const AddUser = ({ setOpen, userRole }) => {
               name="email"
               value={dataUser.email}
               onChange={handleChange}
-              placholder="ex: bijo@gmail.com"
+              placholder={`ex: ${
+                userRole === _student
+                  ? "student"
+                  : userRole === _teacher
+                  ? "teacher"
+                  : "exemple"
+              }@gmail.com`}
               border="black"
               text="black"
             />
@@ -217,14 +222,14 @@ export const AddUser = ({ setOpen, userRole }) => {
               name="password"
               value={dataUser.password}
               onChange={handleChange}
-              placholder="●●●●●●●●"
+              placholder="********"
               border="black"
               text="black"
             />
 
             {userRole === _student && (
               <>
-                <Label text="classes" />
+                <Label text="Classes" />
 
                 <select
                   className={
@@ -255,10 +260,16 @@ export const AddUser = ({ setOpen, userRole }) => {
               />
               <Button
                 type="submit"
-                text="create student"
+                text={`Create ${
+                  userRole === _student
+                    ? "student"
+                    : userRole === _teacher
+                    ? "teacher"
+                    : "admin"
+                }`}
                 loading={loading}
                 bg="bg-blue-600"
-                color="white"
+                color="text-white"
               />
             </div>
           </div>

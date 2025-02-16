@@ -9,3 +9,51 @@ export const createTeacher = async (token, data) => {
   });
   return response;
 };
+
+export const getTeachers = async (token, page) => {
+  const response = await axios.get(
+    `${apiUrl}/teacher/getTeachers?page=${page}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response;
+};
+
+export const searchTeachersByUsername = async (token, username) => {
+  const response = await axios.get(
+    `${apiUrl}/teacher/searchTeachersByUsername/${username}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response;
+};
+
+export const getTeachersByClass = async (token, class_id) => {
+  const response = await axios.get(
+    `${apiUrl}/teacher/searchTeachersByUsername/${class_id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response;
+};
+
+export const deleteTeacher = async (token, teacher_id) => {
+  const response = await axios.delete(
+    `${apiUrl}/teacher/deleteTeacher/${teacher_id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response;
+};
