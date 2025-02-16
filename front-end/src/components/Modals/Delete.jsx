@@ -3,11 +3,14 @@ import { Button } from "../UI/Button";
 import { deleteUser } from "../../services/userServices";
 import { errors } from "../../constants/Errors";
 import { Notification } from "../UI/Notification";
+import { deleteSubject } from "../../services/subjectServices";
 
 export const Delete = ({ modal,setModal }) => {
   const [loading,setLoading] = useState(false);
   const [notificaton,setNotification] = useState(null);
 
+  console.log(modal);
+  
   const deleteUser_FUNCTION = async () =>{
     setNotification(null);
     setLoading(false);
@@ -16,10 +19,22 @@ export const Delete = ({ modal,setModal }) => {
     (setNotification({type:"success",message:response.data.message}),setTimeout(() => {setModal({type:''})},3000))
      : setNotification({type:'error',message:errors.tryAgain}) : setNotification({type:'error',message: errors.notFound});
   }
+  const deleteSubject_FUNCTION = async () =>{
+    setNotification(null);
+    setLoading(false);
+    const response = await deleteSubject(localStorage.getItem('token'),modal.data.id);    
+    response.status === 200 ? response.data.message ? 
+    (setNotification({type:"success",message:response.data.message}),setTimeout(() => {setModal({type:''})},3000))
+     : setNotification({type:'error',message:errors.tryAgain}) : setNotification({type:'error',message: errors.notFound});
+  }
 
   const delete_FUNCTION = async (e) =>{
     e.preventDefault();
-    modal.toUpdateOrDelete === 'User' && deleteUser_FUNCTION();
+    if (modal.toUpdateOrDelete === "User") {
+      deleteUser_FUNCTION();
+    } else if (modal.toUpdateOrDelete === "Subject") {
+      deleteSubject_FUNCTION();
+    }
   }
 
   return (

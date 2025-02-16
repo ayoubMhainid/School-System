@@ -14,9 +14,11 @@ class SubjectController extends Controller
     {
         $user = Auth::user();
         if ($user->role === 'admin') {
-            $subjects = Subject::all();
+            $subjects = Subject::with('teacher')
+                            ->with('class')
+                            ->paginate(15);
         } elseif ($user->role === 'teacher') {
-            $subjects = Subject::where('teacher_id', $user->id)->get();
+            $subjects = Subject::where('teacher_id', $user->id)->get()->paginate(15);
         }else{
             return response()->json(['message' => 'Unauthorized'], 401);
         }

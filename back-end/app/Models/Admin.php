@@ -9,7 +9,7 @@ class Admin extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['full_name', 'phone', 'user_id'];
+    protected $fillable = ['full_name', 'phone', 'user_id','username'];
 
     public function announcements()
     {
@@ -18,7 +18,7 @@ class Admin extends Model
 
     public function user()
     {
-        return $this->belongsTo(Announcement::class);
+        return $this->belongsTo(User::class);
     }
 
     public function events()

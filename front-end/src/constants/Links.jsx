@@ -40,13 +40,13 @@ export const dataSideBar = [
     ROLE: "admin",
     SVG: <PencilIcon strokeWidth="1" className="w-6 h-6" />,
     TEXT: "Manage Subjects",
-    LINK: "/admin/Subjects",
+    LINK: "/admin/subjects",
   },
   {
     ROLE: "admin",
     SVG: <BuildingLibraryIcon strokeWidth="1" className="w-6 h-6" />,
     TEXT: "Manage Classes",
-    LINK: "/admin/Classes",
+    LINK: "/admin/classes",
   },
   {
     ROLE: "admin",

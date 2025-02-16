@@ -13,7 +13,7 @@ import { Table as TableSkeleton } from "../../components/Skeletons/Table";
 import { getClasses } from "../../services/classServices";
 import { errors } from "../../constants/Errors";
 import { useAppContext } from "../../context/AppContext";
-import { AddUser } from "../../components/Modals/AddUser";
+import { Add } from "../../components/Modals/Add";
 
 export const ManageStudents = () => {
   const [students, setStudents] = useState([]);
@@ -194,7 +194,7 @@ export const ManageStudents = () => {
             />
           ) : null}
         </div>
-        {openAddUser && <AddUser userRole="student" setOpen={setOpenAddUser} />}
+        {openAddUser && <Add toAdd="student" setOpen={setOpenAddUser} />}
       </div>
     )
   );

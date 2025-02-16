@@ -16,7 +16,7 @@ class AdminController extends Controller
         try{
             $user = JWTAuth::parseToken()->authenticate();
 
-            $admins = Admin::where('id',$user->id)
+            $admins = Admin::where('id','!=',$user->id)
                             ->with('user')
                             ->paginate(15);
 
@@ -67,7 +67,7 @@ class AdminController extends Controller
                 "admin" => $admin,
             ], 200);
         } catch (ValidationException $e) {
-            return response()->json(['error' => 'Validation Error', 'message' => $e->errors()], 422);
+            return response()->json(['error' => 'Validation Error', 'message' => $e->getMessage()], 422);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Internal Server Error', 'message' => $e->getMessage()], 500);
         }

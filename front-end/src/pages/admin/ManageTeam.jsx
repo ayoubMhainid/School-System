@@ -4,8 +4,10 @@ import { getAdmins } from '../../services/adminServices';
 import { errors } from '../../constants/Errors';
 import { Button } from '../../components/UI/Button';
 import { Table as TableSkeleton } from '../../components/Skeletons/Table';
+import { Add } from '../../components/Modals/Add';
 export const ManageTeam = () => {
     const [admins,setAdmins] = useState([]);
+    const [openAddUser, setOpenAddUser] = useState(false);
   
     const [loading,setLoading] = useState(false);
     const [errorMessage,setErrorMessage] = useState(null);
@@ -17,11 +19,13 @@ export const ManageTeam = () => {
                                   total : 0,
                                 });
 
-    const getAdmins_FUNCTION = async () =>{
+    const getAdmins_FUNCTION = async (page) =>{
         setLoading(true);
         setPaginate(true);
-        const response = await getAdmins(localStorage.getItem('token'));
+        const response = await getAdmins(localStorage.getItem('token'),page);
         setLoading(false);
+        console.log(response);
+        
         
         response.status === 200 ? response.data.admins ? setAdmins(response.data.admins.data) : 
         setErrorMessage(errors.notFound) : setErrorMessage(errors.tryAgain)
@@ -33,7 +37,7 @@ export const ManageTeam = () => {
     }
   
     useEffect(() =>{
-        getAdmins_FUNCTION();
+        getAdmins_FUNCTION(1);
     },[])
 
     return (
@@ -43,7 +47,7 @@ export const ManageTeam = () => {
               <br></br>
               <div className='sm:flex block justify-between w-[100%]'>
                 <div>
-                  <Button text={'Add admin'} width={'20%'}/>
+                  <Button text={'Add admin'} width={'20%'} onClick={() => setOpenAddUser(true)}/>
                 </div>
               </div>
           </div>
@@ -66,6 +70,9 @@ export const ManageTeam = () => {
                         getData={getAdmins_FUNCTION}
                         toUpdateOrDelete={'User'}/>
               :null
+            }
+            {
+              openAddUser && <Add toAdd={'admin'} setOpen={setOpenAddUser} />
             }
           </div>
       </div>
