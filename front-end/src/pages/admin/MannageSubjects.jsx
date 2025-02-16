@@ -29,7 +29,6 @@ export const ManageSubjects = () => {
           });
         if (response.data){
             setSubject(response.data.data)
-            console.log(response.data.data);
             
         }
     }
@@ -56,7 +55,7 @@ export const ManageSubjects = () => {
                         pagination={pagination}
                         paginate={paginate}
                         getData={getSubject}
-                        toUpdateOrDelete={"User"}
+                        toUpdateOrDelete={"Subject"}
 
                         />
                 ):null

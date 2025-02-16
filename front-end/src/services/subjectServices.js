@@ -12,3 +12,11 @@ export const getSubjects = async (token,page) => {
   );
   return response;
 };
+export const deleteSubject = async (token,id) =>{
+  const response = await axios.delete(`${apiUrl}/subject/deleteSubject/${id}`,{
+      headers : {
+          Authorization : `Bearer ${token}`
+      }
+  });
+  return response;
+}
