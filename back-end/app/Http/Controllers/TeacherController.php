@@ -82,7 +82,7 @@ class TeacherController extends Controller
                 $query->where('id', $id);
             })->get();
             if (!$teachers) {
-                return response()->json(["message" => "No teacher with this class"]);
+                return response()->json(["message" => "No teacher with this class"], 404);
             }
 
             return response()->json(["teachers" => $teachers]);

@@ -9,6 +9,7 @@ import { Table } from "../../components/Tables/Table";
 import { Table as TableSkeleton } from "../../components/Skeletons/Table";
 import {
   getTeachers,
+  getTeachersByClass,
   searchTeachersByUsername,
 } from "../../services/teacherServices";
 import { Add } from "../../components/modals/Add";
@@ -107,6 +108,37 @@ export const ManageTeacher = () => {
       }
     }
   }, [user.token, dataSearch.username]);
+  /*
+  const searchTeacherByClass = async () => {
+    setErrorMessage(null);
+    const response = await getTeachersByClass(user.token, dataSearch.class_id);
+    setPaginate(false);
+    console.log(response);
+    response.status === 200
+      ? response.data.students.length
+        ? setStudents(response.data.students)
+        : (setErrorMessage(errors.notFound), setStudents([]))
+      : setErrorMessage(errors.tryAgain);
+  };*/
+
+  useEffect(() => {
+    const searchTeacherByClass = async () => {
+      setErrorMessage(null);
+      const response = await getTeachersByClass(
+        user.token,
+        dataSearch.class_id
+      );
+      setPaginate(false);
+      console.log(response);
+      // response.status === 200
+      //   ? response.data.students.length
+      //     ? setStudents(response.data.students)
+      //     : (setErrorMessage(errors.notFound), setStudents([]))
+      //   : setErrorMessage(errors.tryAgain);
+    };
+
+    user.token && dataSearch.class_id && searchTeacherByClass();
+  }, [dataSearch.class_id]);
 
   return (
     !isMenuOpen && (
