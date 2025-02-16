@@ -13,20 +13,20 @@ import { logout } from "../services/authServices";
 export const Layout = () => {
   const navigate = useNavigate();
   const { user, isMenuOpen, setIsMenuOpen } = useAppContext();
-  const [loading,setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const newdataSideBar = dataSideBar.filter(
     (element) => element.ROLE == user.role
   );
 
-  const LOGOUT = async () =>{
+  const LOGOUT = async () => {
     setLoading(true);
-    const response = await logout(localStorage.getItem('token'));
+    const response = await logout(localStorage.getItem("token"));
     setLoading(false);
-    if(response.status === 200){
-      navigate('/sign_in');
+    if (response.status === 200) {
+      navigate("/sign_in");
     }
-  }
+  };
 
   return (
     <div

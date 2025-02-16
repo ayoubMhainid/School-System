@@ -9,3 +9,12 @@ export const getAdmins = async (token) =>{
     });
     return response;
 }
+
+export const createAdmin = async (token, data) => {
+  const response = await axios.post(`${apiUrl}/admin/createAdmin`, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response;
+};

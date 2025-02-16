@@ -17,7 +17,7 @@ export const Login = () => {
   const navigate = useNavigate();
   const { setUser } = useAppContext();
 
-  const handleCahnge = (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
@@ -28,9 +28,7 @@ export const Login = () => {
     try {
       const response = await checkUserLogin(formData);
       setLoading(false);
-
-      localStorage.setItem("user", JSON.stringify(response.data));
-      localStorage.setItem("token",response.data.token);
+      localStorage.setItem("token", response.data.token);
       setUser(response.data);
       response.data.role == "admin"
         ? navigate("/admin/dashboard")
@@ -63,7 +61,7 @@ export const Login = () => {
               name={"email"}
               placholder={"ex:john00.0@exemple.com"}
               value={formData.email}
-              onChange={handleCahnge}
+              onChange={handleChange}
             />
           </div>
           <div>
@@ -74,7 +72,7 @@ export const Login = () => {
               name={"password"}
               placholder={"********"}
               value={formData.password}
-              onChange={handleCahnge}
+              onChange={handleChange}
             />
           </div>
           <Button type={"submit"} text={"Sign in"} loading={loading} />

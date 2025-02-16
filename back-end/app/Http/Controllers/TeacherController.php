@@ -12,28 +12,30 @@ use Illuminate\Support\Str;
 use Exception;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
-use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class TeacherController extends Controller
 {
-    public function getTeachers(){
-        try{
+    public function getTeachers()
+    {
+        try {
             $teachers = Teacher::latest()
-                                ->paginate(10);
+                ->paginate(10);
             return response()->json([
                 "teachers" => $teachers
-            ],201);
-        }catch(Exception $e){
+            ], 201);
+        } catch (Exception $e) {
             return response()->json([
                 "message" => $e->getMessage()
-            ],500);
+            ], 500);
         }
     }
 
-    public function getTeacher($id){
-        try{
+    public function getTeacher($id)
+    {
+        try {
             $teacher = Teacher::find($id);
-            if($teacher){
+            if ($teacher) {
                 return response()->json([
                     "teacher" => $teacher
                 ]);
@@ -42,47 +44,46 @@ class TeacherController extends Controller
             return response()->json([
                 "message" => "No teacher with this id"
             ]);
-
-        }catch(Exception $ex){
+        } catch (Exception $ex) {
             return response()->json([
                 "message" => $ex->getMessage(),
             ]);
         }
     }
 
-    public function searchTeachersByUsername($username){
-        try{
-            $teachers = Teacher::where("username","LIKE", "%$username%")
-                                ->latest()
-                                ->paginate(10);
-
-            if($teachers){
-                return response()->json([
-                    "teachers" => $teachers
-                ]);
+    public function getTeachersByUser($user)
+    {
+        try {
+            $teacher = Teacher::where("username", "LIKE", "%$user%")
+                ->latest()
+                ->paginate(10);
+            if ($teacher) {
+                return response()->json(["teachers" => $teacher]);
             }
 
-            return response()->json([
-                "message" => "No teachers with this username"
-            ]);
-        }catch(Exception $e){
+            return response()->json(["message" => "No teacher with this username"]);
+        } catch (Exception $e) {
             return response()->json(["message" => $e->getMessage()]);
         };
-
     }
 
-    public function getClassesByTeacher($id){
-        try{
-            $classes = Teacher::where("id",$id)
-                                ->with('classes')
-                                ->get();
+    public function getTeachersByClass($id)
+    {
+        try {
+            $class = Classe::find($id);
+            if (!$class) {
+                return response()->json(["message" => "Class not found"], 404);
+            }
 
-            if(!$classes){
+            $teachers = Teacher::whereHas('class', function ($query) use ($id) {
+                $query->where('id', $id);
+            })->get();
+            if (!$teachers) {
                 return response()->json(["message" => "No teacher with this class"]);
             }
 
-            return response()->json(["teachers" => $classes]);
-        }catch(Exception $e){
+            return response()->json(["teachers" => $teachers]);
+        } catch (Exception $e) {
             return response()->json(["message" => $e->getMessage()], 500);
         }
     }
@@ -111,9 +112,9 @@ class TeacherController extends Controller
                 ], 500);
             }
 
-            $randNumber = rand(100,999999);
+            $randNumber = rand(100, 999999);
             $randString = Str::random(4);
-            $generatedUsername = $randNumber.$randString;
+            $generatedUsername = $randNumber . $randString;
             $teacher = Teacher::create([
                 'full_name' => $validatedData['full_name'],
                 'username' => $generatedUsername,
@@ -126,23 +127,23 @@ class TeacherController extends Controller
             return response()->json([
                 'message' => 'teacher created successfully',
                 'teacher' => $teacher
-            ], 201);
-
+            ], 200);
         } catch (Exception $e) {
             return response()->json([
                 'error' => $e->getMessage()
             ], 500);
         }
     }
-    public function updateTeacher(Request $request){
-        try{
+    public function updateTeacher(Request $request)
+    {
+        try {
             $user = JWTAuth::parseToken()->authenticate();
-            $teacher = Teacher::where("id",$user->id)->first();
+            $teacher = Teacher::where("id", $user->id)->first();
 
-            if(!$teacher){
+            if (!$teacher) {
                 return response()->json([
                     "message" => "Unauthorized"
-                ],401);
+                ], 401);
             }
 
             $validation = $request->validate([
@@ -155,42 +156,40 @@ class TeacherController extends Controller
                 'specialization' => 'required|string|max:255',
             ]);
 
-            $teacher ->update($validation);
+            $teacher->update($validation);
 
             return response()->json([
                 "message" => "teacher updated successfully"
             ]);
-
-            }catch (ValidationException $e) {
-                return response()->json([
-                    'message' => 'Data verification failed',
-                    'errors' => $e->errors()
-                ], 422);
-
-            }catch(Exception $e){
+        } catch (ValidationException $e) {
+            return response()->json([
+                'message' => 'Data verification failed',
+                'errors' => $e->errors()
+            ], 422);
+        } catch (Exception $e) {
             return response()->json([
                 "message" => $e->getMessage()
-            ],500);
+            ], 500);
         };
     }
-    public function deleteTeacher($id){
-        try{
+    public function deleteTeacher($id)
+    {
+        try {
             $teacher = Teacher::find($id);
-            if(!$teacher){
+            if (!$teacher) {
                 return response()->json(['error' => 'Teacher not found'], 404);
             }
             $user = User::find($teacher->user_id);
-            if (!$user){
-                return response()->json(['error'=> 'User Not found'],404);
+            if (!$user) {
+                return response()->json(['error' => 'User Not found'], 404);
             }
             $teacher->delete();
             $user->delete();
             return response()->json(["message" => "Teacher deleted successfully"]);
-        }catch(Exception $e){
+        } catch (Exception $e) {
             return response()->json([
                 "message" => $e->getMessage()
             ]);
         }
-
     }
 }
