@@ -14,7 +14,7 @@ import { UpdateSubject } from "../../services/subjectServices";
 export const Update = ({ modal, setModal }) => {
   const [teacher, setTeacher] = useState([]);
   const [classes, setClasses] = useState([]);
-  const [selectedTeacher, setSelectedTeacher] = useState(modal?.data?.class_id);
+  const [selectedTeacher, setSelectedTeacher] = useState(modal?.data?.teacher_id);
   const [selectedClass, setSelectedClass] = useState(modal?.data?.class_id);
 
   const [loading, setLoading] = useState(false);
