@@ -70,4 +70,29 @@ class ClassController extends Controller
             ],500);
         }
     }
+    public function updateClass(Request $request,$id){
+        try {
+            $validation = $request->validate([
+                "class_name" => "required|string|max:20",
+                "section" => "required|string|max:30",
+                "teacher_id" => "required|integer"
+            ]);
+            $class = Classe::find($id);
+            if(!$class){
+                return response()->json([
+                    "message" => "class note found"
+                ],404);
+            }
+            $class -> update($validation);
+
+            return response()->json([
+                "message" => "updated successfully"
+            ],200);
+
+        }catch(Exception $e){
+            return response()->json([
+                "message" =>  $e->getMessage()
+            ],500);
+        }
+    }
 }
