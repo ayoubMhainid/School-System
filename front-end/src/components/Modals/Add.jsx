@@ -9,7 +9,11 @@ import { Notification } from "../UI/Notification";
 import { createTeacher } from "../../services/teacherServices";
 import { createAdmin } from "../../services/adminServices";
 import { Select } from "../UI/Select";
+<<<<<<< HEAD
 import { AddSubjects, getallSubject, getSubjects } from "../../services/subjectServices";
+=======
+import { createAnnouncement } from "../../services/announcementServices";
+>>>>>>> 7daee80 (ManageAnnouncement and modification in AnnoncementController)
 
 export const Add = ({ setOpen, toAdd }) => {
   const [dataUser, setDataUser] = useState({});
@@ -33,6 +37,7 @@ export const Add = ({ setOpen, toAdd }) => {
   const _teacher = "teacher";
   const _admin = "admin";
   const _subject = "subject";
+  const _announcement = "announcement";
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -49,6 +54,8 @@ export const Add = ({ setOpen, toAdd }) => {
     }
   };
 
+  console.log(dataUser);
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -77,6 +84,12 @@ export const Add = ({ setOpen, toAdd }) => {
             setNotification({ type: "success", message: response.data.message });
             console.log(response);
             break;
+
+        case _announcement:
+          response = await createAnnouncement(user.token, dataUser);
+          setNotification({ type: "success", message: response.data.message });
+          console.log(response);
+          break;
 
         default:
           setNotification({ type: "error", message: "Unauthorized" });
@@ -126,9 +139,15 @@ export const Add = ({ setOpen, toAdd }) => {
               </p>
             </div>
 
+<<<<<<< HEAD
             {toAdd !== _subject && (
               <>
                 <Label text={"Fullname"} />
+=======
+            {toAdd !== _subject || toAdd !== _announcement && (
+              <>
+                <Label text={"fullname"} />
+>>>>>>> 7daee80 (ManageAnnouncement and modification in AnnoncementController)
                 <Input
                   type="text"
                   name="full_name"
@@ -181,9 +200,15 @@ export const Add = ({ setOpen, toAdd }) => {
               </>
             )}
 
+<<<<<<< HEAD
             {toAdd !== _subject && (
               <>
                 <Label text={"Phone"} />
+=======
+            {toAdd !== _subject || toAdd !== _announcement && (
+              <>
+                <Label text={"phone"} />
+>>>>>>> 7daee80 (ManageAnnouncement and modification in AnnoncementController)
                 <Input
                   type="number"
                   name="phone"
@@ -216,9 +241,15 @@ export const Add = ({ setOpen, toAdd }) => {
                 <Label text={"Subject name"} />
                 <Input
                   type="text"
+<<<<<<< HEAD
                   name="name"
                   value={dataSubject.name}
                   onChange={handleChangeSubject}
+=======
+                  name="subject_name"
+                  value={dataUser.address}
+                  onChange={handleChange}
+>>>>>>> 7daee80 (ManageAnnouncement and modification in AnnoncementController)
                   placholder="Ex: CLOUD-NATIVE"
                   border="black"
                   text="black"
@@ -226,6 +257,7 @@ export const Add = ({ setOpen, toAdd }) => {
 
                 <Label text={"Teacher"} />
                 <br></br>
+<<<<<<< HEAD
                 <select className="w-[100%] border border-black py-1" name="teacher_id"  onChange={handleChangeSubject}>
                     <option>select teacher</option>
                   {
@@ -246,10 +278,27 @@ export const Add = ({ setOpen, toAdd }) => {
                   }
                 </select>
 
+=======
+                <Select
+                  title={"Select teacher"}
+                  bg={"bg-white"}
+                  width={"100%"}
+                  border={"border-black"}
+                />
+                <br></br>
+                <Label text={"Class"} />
+                <br></br>
+                <Select
+                  title={"Select Class"}
+                  bg={"bg-white"}
+                  width={"100%"}
+                  border={"border-black"}
+                />
+>>>>>>> 7daee80 (ManageAnnouncement and modification in AnnoncementController)
               </>
             )}
 
-            {toAdd !== _admin && toAdd !== _subject && (
+            {toAdd !== _admin && toAdd !== _subject || toAdd !== _announcement && (
               <>
                 <Label text={"Address"} />
                 <Input
@@ -264,7 +313,11 @@ export const Add = ({ setOpen, toAdd }) => {
               </>
             )}
 
+<<<<<<< HEAD
             {toAdd !== _subject && (
+=======
+            {toAdd !== _subject || toAdd !== _announcement && (
+>>>>>>> 7daee80 (ManageAnnouncement and modification in AnnoncementController)
               <>
                 <Label text={"Email"} />
                 <Input
@@ -308,6 +361,40 @@ export const Add = ({ setOpen, toAdd }) => {
                         {item.class_name}
                       </option>
                     ))}
+                </select>
+              </>
+            )}
+
+           
+
+            {toAdd === _announcement && (
+              <>
+                <Input
+                  name="title"
+                  type="text"
+                  placholder="Title"
+                  value={dataUser.title}
+                  onChange={handleChange}
+                  border="black"
+                  text="black"
+                />
+                <textarea
+                  name="message"
+                  placeholder="Message"
+                  value={dataUser.message}
+                  onChange={handleChange}
+                  className="border pr-2"
+                /><br></br>
+                <select
+                  className={
+                    "border border-gray-600  text-black px-3 py-1 text-md bg-inherit rounded-sm outline-none w-[100%]"
+                  }
+                  name="receiver"
+                  value={dataUser.receiver}
+                  onChange={handleChange}
+                >
+                  <option value="students">Students</option>
+                  <option value="teachers">Teachers</option>
                 </select>
               </>
             )}

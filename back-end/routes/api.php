@@ -93,7 +93,7 @@ Route::prefix("exam")->group(function () {
 
 Route::prefix("announcement")->group(function () {
     Route::get("/getAnnouncements", [AnnouncementController::class, "getAnnouncements"])->middleware(CheckAuthentication::class);
-    Route::post("/createNotification", [AnnouncementController::class, "createAnnouncement"])->middleware(CheckRole::class . ":admin");
+    Route::post("/createAnnouncements", [AnnouncementController::class, "createAnnouncement"])->middleware(CheckRole::class . ":admin");
     Route::delete("/deleteAnnouncement/{id}", [AnnouncementController::class, "deleteAnnouncement"])->middleware(CheckRole::class . ":admin");
 });
 
