@@ -8,22 +8,45 @@ import { createStudent } from "../../services/studentServices";
 import { Notification } from "../UI/Notification";
 import { createTeacher } from "../../services/teacherServices";
 import { createAdmin } from "../../services/adminServices";
+import { Select } from "../UI/Select";
+import { AddSubjects, getallSubject, getSubjects } from "../../services/subjectServices";
 
-export const AddUser = ({ setOpen, userRole }) => {
+export const Add = ({ setOpen, toAdd }) => {
   const [dataUser, setDataUser] = useState({});
+  const [dataSubject, setDataSubject] = useState({});
   const [classList, setClassList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [notification, setNotification] = useState({});
 
+  const [newSubject, setNewSubject] = useState({
+    teacher_id: "",
+    class_id: "",
+    name: ""
+  });
+  
+  const [subject, setSubject] = useState([]);
+  
+  
   const { user } = useAppContext();
 
   const _student = "student";
   const _teacher = "teacher";
   const _admin = "admin";
+  const _subject = "subject";
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setDataUser((prev) => ({ ...prev, [name]: value }));
+  };
+  const handleChangeSubject = (e) => {
+    const { name, value } = e.target;
+    setNewSubject((prev) => ({ ...prev, [name]: value }));
+  };
+  const getSubject = async () => {
+    const response = await getallSubject(localStorage.getItem("token"));
+    if (response.data) {
+      setSubject(response.data.data);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -32,7 +55,7 @@ export const AddUser = ({ setOpen, userRole }) => {
     setNotification(null);
     try {
       let response;
-      switch (userRole) {
+      switch (toAdd) {
         case _student:
           response = await createStudent(user.token, dataUser);
           setNotification({ type: "success", message: response.data.message });
@@ -49,6 +72,11 @@ export const AddUser = ({ setOpen, userRole }) => {
           setNotification({ type: "success", message: response.data.message });
           console.log(response);
           break;
+          case _subject:
+            response = await AddSubjects(user.token, newSubject);
+            setNotification({ type: "success", message: response.data.message });
+            console.log(response);
+            break;
 
         default:
           setNotification({ type: "error", message: "Unauthorized" });
@@ -57,7 +85,6 @@ export const AddUser = ({ setOpen, userRole }) => {
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      console.log(error.response);
       error.response
         ? setNotification({
             type: "error",
@@ -79,8 +106,11 @@ export const AddUser = ({ setOpen, userRole }) => {
           : setNotification({ type: "error", message: "try later again" });
       }
     };
-    user.token && userRole === _student && viewclasses();
+    user.token && toAdd === _student && viewclasses();
   }, [user.token]);
+  useEffect(() => {
+      getSubject();
+    }, []);
 
   return (
     <>
@@ -89,41 +119,33 @@ export const AddUser = ({ setOpen, userRole }) => {
           <div className="bg-white w-full max-w-md px-8 py-6 rounded-lg shadow-xl">
             <div className="text-center">
               <h1 className="text-2xl font-semibold text-gray-800">
-                {`Create ${
-                  userRole === _student
-                    ? "student"
-                    : userRole === _teacher
-                    ? "teacher"
-                    : "admin"
-                }`}
+                {`Add ${toAdd}`}
               </h1>
               <p className="text-sm text-gray-500 mt-1">
-                {`Fill this inputs to create ${
-                  userRole === _student
-                    ? "student"
-                    : userRole === _teacher
-                    ? "teacher"
-                    : "admin"
-                }`}
+                {`Fill this inputs to add new ${toAdd}`}
               </p>
             </div>
 
-            <Label text={"fullname"} />
-            <Input
-              type="text"
-              name="full_name"
-              value={dataUser.full_name}
-              onChange={handleChange}
-              placholder="fullname"
-              border="black"
-              text="black"
-            />
+            {toAdd !== _subject && (
+              <>
+                <Label text={"Fullname"} />
+                <Input
+                  type="text"
+                  name="full_name"
+                  value={dataUser.full_name}
+                  onChange={handleChange}
+                  placholder="Ex: Joen doe"
+                  border="black"
+                  text="black"
+                />
+              </>
+            )}
 
-            {userRole === _student && (
+            {toAdd === _student && (
               <>
                 <div className="flex items-center">
                   <div className="w-[30%] flex">
-                    <Label text={"male"} />
+                    <Label text={"Male"} />
                     <Input
                       width={"900px"}
                       type="radio"
@@ -135,7 +157,7 @@ export const AddUser = ({ setOpen, userRole }) => {
                     />
                   </div>
                   <div className="w-[30%] flex">
-                    <Label text={"female"} />
+                    <Label text={"Female"} />
                     <Input
                       width={"900px"}
                       type="radio"
@@ -147,84 +169,129 @@ export const AddUser = ({ setOpen, userRole }) => {
                     />
                   </div>
                 </div>
-                <Label text={"date de naissance"} />
+                <Label text={"Date de naissance"} />
                 <Input
                   type="date"
                   name="date_of_birth"
                   value={dataUser.date_of_birth}
                   onChange={handleChange}
-                  placholder="date of birth"
                   border="black"
                   text="black"
                 />
               </>
             )}
 
-            <Label text={"phone"} />
-            <Input
-              type="number"
-              name="phone"
-              value={dataUser.phone}
-              onChange={handleChange}
-              placholder="phone"
-              border="black"
-              text="black"
-            />
-
-            {userRole === _teacher && (
+            {toAdd !== _subject && (
               <>
-                <Label text={"specialization"} />
+                <Label text={"Phone"} />
+                <Input
+                  type="number"
+                  name="phone"
+                  value={dataUser.phone}
+                  onChange={handleChange}
+                  placholder="Ex: 0659520000"
+                  border="black"
+                  text="black"
+                />
+              </>
+            )}
+
+            {toAdd === _teacher && (
+              <>
+                <Label text={"Specialization"} />
                 <Input
                   type="text"
                   name="specialization"
                   value={dataUser.specialization}
                   onChange={handleChange}
-                  placholder="specialization"
+                  placholder="Ex: IT"
                   border="black"
                   text="black"
                 />
               </>
             )}
 
-            {userRole !== _admin && (
+            {toAdd === _subject && (
               <>
-                <Label text={"address"} />
+                <Label text={"Subject name"} />
+                <Input
+                  type="text"
+                  name="name"
+                  value={dataSubject.name}
+                  onChange={handleChangeSubject}
+                  placholder="Ex: CLOUD-NATIVE"
+                  border="black"
+                  text="black"
+                />
+
+                <Label text={"Teacher"} />
+                <br></br>
+                <select className="w-[100%] border border-black py-1" name="teacher_id"  onChange={handleChangeSubject}>
+                    <option>select teacher</option>
+                  {
+                    subject.map((s)=>{
+                      return <option value={s.teacher.id}>{s.teacher.full_name}</option>
+                    })
+                  }
+                </select>
+                <br></br>
+                <Label text={"Class"} />
+                <br></br>
+                <select className="w-[100%] border border-black py-1" name="class_id"  onChange={handleChangeSubject}>
+                  <option>select class</option>
+                  {
+                    subject.map((s)=>{
+                      return <option value={s.class.id}>{s.class.class_name}</option>
+                    })
+                  }
+                </select>
+
+              </>
+            )}
+
+            {toAdd !== _admin && toAdd !== _subject && (
+              <>
+                <Label text={"Address"} />
                 <Input
                   type="text"
                   name="address"
                   value={dataUser.address}
                   onChange={handleChange}
-                  placholder="your address"
+                  placholder="Ex: 213 Lot HAMA officiel, tiznit"
                   border="black"
                   text="black"
                 />
               </>
             )}
 
-            <Label text={"Email"} />
-            <Input
-              type="text"
-              name="email"
-              value={dataUser.email}
-              onChange={handleChange}
-              placholder="ex: bijo@gmail.com"
-              border="black"
-              text="black"
-            />
-            <Label text={"Password"} />
-            <Input
-              type="password"
-              name="password"
-              value={dataUser.password}
-              onChange={handleChange}
-              placholder="●●●●●●●●"
-              border="black"
-              text="black"
-            />
-
-            {userRole === _student && (
+            {toAdd !== _subject && (
               <>
-                <Label text="classes" />
+                <Label text={"Email"} />
+                <Input
+                  type="text"
+                  name="email"
+                  value={dataUser.email}
+                  onChange={handleChange}
+                  placholder="ex: bijo@gmail.com"
+                  border="black"
+                  text="black"
+                />
+                <Label text={"Password"} />
+                <Input
+                  type="password"
+                  name="password"
+                  value={dataUser.password}
+                  onChange={handleChange}
+                  placholder="********"
+                  border="black"
+                  text="black"
+                />
+              </>
+            )}
+
+            {toAdd === _student && (
+              <>
+                <Label text="Classes" />
 
                 <select
                   className={
@@ -255,10 +322,9 @@ export const AddUser = ({ setOpen, userRole }) => {
               />
               <Button
                 type="submit"
-                text="create student"
+                text={`Create ${toAdd}`}
                 loading={loading}
                 bg="bg-blue-600"
-                color="white"
               />
             </div>
           </div>

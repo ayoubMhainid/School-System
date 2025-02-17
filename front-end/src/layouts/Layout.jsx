@@ -33,7 +33,7 @@ export const Layout = () => {
       onClick={() => {
         setIsMenuOpen(false);
       }}
-      className="w-[100vw] h-[100vh] flex flex-col sm:flex-row"
+      className="w-[100%] h-[100vh] flex flex-col sm:flex-row"
     >
       <div className="w-full h-[45px] relative flex items-center sm:hidden shadow-[0_0_1px_rgba(0,0,0,0.5)] ">
         <Bars3Icon

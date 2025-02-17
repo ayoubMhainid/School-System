@@ -12,8 +12,8 @@ import { Button } from "../../components/UI/Button";
 import { Table as TableSkeleton } from "../../components/Skeletons/Table";
 import { getClasses } from "../../services/classServices";
 import { errors } from "../../constants/Errors";
-import { AddUser } from "../../components/modals/AddUser";
 import { useAppContext } from "../../context/AppContext";
+import { Add } from "../../components/Modals/Add";
 
 export const ManageStudents = () => {
   const [students, setStudents] = useState([]);
@@ -131,7 +131,7 @@ export const ManageStudents = () => {
 
   return (
     !isMenuOpen && (
-      <div className={`ml-6 mt-6 w-[81%]`}>
+      <div className={`ml-6 mt-6 w-[85%]`}>
         <div className="w-[100%] px-2">
           <h1 className="text-3xl font-semibold">Manage students</h1>
           <br></br>
@@ -194,7 +194,7 @@ export const ManageStudents = () => {
             />
           ) : null}
         </div>
-        {openAddUser && <AddUser userRole="student" setOpen={setOpenAddUser} />}
+        {openAddUser && <Add toAdd="student" setOpen={setOpenAddUser} />}
       </div>
     )
   );

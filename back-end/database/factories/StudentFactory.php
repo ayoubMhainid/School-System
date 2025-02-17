@@ -26,7 +26,7 @@ class StudentFactory extends Factory
             'gender' => fake()->randomElement(["female","male"]),
             'address' => fake()->address(),
             'phone' => fake()->unique()->numerify('+212 6 ## ## ## ##'),
-            'username' => fake()->unique()->name(),            
+            'username' => fake()->unique()->userName(),            
         ];
     }
 }

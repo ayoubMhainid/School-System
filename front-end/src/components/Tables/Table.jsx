@@ -10,6 +10,7 @@ import { Update } from "../Modals/Update";
 import { Delete } from "../Modals/Delete";
 
 export const Table = ({
+  newViewFuction,
   heads,
   data,
   viewButton,
@@ -123,7 +124,14 @@ export const Table = ({
         />
       )}
       {modal.type === "update" && <Update modal={modal} setModal={setModal} />}
-      {modal.type === "delete" && <Delete modal={modal} setModal={setModal} />}
+      {modal.type === "delete" && (
+        <Delete
+          setNewData={newViewFuction}
+          listData={data}
+          modal={modal}
+          setModal={setModal}
+        />
+      )}
     </div>
   );
 };

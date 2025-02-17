@@ -14,7 +14,10 @@ class SubjectController extends Controller
     {
         $user = Auth::user();
         if ($user->role === 'admin') {
-            $subjects = Subject::paginate(15);
+            $subjects = Subject::with('teacher')
+                            ->with('class')
+                            ->latest()
+                            ->paginate(15);
         } elseif ($user->role === 'teacher') {
             $subjects = Subject::where('teacher_id', $user->id)->get()->paginate(15);
         }else{
@@ -55,6 +58,33 @@ class SubjectController extends Controller
             return response()->json(['message' => 'Subject deleted successfully'], 200);
         }catch(Exception $e){
             return response()->json(['message' => $e->getMessage()], 500);
+        }
+    }
+    public function updateSubject(Request $request)
+    {
+        try {
+
+            
+            $subject = Subject::where('id' , $request->id)->first();
+            $request->validate([
+                "classId" => "required",
+                "teacherId" => "required",
+                "subject_name" => "required|string|max:100"
+            ]);
+
+            $subject->teacher_id = $request->teacherId;
+            $subject->class_id = $request->classId;
+            $subject->name = $request->subject_name;
+
+            $subject->save();
+
+            return response()->json([
+                'message' => "Subject updated successfully"
+            ]);
+        } catch (Exception $ex) {
+            return response()->json([
+                "message" => $ex->getMessage(),
+            ]);
         }
     }
 }
