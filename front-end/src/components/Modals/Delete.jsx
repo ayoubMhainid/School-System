@@ -5,6 +5,7 @@ import { errors } from "../../constants/Errors";
 import { Notification } from "../UI/Notification";
 import { deleteSubject } from "../../services/subjectServices";
 import { deleteTeacher } from "../../services/teacherServices";
+import { deleteClass } from "../../services/classServices"
 
 export const Delete = ({ modal, setModal }) => {
   const [loading, setLoading] = useState(false);
@@ -67,6 +68,23 @@ export const Delete = ({ modal, setModal }) => {
         : setNotification({ type: "error", message: errors.tryAgain })
       : setNotification({ type: "error", message: errors.notFound });
   };
+  const deleteClass_function = async () => { 
+    setNotification(null);
+    setLoading(true);
+    const response = await deleteClass(
+      localStorage.getItem("token"),
+      modal.data.id
+    );
+    setLoading(false);
+    response.status === 200
+      ? response.data.message
+        ? (setNotification({ type: "success", message: response.data.message }),
+          setTimeout(() => {
+            setModal({ type: "" });
+          }, 1000))
+        : setNotification({ type: "error", message: errors.tryAgain })
+      : setNotification({ type: "error", message: errors.notFound });
+  }
 
   const delete_FUNCTION = async (e) => {
     e.preventDefault();
@@ -76,6 +94,8 @@ export const Delete = ({ modal, setModal }) => {
       deleteSubject_FUNCTION();
     } else if (modal.toUpdateOrDelete === "Teacher") {
       deleteTeacher_FUNCTION();
+    }else if(modal.toUpdateOrDelete === "classe"){
+      deleteClass_function()
     }
   };
 

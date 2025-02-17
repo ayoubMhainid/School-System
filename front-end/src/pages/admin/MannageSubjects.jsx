@@ -6,12 +6,10 @@ import { Table as TableSkeleton } from "../../components/Skeletons/Table";
 import { Button } from "../../components/UI/Button";
 import { getClasses } from "../../services/classServices";
 import { getTeachers } from "../../services/teacherServices";
-import { Add } from "../../components/modals/Add";
+import { Add } from "../../components/Modals/Add";
 
 export const ManageSubjects = () => {
   const [subject, setSubject] = useState([]);
-  const [classes, setClasses] = useState([]);
-  const [teacher, setTeacher] = useState([]);
   const [loading, setLoading] = useState(false);
   const [openAddSubject, setOpenAddSubject] = useState(false);
 
@@ -36,24 +34,9 @@ export const ManageSubjects = () => {
       setSubject(response.data.data);
     }
   };
-  const getClasse = async () => {
-    setLoading(true);
-    const response = await getClasses(localStorage.getItem("token"));
-    if (response.data.classes) {
-      setClasses(response.data.classes);
-    }
-  };
-  const getTeacher = async () => {
-    setLoading(true);
-    const response = await getTeachers(localStorage.getItem("token"));
-    if (response.data) {
-      setTeacher(response.data.teachers.data);
-    }
-  };
   useEffect(() => {
     getSubject(1);
-    getClasse();
-    getTeacher();
+
   }, []);
   return (
     <div className={`ml-6 mt-6 w-[81%]`}>

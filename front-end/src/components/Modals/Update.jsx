@@ -14,7 +14,7 @@ import { UpdateSubject } from "../../services/subjectServices";
 export const Update = ({ modal, setModal }) => {
   const [teacher, setTeacher] = useState([]);
   const [classes, setClasses] = useState([]);
-  const [selectedTeacher, setSelectedTeacher] = useState(modal?.data?.class_id);
+  const [selectedTeacher, setSelectedTeacher] = useState(modal?.data?.teacher_id);
   const [selectedClass, setSelectedClass] = useState(modal?.data?.class_id);
 
   const [loading, setLoading] = useState(false);
@@ -42,19 +42,15 @@ export const Update = ({ modal, setModal }) => {
     }));
   };
   const getClasse = async () => {
-    setLoading(true);
     const response = await getClasses(localStorage.getItem("token"));
     if (response.data.classes) {
       setClasses(response.data.classes);
-      setLoading(false);
     }
   };
   const getTeacher = async () => {
-    setLoading(true);
     const response = await getTeachers(localStorage.getItem("token"));
     if (response.data) {
       setTeacher(response.data.teachers.data);
-      setLoading(false);
     }
   };
   useEffect(() => {

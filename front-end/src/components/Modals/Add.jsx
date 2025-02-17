@@ -9,13 +9,24 @@ import { Notification } from "../UI/Notification";
 import { createTeacher } from "../../services/teacherServices";
 import { createAdmin } from "../../services/adminServices";
 import { Select } from "../UI/Select";
+import { AddSubjects, getallSubject, getSubjects } from "../../services/subjectServices";
 
 export const Add = ({ setOpen, toAdd }) => {
   const [dataUser, setDataUser] = useState({});
+  const [dataSubject, setDataSubject] = useState({});
   const [classList, setClassList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [notification, setNotification] = useState({});
 
+  const [newSubject, setNewSubject] = useState({
+    teacher_id: "",
+    class_id: "",
+    name: ""
+  });
+  
+  const [subject, setSubject] = useState([]);
+  
+  
   const { user } = useAppContext();
 
   const _student = "student";
@@ -26,6 +37,16 @@ export const Add = ({ setOpen, toAdd }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setDataUser((prev) => ({ ...prev, [name]: value }));
+  };
+  const handleChangeSubject = (e) => {
+    const { name, value } = e.target;
+    setNewSubject((prev) => ({ ...prev, [name]: value }));
+  };
+  const getSubject = async () => {
+    const response = await getallSubject(localStorage.getItem("token"));
+    if (response.data) {
+      setSubject(response.data.data);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -51,6 +72,11 @@ export const Add = ({ setOpen, toAdd }) => {
           setNotification({ type: "success", message: response.data.message });
           console.log(response);
           break;
+          case _subject:
+            response = await AddSubjects(user.token, newSubject);
+            setNotification({ type: "success", message: response.data.message });
+            console.log(response);
+            break;
 
         default:
           setNotification({ type: "error", message: "Unauthorized" });
@@ -82,6 +108,9 @@ export const Add = ({ setOpen, toAdd }) => {
     };
     user.token && toAdd === _student && viewclasses();
   }, [user.token]);
+  useEffect(() => {
+      getSubject();
+    }, []);
 
   return (
     <>
@@ -187,9 +216,9 @@ export const Add = ({ setOpen, toAdd }) => {
                 <Label text={"Subject name"} />
                 <Input
                   type="text"
-                  name="subject_name"
-                  value={dataUser.address}
-                  onChange={handleChange}
+                  name="name"
+                  value={dataSubject.name}
+                  onChange={handleChangeSubject}
                   placholder="Ex: CLOUD-NATIVE"
                   border="black"
                   text="black"
@@ -197,21 +226,26 @@ export const Add = ({ setOpen, toAdd }) => {
 
                 <Label text={"Teacher"} />
                 <br></br>
-                <Select
-                  title={"Select teacher"}
-                  bg={"bg-white"}
-                  width={"100%"}
-                  border={"border-black"}
-                />
+                <select className="w-[100%] border border-black py-1" name="teacher_id"  onChange={handleChangeSubject}>
+                    <option>select teacher</option>
+                  {
+                    subject.map((s)=>{
+                      return <option value={s.teacher.id}>{s.teacher.full_name}</option>
+                    })
+                  }
+                </select>
                 <br></br>
                 <Label text={"Class"} />
                 <br></br>
-                <Select
-                  title={"Select Class"}
-                  bg={"bg-white"}
-                  width={"100%"}
-                  border={"border-black"}
-                />
+                <select className="w-[100%] border border-black py-1" name="class_id"  onChange={handleChangeSubject}>
+                  <option>select class</option>
+                  {
+                    subject.map((s)=>{
+                      return <option value={s.class.id}>{s.class.class_name}</option>
+                    })
+                  }
+                </select>
+
               </>
             )}
 
