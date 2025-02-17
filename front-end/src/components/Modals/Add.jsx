@@ -9,11 +9,7 @@ import { Notification } from "../UI/Notification";
 import { createTeacher } from "../../services/teacherServices";
 import { createAdmin } from "../../services/adminServices";
 import { Select } from "../UI/Select";
-<<<<<<< HEAD
 import { AddSubjects, getallSubject, getSubjects } from "../../services/subjectServices";
-=======
-import { createAnnouncement } from "../../services/announcementServices";
->>>>>>> 7daee80 (ManageAnnouncement and modification in AnnoncementController)
 
 export const Add = ({ setOpen, toAdd }) => {
   const [dataUser, setDataUser] = useState({});
@@ -139,15 +135,9 @@ export const Add = ({ setOpen, toAdd }) => {
               </p>
             </div>
 
-<<<<<<< HEAD
             {toAdd !== _subject && (
               <>
                 <Label text={"Fullname"} />
-=======
-            {toAdd !== _subject || toAdd !== _announcement && (
-              <>
-                <Label text={"fullname"} />
->>>>>>> 7daee80 (ManageAnnouncement and modification in AnnoncementController)
                 <Input
                   type="text"
                   name="full_name"
@@ -200,15 +190,9 @@ export const Add = ({ setOpen, toAdd }) => {
               </>
             )}
 
-<<<<<<< HEAD
             {toAdd !== _subject && (
               <>
                 <Label text={"Phone"} />
-=======
-            {toAdd !== _subject || toAdd !== _announcement && (
-              <>
-                <Label text={"phone"} />
->>>>>>> 7daee80 (ManageAnnouncement and modification in AnnoncementController)
                 <Input
                   type="number"
                   name="phone"
@@ -241,15 +225,9 @@ export const Add = ({ setOpen, toAdd }) => {
                 <Label text={"Subject name"} />
                 <Input
                   type="text"
-<<<<<<< HEAD
                   name="name"
                   value={dataSubject.name}
                   onChange={handleChangeSubject}
-=======
-                  name="subject_name"
-                  value={dataUser.address}
-                  onChange={handleChange}
->>>>>>> 7daee80 (ManageAnnouncement and modification in AnnoncementController)
                   placholder="Ex: CLOUD-NATIVE"
                   border="black"
                   text="black"
@@ -257,7 +235,6 @@ export const Add = ({ setOpen, toAdd }) => {
 
                 <Label text={"Teacher"} />
                 <br></br>
-<<<<<<< HEAD
                 <select className="w-[100%] border border-black py-1" name="teacher_id"  onChange={handleChangeSubject}>
                     <option>select teacher</option>
                   {
@@ -278,23 +255,6 @@ export const Add = ({ setOpen, toAdd }) => {
                   }
                 </select>
 
-=======
-                <Select
-                  title={"Select teacher"}
-                  bg={"bg-white"}
-                  width={"100%"}
-                  border={"border-black"}
-                />
-                <br></br>
-                <Label text={"Class"} />
-                <br></br>
-                <Select
-                  title={"Select Class"}
-                  bg={"bg-white"}
-                  width={"100%"}
-                  border={"border-black"}
-                />
->>>>>>> 7daee80 (ManageAnnouncement and modification in AnnoncementController)
               </>
             )}
 
@@ -313,11 +273,7 @@ export const Add = ({ setOpen, toAdd }) => {
               </>
             )}
 
-<<<<<<< HEAD
             {toAdd !== _subject && (
-=======
-            {toAdd !== _subject || toAdd !== _announcement && (
->>>>>>> 7daee80 (ManageAnnouncement and modification in AnnoncementController)
               <>
                 <Label text={"Email"} />
                 <Input
