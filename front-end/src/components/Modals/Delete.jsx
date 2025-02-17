@@ -6,13 +6,13 @@ import { Notification } from "../UI/Notification";
 import { deleteSubject } from "../../services/subjectServices";
 import { deleteTeacher } from "../../services/teacherServices";
 
-export const Delete = ({ modal, setModal, listData, setNewData }) => {
+export const Delete = ({ modal, setModal }) => {
   const [loading, setLoading] = useState(false);
   const [notificaton, setNotification] = useState(null);
 
   const deleteUser_FUNCTION = async () => {
     setNotification(null);
-    setLoading(false);
+    setLoading(true);
     const response = await deleteUser(
       localStorage.getItem("token"),
       modal.data.user.id
@@ -28,11 +28,13 @@ export const Delete = ({ modal, setModal, listData, setNewData }) => {
   };
   const deleteSubject_FUNCTION = async () => {
     setNotification(null);
-    setLoading(false);
+    setLoading(true);
     const response = await deleteSubject(
       localStorage.getItem("token"),
       modal.data.id
     );
+    setLoading(false);
+
     response.status === 200
       ? response.data.message
         ? (setNotification({ type: "success", message: response.data.message }),
@@ -46,13 +48,16 @@ export const Delete = ({ modal, setModal, listData, setNewData }) => {
   const deleteTeacher_FUNCTION = async () => {
     setNotification(null);
     setLoading(true);
+
     const response = await deleteTeacher(
       localStorage.getItem("token"),
       modal.data.id
     );
-    setLoading(false);
-    const teachers = listData.filter((teacher) => teacher.id !== modal.data.id);
-    setNewData(teachers);
+    setLoading(true);
+
+    // const teachers = listData.filter((teacher) => teacher.id !== modal.data.id);
+    // setNewData(teachers);
+    // setpage({});
     response.status === 200
       ? response.data.message
         ? (setNotification({ type: "success", message: response.data.message }),

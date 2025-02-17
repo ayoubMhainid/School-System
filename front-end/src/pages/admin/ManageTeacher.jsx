@@ -195,7 +195,7 @@ export const ManageTeacher = () => {
           {loading && <TableSkeleton />}
           {teachers && teachers.length > 0 && !loading ? (
             <Table
-              newViewFuction={setTeachers}
+              // newViewFuction={setTeachers}
               heads={["Full name", "Username", "specialization"]}
               data={teachers}
               viewButton={true}
@@ -205,7 +205,8 @@ export const ManageTeacher = () => {
               pagination={pagination}
               paginate={paginate}
               getData={getTeachers_FUNCTION}
-              toUpdateOrDelete={"User"}
+              toUpdateOrDelete={"Teacher"}
+              // page_func={setPagination}
             />
           ) : null}
         </div>

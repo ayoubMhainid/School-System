@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        
+
 
         User::factory(80)->create();
         Teacher::factory(20)->create();
@@ -39,6 +39,5 @@ class DatabaseSeeder extends Seeder
         Mark::factory(20)->create();
         Notification::factory(20)->create();
         Attendance::factory(20)->create();
-        
     }
 }

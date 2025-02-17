@@ -10,6 +10,7 @@ import { Update } from "../Modals/Update";
 import { Delete } from "../Modals/Delete";
 
 export const Table = ({
+  page_func,
   newViewFuction,
   heads,
   data,
@@ -126,8 +127,9 @@ export const Table = ({
       {modal.type === "update" && <Update modal={modal} setModal={setModal} />}
       {modal.type === "delete" && (
         <Delete
-          setNewData={newViewFuction}
-          listData={data}
+          // setpage={page_func}
+          // setNewData={newViewFuction}
+          // listData={data}
           modal={modal}
           setModal={setModal}
         />
