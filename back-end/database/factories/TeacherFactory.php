@@ -23,7 +23,7 @@ class TeacherFactory extends Factory
             'phone' => fake()->unique()->numerify('+212 6 ## ## ## ##'),
             'username' => fake()->unique()->name(),
             'address' => fake()->address(),
-            'specialization' => fake()->name()
+            'specialization' => fake()->unique()->userName()
         ];
     }
 }

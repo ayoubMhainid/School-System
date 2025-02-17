@@ -16,6 +16,7 @@ class SubjectController extends Controller
         if ($user->role === 'admin') {
             $subjects = Subject::with('teacher')
                             ->with('class')
+                            ->latest()
                             ->paginate(15);
         } elseif ($user->role === 'teacher') {
             $subjects = Subject::where('teacher_id', $user->id)->get()->paginate(15);
