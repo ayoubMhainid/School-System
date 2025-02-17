@@ -43,9 +43,7 @@ export const Add = ({ setOpen, toAdd }) => {
     setNewSubject((prev) => ({ ...prev, [name]: value }));
   };
   const getSubject = async () => {
-    setLoading(true);
     const response = await getallSubject(localStorage.getItem("token"));
-    setLoading(false);
     if (response.data) {
       setSubject(response.data.data);
     }
