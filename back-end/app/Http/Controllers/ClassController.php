@@ -10,8 +10,9 @@ class ClassController extends Controller
 {
     public function getClasses(){
         try{
-            $classes = Classe::with("teacher.user")
-                            ->paginate(15);
+            $classes = Classe::with("teacher")
+                            ->latest()
+                            ->get();
 
             return response()->json([
                 "classes" => $classes
