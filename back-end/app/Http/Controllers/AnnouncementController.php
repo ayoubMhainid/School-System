@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
 use App\Models\Announcement;
 use Exception;
 use Illuminate\Http\Request;
@@ -63,11 +64,7 @@ class AnnouncementController extends Controller
     try {
         $user = JWTAuth::parseToken()->authenticate();
 
-        if ($user->role !== 'admin') {
-            return response()->json([
-                "message" => "Unauthorized! Only admins can create announcements."
-            ], 403);
-        }
+        $admin = Admin::where('user_id',$user->id)->first();
 
         $request->validate([
             "receiver" => "required|in:students,teachers",
@@ -79,12 +76,12 @@ class AnnouncementController extends Controller
             "receiver" => $request->receiver,
             "title" => $request->title,
             "message" => $request->message,
-            "admin_id" => $user->id, // Automatically set admin_id from token
+            "admin_id" => $admin->id,
         ]);
 
         return response()->json([
             "message" => "New announcement created successfully!"
-        ], 201);
+        ]);
     } catch (Exception $ex) {
         return response()->json([
             "message" => $ex->getMessage(),

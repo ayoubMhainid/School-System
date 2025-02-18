@@ -10,6 +10,7 @@ import { createTeacher } from "../../services/teacherServices";
 import { createAdmin } from "../../services/adminServices";
 import { Select } from "../UI/Select";
 import { AddSubjects, getallSubject, getSubjects } from "../../services/subjectServices";
+import { createAnnouncement } from "../../services/announcementServices";
 
 export const Add = ({ setOpen, toAdd }) => {
   const [dataUser, setDataUser] = useState({});
@@ -135,7 +136,7 @@ export const Add = ({ setOpen, toAdd }) => {
               </p>
             </div>
 
-            {toAdd !== _subject && (
+            {toAdd === _student || toAdd === _teacher || toAdd === _admin && (
               <>
                 <Label text={"Fullname"} />
                 <Input
@@ -190,7 +191,7 @@ export const Add = ({ setOpen, toAdd }) => {
               </>
             )}
 
-            {toAdd !== _subject && (
+            {toAdd === _student || toAdd === _teacher || toAdd === _admin  && (
               <>
                 <Label text={"Phone"} />
                 <Input
@@ -273,7 +274,7 @@ export const Add = ({ setOpen, toAdd }) => {
               </>
             )}
 
-            {toAdd !== _subject && (
+            {toAdd === _student || toAdd === _teacher || toAdd === _admin  && (
               <>
                 <Label text={"Email"} />
                 <Input
@@ -325,6 +326,7 @@ export const Add = ({ setOpen, toAdd }) => {
 
             {toAdd === _announcement && (
               <>
+                <Label text={"Title"} />
                 <Input
                   name="title"
                   type="text"
@@ -334,13 +336,8 @@ export const Add = ({ setOpen, toAdd }) => {
                   border="black"
                   text="black"
                 />
-                <textarea
-                  name="message"
-                  placeholder="Message"
-                  value={dataUser.message}
-                  onChange={handleChange}
-                  className="border pr-2"
-                /><br></br>
+                <br></br>
+                <Label text={'Receivers'} />
                 <select
                   className={
                     "border border-gray-600  text-black px-3 py-1 text-md bg-inherit rounded-sm outline-none w-[100%]"
@@ -352,6 +349,15 @@ export const Add = ({ setOpen, toAdd }) => {
                   <option value="students">Students</option>
                   <option value="teachers">Teachers</option>
                 </select>
+                <Label text={'Message'} />
+                <br></br>
+                <textarea
+                  name="message"
+                  placeholder="Message"
+                  value={dataUser.message}
+                  onChange={handleChange}
+                  className="border pr-2 w-[100%] resize-none px-3 py-1 outline-none rounded-sm"
+                />
               </>
             )}
 
