@@ -33,6 +33,7 @@ export const Add = ({ setOpen, toAdd }) => {
   const _teacher = "teacher";
   const _admin = "admin";
   const _subject = "subject";
+  const _announcement = "announcement";
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -43,14 +44,14 @@ export const Add = ({ setOpen, toAdd }) => {
     setNewSubject((prev) => ({ ...prev, [name]: value }));
   };
   const getSubject = async () => {
-    setLoading(true);
     const response = await getallSubject(localStorage.getItem("token"));
-    setLoading(false);
     if (response.data) {
       setSubject(response.data.data);
     }
   };
 
+  console.log(dataUser);
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -79,6 +80,12 @@ export const Add = ({ setOpen, toAdd }) => {
             setNotification({ type: "success", message: response.data.message });
             console.log(response);
             break;
+
+        case _announcement:
+          response = await createAnnouncement(user.token, dataUser);
+          setNotification({ type: "success", message: response.data.message });
+          console.log(response);
+          break;
 
         default:
           setNotification({ type: "error", message: "Unauthorized" });
@@ -251,7 +258,7 @@ export const Add = ({ setOpen, toAdd }) => {
               </>
             )}
 
-            {toAdd !== _admin && toAdd !== _subject && (
+            {toAdd !== _admin && toAdd !== _subject || toAdd !== _announcement && (
               <>
                 <Label text={"Address"} />
                 <Input
@@ -310,6 +317,40 @@ export const Add = ({ setOpen, toAdd }) => {
                         {item.class_name}
                       </option>
                     ))}
+                </select>
+              </>
+            )}
+
+           
+
+            {toAdd === _announcement && (
+              <>
+                <Input
+                  name="title"
+                  type="text"
+                  placholder="Title"
+                  value={dataUser.title}
+                  onChange={handleChange}
+                  border="black"
+                  text="black"
+                />
+                <textarea
+                  name="message"
+                  placeholder="Message"
+                  value={dataUser.message}
+                  onChange={handleChange}
+                  className="border pr-2"
+                /><br></br>
+                <select
+                  className={
+                    "border border-gray-600  text-black px-3 py-1 text-md bg-inherit rounded-sm outline-none w-[100%]"
+                  }
+                  name="receiver"
+                  value={dataUser.receiver}
+                  onChange={handleChange}
+                >
+                  <option value="students">Students</option>
+                  <option value="teachers">Teachers</option>
                 </select>
               </>
             )}

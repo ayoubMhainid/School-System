@@ -22,7 +22,7 @@ class AdminFactory extends Factory
             'user_id' => User::inRandomOrder()->value('id'),
             'full_name' => fake()->unique()->name(),
             'phone' => fake()->unique()->numerify('+212 6 ## ## ## ##'),
-            'username' => fake()->unique()->name(),
+            'username' => fake()->unique()->userName(),
         ];
     }
 }

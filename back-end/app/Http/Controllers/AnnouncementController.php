@@ -16,7 +16,7 @@ class AnnouncementController extends Controller
             if($user->role === 'admin'){
                 $announcements = Announcement::with('admin')
                                             ->latest()
-                                            ->paginate(15);
+                                            ->paginate(3);
 
                 return response()->json([
                     "announcements" => $announcements,
@@ -59,31 +59,39 @@ class AnnouncementController extends Controller
         }
     }
     public function createAnnouncement(Request $request)
-    {
-        try {
-            $request->validate([
-                "receiver" => "required|in:students,teachers",
-                "title" => "required|string|max:30",
-                "message" => "required|string|max:300",
-                "admin_id" => "required|integer|exists:admins,id",
-            ]);
+{
+    try {
+        $user = JWTAuth::parseToken()->authenticate();
 
-            Announcement::create([
-                "receiver" => $request->receiver,
-                "title" => $request->title,
-                "message" => $request->message,
-                "admin_id" => $request->admin_id,
-            ]);
-
+        if ($user->role !== 'admin') {
             return response()->json([
-                "message" => "New announcement created successfully!"
-            ]);
-        } catch (Exception $ex) {
-            return response()->json([
-                "message" => $ex->getMessage(),
-            ], 500);
+                "message" => "Unauthorized! Only admins can create announcements."
+            ], 403);
         }
+
+        $request->validate([
+            "receiver" => "required|in:students,teachers",
+            "title" => "required|string|max:30",
+            "message" => "required|string|max:300",
+        ]);
+
+        Announcement::create([
+            "receiver" => $request->receiver,
+            "title" => $request->title,
+            "message" => $request->message,
+            "admin_id" => $user->id, // Automatically set admin_id from token
+        ]);
+
+        return response()->json([
+            "message" => "New announcement created successfully!"
+        ], 201);
+    } catch (Exception $ex) {
+        return response()->json([
+            "message" => $ex->getMessage(),
+        ], 500);
     }
+}
+
 
     public function deleteAnnouncement($id)
     {

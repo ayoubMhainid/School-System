@@ -34,6 +34,12 @@ export const Update = ({ modal, setModal }) => {
     classId: modal?.data?.class_id,
   });
 
+  const [classData,setClassData] = useState({
+    className : modal.data.class_name,
+    teacherId : modal.data.teacher_id,
+    section : modal.data.section
+  })
+
   const handleChangeUserCredentials = (e) => {
     const { name, value } = e.target;
     setUserCredentialsForm((prevData) => ({
@@ -42,19 +48,15 @@ export const Update = ({ modal, setModal }) => {
     }));
   };
   const getClasse = async () => {
-    setLoading(true);
     const response = await getClasses(localStorage.getItem("token"));
     if (response.data.classes) {
       setClasses(response.data.classes);
-      setLoading(false);
     }
   };
   const getTeacher = async () => {
-    setLoading(true);
     const response = await getTeachers(localStorage.getItem("token"));
     if (response.data) {
       setTeacher(response.data.teachers.data);
-      setLoading(false);
     }
   };
   useEffect(() => {
@@ -68,6 +70,15 @@ export const Update = ({ modal, setModal }) => {
       [name]: value,
     }));
   };
+
+  const handleChangeClass = (e) => {
+    const { name, value } = e.target;
+    setClassData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+  console.log(classData)
 
   const update_FUNCTION = async (e) => {
     e.preventDefault();
@@ -208,6 +219,39 @@ export const Update = ({ modal, setModal }) => {
                 }}
                 ky={"class_name"}
                 valueToSelect="id"
+              />
+            </>
+          )}
+          {modal.toUpdateOrDelete === "classe" &&(
+            <>
+              <Label text={"Classe name"} />
+              <Input
+                type="text"
+                name="className"
+                onChange={handleChangeClass}
+                value={classData.className}
+                border="black"
+                text="black"
+              />
+
+              <Label text={"Teacher ID"} />
+              <Input
+                type="text"
+                name="teacherId"
+                onChange={handleChangeClass}
+                placholder={classData.teacherId}
+                border="black"
+                text="black"
+              />
+
+              <Label text={"Section"} />
+              <Input
+                type="text"
+                name="section"
+                onChange={handleChangeClass}
+                placholder={classData.section}
+                border="black"
+                text="black"
               />
             </>
           )}
