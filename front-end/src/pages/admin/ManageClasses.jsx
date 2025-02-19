@@ -45,17 +45,21 @@ export const ManageClasses = () => {
     return (
         <div className="ml-6 mt-6 w-[81%]">
             <div className="w-[100%] px-2">
-                <h1 className="text-3xl font-semibold">Manage classes</h1>
-                <br /><br />
+                <h1 className="text-3xl font-semibold">Manage Classes</h1>
+                <br></br>
+                <div className="sm:flex block justify-between w-[100%]">
+                    <div>
+                        <Button
+                            text={"Add Class"}
+                            width={"20%"}
+                            onClick={() => {
+                            setOpenAddUser(true);
+                            }}
+                        />
+                    </div>
+                </div>
             </div>
-            <div>
-            <Button
-                text={"Add Class"}
-                width={"20%"}
-                onClick={() => {
-                  setOpenAddUser(true);
-                }}
-              />
+            <div className="mt-4 px-2">
                 {loading && <TableSkeleton />}
                 {!loading && classe.length > 0 ? (
                     <Table
@@ -68,7 +72,7 @@ export const ManageClasses = () => {
                         pagination={pagination}
                         paginate={paginate}
                         getData={getClasses_FUNCTION}
-                        toUpdateOrDelete={"classe"}
+                        toUpdateOrDelete={"Classe"}
                     />
                 ) : null}
             </div>

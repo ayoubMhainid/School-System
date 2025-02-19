@@ -5,6 +5,7 @@ import { errors } from "../../constants/Errors";
 import { Notification } from "../UI/Notification";
 import { deleteSubject } from "../../services/subjectServices";
 import { deleteAnnouncement } from "../../services/announcementServices";
+import { deleteClass } from "../../services/classServices";
 
 export const Delete = ({ modal, setModal, listData, setNewData }) => {
   const [loading, setLoading] = useState(false);
@@ -62,7 +63,7 @@ export const Delete = ({ modal, setModal, listData, setNewData }) => {
         : setNotification({ type: "error", message: errors.tryAgain })
       : setNotification({ type: "error", message: errors.notFound });
   };
-  const deleteClass_function = async () => { 
+  const deleteClass_FUNCTION = async () => { 
     setNotification(null);
     setLoading(true);
     const response = await deleteClass(
@@ -97,7 +98,10 @@ export const Delete = ({ modal, setModal, listData, setNewData }) => {
       deleteSubject_FUNCTION();
     }else if (modal.toUpdateOrDelete === "Announcement") {
       deleteAnnouncement_FUNCTION();
-  }}
+    }else if(modal.toUpdateOrDelete === "Classe"){
+      deleteClass_FUNCTION()
+    }
+}
 
   return (
     <div className="z-20 fixed inset-0 flex items-center justify-center bg-opacity-50 backdrop-blur-md">

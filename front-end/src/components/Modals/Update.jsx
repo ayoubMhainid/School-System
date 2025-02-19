@@ -8,8 +8,9 @@ import { errors } from "../../constants/Errors";
 import { Notification } from "../UI/Notification";
 import { Select } from "../UI/Select";
 import { getTeachers } from "../../services/teacherServices";
-import { getClasses } from "../../services/classServices";
+import { getClasses, updateClass } from "../../services/classServices";
 import { UpdateSubject } from "../../services/subjectServices";
+
 
 export const Update = ({ modal, setModal }) => {
   const [teacher, setTeacher] = useState([]);
@@ -37,6 +38,7 @@ export const Update = ({ modal, setModal }) => {
   const [classData,setClassData] = useState({
     class_name : modal?.data?.class_name,
     teacher_id : modal?.data?.teacher_id,
+    teacher_name : modal?.data?.teacher.full_name,
     section : modal?.data?.section
   })
 
@@ -123,9 +125,10 @@ export const Update = ({ modal, setModal }) => {
               }, 3000))
             : setNotification({ type: "error", message: errors.tryAgain })
           : setNotification({ type: "error", message: errors.notFound });
-      }else if (modal.toUpdateOrDelete === "classe"){
+      }else if (modal.toUpdateOrDelete === "Classe"){
         const response = await updateClass(
           localStorage.getItem('token'),
+          modal.data.id,
           classData
         )
         setLoading(false);
@@ -240,24 +243,24 @@ export const Update = ({ modal, setModal }) => {
               />
             </>
           )}
-          {modal.toUpdateOrDelete === "classe" &&(
+          {modal.toUpdateOrDelete === "Classe" &&(
             <>
               <Label text={"Classe name"} />
               <Input
                 type="text"
                 name="class_name"
                 onChange={handleChangeClass}
-                placholder={classData.class_name}
+                value={classData.class_name}
                 border="black"
                 text="black"
               />
 
-              <Label text={"Teacher ID"}/>
+              <Label text={`Teacher (${classData.teacher_name})`}/>
               <Select
                 width={"100%"}
                 bg={"white"}
                 border={"black"}
-                title={"change Teacher ID"}
+                title={"change Teacher"}
                 options={teacher}
                 value={selectedTeacher}
                 onchange={(e) => {
@@ -274,7 +277,7 @@ export const Update = ({ modal, setModal }) => {
                 type="text"
                 name="section"
                 onChange={handleChangeClass}
-                placholder={classData.section}
+                value={classData.section}
                 border="black"
                 text="black"
               />

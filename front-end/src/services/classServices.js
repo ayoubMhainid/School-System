@@ -39,8 +39,8 @@ export const deleteClass = async (token,id) => {
     return response
 }
 
-export const updateClass = async(token,id) =>{
-    const response = await axios.put(`${apiUrl}/class/updateClass/${id}`,{
+export const updateClass = async(token,id,data) =>{
+    const response = await axios.put(`${apiUrl}/class/updateClass/${id}`,data,{
         headers:{
             Authorization : `Bearer ${token}`
         }

@@ -93,7 +93,7 @@ class ClassController extends Controller
             $class = Classe::find($id);
             if(!$class){
                 return response()->json([
-                    "message" => "class note found"
+                    "message" => "class not found"
                 ],404);
             }
             $class -> update($validation);
