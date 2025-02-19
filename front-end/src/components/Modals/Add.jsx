@@ -9,11 +9,8 @@ import { Notification } from "../UI/Notification";
 import { createTeacher } from "../../services/teacherServices";
 import { createAdmin } from "../../services/adminServices";
 import { Select } from "../UI/Select";
-import {
-  AddSubjects,
-  getallSubject,
-  getSubjects,
-} from "../../services/subjectServices";
+import { AddSubjects, getallSubject, getSubjects } from "../../services/subjectServices";
+import { createNotification } from "../../services/notificationServices";
 import { createAnnouncement } from "../../services/announcementServices";
 
 export const Add = ({ setOpen, toAdd }) => {
@@ -39,6 +36,7 @@ export const Add = ({ setOpen, toAdd }) => {
   const _subject = "subject";
   const _announcement = "announcement";
   const _classe = "classe";
+  const _notification = "notification";
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -71,31 +69,33 @@ export const Add = ({ setOpen, toAdd }) => {
         case _teacher:
           response = await createTeacher(user.token, dataUser);
           setNotification({ type: "success", message: response.data.message });
-          console.log(response);
           break;
-
+        
         case _admin:
           response = await createAdmin(user.token, dataUser);
           setNotification({ type: "success", message: response.data.message });
-          console.log(response);
           break;
+      
         case _subject:
           response = await AddSubjects(user.token, newSubject);
           setNotification({ type: "success", message: response.data.message });
-          console.log(response);
           break;
+        
         case _classe:
-          console.log("hiii");
           response = await createClasse(user.token, dataUser);
           setNotification({ type: "success", message: response.data.message });
-          console.log(response);
           break;
+        
         case _announcement:
-          console.log("hiii");
           response = await createAnnouncement(user.token, dataUser);
           setNotification({ type: "success", message: response.data.message });
-          console.log(response);
           break;
+
+        case _notification :
+          response = await createNotification(user.token,dataUser)
+          setNotification({ type: "success", message: response.data.message });
+          break;
+        
         default:
           setNotification({ type: "error", message: "Unauthorized" });
           break;
@@ -360,7 +360,7 @@ export const Add = ({ setOpen, toAdd }) => {
                   text="black"
                 />
 
-                <Label text="teacher id" />
+                <Label text="Teacher id" />
                 <Input
                   type="text"
                   name="teacher_id"

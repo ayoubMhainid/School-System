@@ -13,13 +13,15 @@ class NotificationController extends Controller
     public function getNotifications(){
         try{
             $user = JWTAuth::parseToken()->authenticate();
-            
-            $notification = Notification::where('receiver_id',$user->id)
+
+            $notifications = Notification::where('receiver_id',$user->id)
                                         ->with('sender')
-                                        ->get();
-            if($notification){
+                                        ->latest()
+                                        ->paginate(7);
+
+            if($notifications){
                 return response()->json([
-                    "notification" => $notification,
+                    "notifications" => $notifications,
                 ]);
             }else{
                 return response()->json([
@@ -46,7 +48,7 @@ class NotificationController extends Controller
                 'status' => "delivred",
             ]);
             return response()->json([
-                "message" => "New notification created successfully!"
+                "message" => "Your message sended successfully!"
             ]);
         }catch(Exception $ex){
             return response()->json([
@@ -54,18 +56,18 @@ class NotificationController extends Controller
             ],500);
         }
     }
-    public function makeNotificationSeend($id){
+    public function makeNotificationSeen($id){
         try{
            $notification = Notification::find($id);
            if($notification->status === 'seen'){
                 return response()->json([
-                    'message' => 'the status is aleredy seen'
-                ]);
+                    'message' => 'The notification is already setted to seen'
+                ],400);
            }else{
                 $notification->status = 'seen';
                 $notification->save();
                 return response()->json([
-                    'message' => "notification marked as seen"
+                    'message' => "Notification marked as seen"
                 ]);
            };
         }catch(Exception $ex){
@@ -81,12 +83,12 @@ class NotificationController extends Controller
             if($notification->receiver_id === $user->id){
                 $notification->delete();
                 return response()->json([
-                    'message' => 'delete notification  successfully!'
+                    'message' => 'Notification deleted successfully!'
                 ]);
             }else{
                 return response()->json([
                     "message" => "Unauthorized"
-                ],400);
+                ],401);
             }
         }catch(\Exception $e){
             return response()->json([
