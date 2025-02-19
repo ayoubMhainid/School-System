@@ -4,12 +4,8 @@ import { deleteUser } from "../../services/userServices";
 import { errors } from "../../constants/Errors";
 import { Notification } from "../UI/Notification";
 import { deleteSubject } from "../../services/subjectServices";
-<<<<<<< HEAD
 import { deleteTeacher } from "../../services/teacherServices";
 import { deleteClass } from "../../services/classServices"
-=======
-import { deleteAnnouncement } from "../../services/announcementServices";
->>>>>>> 7daee80 (ManageAnnouncement and modification in AnnoncementController)
 
 export const Delete = ({ modal, setModal, listData, setNewData }) => {
   const [loading, setLoading] = useState(false);
@@ -85,37 +81,18 @@ export const Delete = ({ modal, setModal, listData, setNewData }) => {
       : setNotification({ type: "error", message: errors.notFound });
   }
 
-<<<<<<< HEAD
   const delete_FUNCTION = async (e) => {
-=======
-  const deleteAnnouncement_FUNCTION = async () =>{
-    setNotification(null);
-    setLoading(false);
-    const response = await deleteAnnouncement(localStorage.getItem('token'),modal.data.id);    
-    response.status === 200 ? response.data.message ? 
-    (setNotification({type:"success",message:response.data.message}),setTimeout(() => {setModal({type:''})},3000))
-     : setNotification({type:'error',message:errors.tryAgain}) : setNotification({type:'error',message: errors.notFound});
-  }
-
-  const delete_FUNCTION = async (e) =>{
->>>>>>> 7daee80 (ManageAnnouncement and modification in AnnoncementController)
     e.preventDefault();
     if (modal.toUpdateOrDelete === "User") {
       deleteUser_FUNCTION();
     } else if (modal.toUpdateOrDelete === "Subject") {
       deleteSubject_FUNCTION();
-<<<<<<< HEAD
     } else if (modal.toUpdateOrDelete === "Teacher") {
       deleteTeacher_FUNCTION();
     }else if(modal.toUpdateOrDelete === "classe"){
       deleteClass_function()
     }
   };
-=======
-    }else if (modal.toUpdateOrDelete === "Announcement") {
-      deleteAnnouncement_FUNCTION();
-  }}
->>>>>>> 7daee80 (ManageAnnouncement and modification in AnnoncementController)
 
   return (
     <div className="z-20 fixed inset-0 flex items-center justify-center bg-opacity-50 backdrop-blur-md">
