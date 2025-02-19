@@ -11,6 +11,7 @@ import { createAdmin } from "../../services/adminServices";
 import { Select } from "../UI/Select";
 import { AddSubjects, getallSubject, getSubjects } from "../../services/subjectServices";
 import { createNotification } from "../../services/notificationServices";
+import { createAnnouncement } from "../../services/announcementServices";
 
 export const Add = ({ setOpen, toAdd }) => {
   const [dataUser, setDataUser] = useState({});
@@ -22,12 +23,11 @@ export const Add = ({ setOpen, toAdd }) => {
   const [newSubject, setNewSubject] = useState({
     teacher_id: "",
     class_id: "",
-    name: ""
+    name: "",
   });
-  
+
   const [subject, setSubject] = useState([]);
-  
-  
+
   const { user } = useAppContext();
 
   const _student = "student";
@@ -71,21 +71,26 @@ export const Add = ({ setOpen, toAdd }) => {
           setNotification({ type: "success", message: response.data.message });
           break;
         
-          case _admin:
+        case _admin:
           response = await createAdmin(user.token, dataUser);
           setNotification({ type: "success", message: response.data.message });
           break;
-        
-          case _subject:
+      
+        case _subject:
           response = await AddSubjects(user.token, newSubject);
           setNotification({ type: "success", message: response.data.message });
           break;
         
-        case _classe :
-          response = await createClasse(user.token,dataUser)
+        case _classe:
+          response = await createClasse(user.token, dataUser);
           setNotification({ type: "success", message: response.data.message });
           break;
         
+        case _announcement:
+          response = await createAnnouncement(user.token, dataUser);
+          setNotification({ type: "success", message: response.data.message });
+          break;
+
         case _notification :
           response = await createNotification(user.token,dataUser)
           setNotification({ type: "success", message: response.data.message });
@@ -122,8 +127,8 @@ export const Add = ({ setOpen, toAdd }) => {
     user.token && toAdd === _student && viewclasses();
   }, [user.token]);
   useEffect(() => {
-      getSubject();
-    }, []);
+    getSubject();
+  }, []);
 
   return (
     <>
@@ -258,26 +263,35 @@ export const Add = ({ setOpen, toAdd }) => {
 
                 <Label text={"Teacher"} />
                 <br></br>
-                <select className="w-[100%] border border-black py-1" name="teacher_id"  onChange={handleChangeSubject}>
-                    <option>select teacher</option>
-                  {
-                    subject.map((s)=>{
-                      return <option value={s.teacher.id}>{s.teacher.full_name}</option>
-                    })
-                  }
+                <select
+                  className="w-[100%] border border-black py-1"
+                  name="teacher_id"
+                  onChange={handleChangeSubject}
+                >
+                  <option>select teacher</option>
+                  {subject.map((s) => {
+                    return (
+                      <option value={s.teacher.id}>
+                        {s.teacher.full_name}
+                      </option>
+                    );
+                  })}
                 </select>
                 <br></br>
                 <Label text={"Class"} />
                 <br></br>
-                <select className="w-[100%] border border-black py-1" name="class_id"  onChange={handleChangeSubject}>
+                <select
+                  className="w-[100%] border border-black py-1"
+                  name="class_id"
+                  onChange={handleChangeSubject}
+                >
                   <option>select class</option>
-                  {
-                    subject.map((s)=>{
-                      return <option value={s.class.id}>{s.class.class_name}</option>
-                    })
-                  }
+                  {subject.map((s) => {
+                    return (
+                      <option value={s.class.id}>{s.class.class_name}</option>
+                    );
+                  })}
                 </select>
-
               </>
             )}
 
@@ -343,7 +357,7 @@ export const Add = ({ setOpen, toAdd }) => {
                 </select>
               </>
             )}
-            {toAdd === _classe &&(
+            {toAdd === _classe && (
               <>
                 <Label text="Class Name" />
                 <Input
@@ -365,7 +379,7 @@ export const Add = ({ setOpen, toAdd }) => {
                   text="black"
                 />
 
-                <Label text="teacher id" />
+                <Label text="Teacher id" />
                 <Input
                   type="text"
                   name="teacher_id"
@@ -373,7 +387,44 @@ export const Add = ({ setOpen, toAdd }) => {
                   placholder="teacher id"
                   border="black"
                   text="black"
-                />  
+                />
+              </>
+            )}
+
+            {toAdd === _announcement && (
+              <>
+                <Label text="Title" />
+                <Input
+                  type="text"
+                  name="title"
+                  value={dataUser.title}
+                  onChange={handleChange}
+                  placholder="title"
+                  border="black"
+                  text="black"
+                />
+                <Label text="Receiver" />
+                <select
+                  className={
+                    "border border-gray-600  text-black px-3 py-1 text-md bg-inherit rounded-sm outline-none w-[100%]"
+                  }
+                  name="receiver"
+                  value={dataUser.receiver}
+                  onChange={handleChange}
+                >
+                  <option value="students">students</option>
+                  <option value="teachers">teachers</option>
+                </select>
+                <Label text="Message" /> <br></br>
+                <textarea
+                  className={
+                    "border border-gray-600  text-black px-3 py-1 text-md bg-inherit rounded-sm outline-none w-[100%]"
+                  }
+                  name="message"
+                  value={dataUser.message}
+                  onChange={handleChange}
+                  placeholder="Message"
+                ></textarea>
               </>
             )}
             <div className="flex justify-end gap-4 mt-6">
