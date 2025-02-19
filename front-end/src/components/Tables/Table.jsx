@@ -8,6 +8,7 @@ import {
 import { Pagination } from "../UI/Paginations";
 import { Update } from "../Modals/Update";
 import { Delete } from "../Modals/Delete";
+import { Link, useNavigate } from "react-router-dom";
 
 export const Table = ({
   newViewFuction,
@@ -27,6 +28,9 @@ export const Table = ({
     data: {},
     toUpdateOrDelete: toUpdateOrDelete,
   });
+  const navigate = useNavigate();
+  
+  
 
   const nextData = async () => {
     if (pagination.lastPage <= pagination.currentPage) {
@@ -71,12 +75,13 @@ export const Table = ({
                           .reduce((obj, prop) => obj?.[prop], dataVar)}
                       </td>
                     ))}
-                  {(viewButton || updateButton || deleteButton) && (
+                    {(viewButton || updateButton || deleteButton) && (
                     <td className="flex space-x-2 justify-center">
                       {viewButton && (
                         <ButtonSvg
                           svg={<EyeIcon className="w-5 h-5 text-white" />}
                           color={"green"}
+                          onclick={() => navigate(`/user/${dataVar.user?.id}`)} 
                         />
                       )}
                       {updateButton && (
@@ -124,6 +129,7 @@ export const Table = ({
         />
       )}
       {modal.type === "update" && <Update modal={modal} setModal={setModal} />}
+      {modal.type === "view" && navigate('/user/{}')}
       {modal.type === "delete" && (
         <Delete
           setNewData={newViewFuction}

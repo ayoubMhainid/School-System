@@ -52,6 +52,8 @@ Route::prefix("teacher")->group(function () {
 Route::prefix("user")->middleware(CheckRole::class . ":admin")->group(function () {
     Route::put("/updateUserData/{id}", [UserController::class, 'updateUserCredentials']);
     Route::delete("/deleteUser/{id}", [UserController::class, 'deleteUser']);
+    Route::get("/getUserById/{id}", [UserController::class, "getUserById"]);
+
 });
 
 

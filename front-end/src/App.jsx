@@ -10,6 +10,8 @@ import { ManageTeam } from "./pages/admin/ManageTeam";
 import { PersisLogin } from "./pages/auth/PersisLogin";
 import { ManageSubjects } from "./pages/admin/MannageSubjects";
 import { ManageTeacher } from "./pages/admin/ManageTeacher";
+import Profile from "./pages/admin/Profile";
+
 
 function App() {
   return (
@@ -25,6 +27,7 @@ function App() {
           <Route path="/admin/teachers" element={<ManageTeacher />} />
           <Route path="/admin/team" element={<ManageTeam />} />
           <Route path="/admin/subjects" element={<ManageSubjects />} />
+          <Route path="/user/:id" element={<Profile />} />
         </Route>
       </Route>
     </Routes>
