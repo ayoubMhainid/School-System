@@ -13,7 +13,6 @@ class ClassController extends Controller
             $classes = Classe::with("teacher")
                             ->latest()
                             ->get();
-
             return response()->json([
                 "classes" => $classes
             ]);
@@ -24,8 +23,21 @@ class ClassController extends Controller
             ],500);
         }
     }
+    public function getClassespaginate(){
+        try{
+            $classes = Classe::with("teacher")
+                            ->latest()
+                            ->paginate(10);
+            return response()->json([
+                "classes" => $classes
+            ]);
 
-
+        }catch(Exception $ex){
+            return response()->json([
+                "message" => $ex->getMessage(),
+            ],500);
+        }
+    }
     public function createClass(Request $request){
         try{
             $request->validate([

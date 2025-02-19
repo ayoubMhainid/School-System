@@ -4,15 +4,10 @@ import { Table } from "../../components/Tables/Table";
 import { Button } from "../../components/UI/Button";
 import { Table as TableSkeleton } from "../../components/Skeletons/Table";
 import { Add } from "../../components/Modals/Add";
-import {createClasse} from "../../services/classServices"
+import {getClassespaginate} from "../../services/classServices"
 
 export const ManageClasses = () => {
     const [classe, setClasse] = useState([]);
-    const [newClasse, setNewClasse] = useState({
-        classe_name:"",
-        teacher_id:"",
-        section:""
-    });
     const [loading, setLoading] = useState(false);
     const [paginate, setPaginate] = useState(false);
     const [pagination, setPagination] = useState({
@@ -25,7 +20,7 @@ export const ManageClasses = () => {
     const getClasses_FUNCTION = async (page) => {
         setLoading(true);
         try {
-            const response = await getClasses(localStorage.getItem("token"), page);
+            const response = await getClassespaginate(localStorage.getItem("token"), page);
             console.log("Response from API:", response.data.classes.data);
             setPaginate(true);
             setPagination({
