@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  getAnnouncements,
-  createAnnouncement,
-} from "../../services/announcementServices";
+import {getAnnouncements,} from "../../services/announcementServices";
 import { errors } from "../../constants/Errors";
 import { Button } from "../../components/UI/Button";
 import { Add } from "../../components/Modals/Add";
@@ -11,11 +8,6 @@ import { Announcement } from "../../components/App/Announcement";
 export const ManageAnnouncement = () => {
   const [announcements, setAnnouncements] = useState([]);
   const [errorMessage, setErrorMessage] = useState(null);
-  const [newAnnouncement, setNewAnnouncement] = useState({
-    title: "",
-    message: "",
-    receiver: "",
-  });
   const [pagination, setPagination] = useState({
     currentPage: 0,
     lastPage: 0,
@@ -47,19 +39,6 @@ export const ManageAnnouncement = () => {
         lastPage: response.data.announcements.last_page,
         total: response.data.announcements.total,
       });
-    } else {
-      setErrorMessage(errors.tryAgain);
-    }
-  };
-
-  const createAnnouncement_FUNCTION = async () => {
-    const response = await createAnnouncement(
-      localStorage.getItem("token"),
-      newAnnouncement
-    );
-    if (response.status === 201) {
-      setNewAnnouncement({ title: "", message: "", receiver: "" });
-      getAnnouncements_FUNCTION(pagination.currentPage);
     } else {
       setErrorMessage(errors.tryAgain);
     }
@@ -112,7 +91,6 @@ export const ManageAnnouncement = () => {
           <Add
             toAdd="announcement"
             setOpen={setOpenModalAddAnnouncement}
-            onSave={createAnnouncement_FUNCTION}
           />
         )}
       </div>
