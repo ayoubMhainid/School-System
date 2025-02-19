@@ -33,6 +33,7 @@ export const Add = ({ setOpen, toAdd }) => {
   const _teacher = "teacher";
   const _admin = "admin";
   const _subject = "subject";
+  const _announcement = "announcement";
   const _classe = "classe";
 
   const handleChange = (e) => {
