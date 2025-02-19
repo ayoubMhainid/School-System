@@ -30,3 +30,12 @@ export const deleteClass = async (token,id) => {
     })
     return response
 }
+
+export const updateClass = async(token,id) =>{
+    const response = await axios.put(`${apiUrl}/class/updateClass/${id}`,{
+        headers:{
+            Authorization : `Bearer ${token}`
+        }
+    })
+    return response
+}

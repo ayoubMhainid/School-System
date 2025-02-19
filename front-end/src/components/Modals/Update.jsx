@@ -35,9 +35,9 @@ export const Update = ({ modal, setModal }) => {
   });
 
   const [classData,setClassData] = useState({
-    className : modal.data.class_name,
-    teacherId : modal.data.teacher_id,
-    section : modal.data.section
+    class_name : modal?.data?.class_name,
+    teacher_id : modal?.data?.teacher_id,
+    section : modal?.data?.section
   })
 
   const handleChangeUserCredentials = (e) => {
@@ -50,13 +50,14 @@ export const Update = ({ modal, setModal }) => {
   const getClasse = async () => {
     const response = await getClasses(localStorage.getItem("token"));
     if (response.data.classes) {
-      setClasses(response.data.classes);
+      setClasses(response.data.classes.data);
     }
   };
   const getTeacher = async () => {
     const response = await getTeachers(localStorage.getItem("token"));
     if (response.data) {
       setTeacher(response.data.teachers.data);
+      console.log(teacher)
     }
   };
   useEffect(() => {
@@ -110,6 +111,23 @@ export const Update = ({ modal, setModal }) => {
           localStorage.getItem("token"),
           subjectData
         );
+        setLoading(false);
+        response.status === 200
+          ? response.data.message
+            ? (setNotification({
+                type: "success",
+                message: response.data.message,
+              }),
+              setTimeout(() => {
+                setModal({ type: "" });
+              }, 3000))
+            : setNotification({ type: "error", message: errors.tryAgain })
+          : setNotification({ type: "error", message: errors.notFound });
+      }else if (modal.toUpdateOrDelete === "classe"){
+        const response = await updateClass(
+          localStorage.getItem('token'),
+          classData
+        )
         setLoading(false);
         response.status === 200
           ? response.data.message
@@ -227,21 +245,28 @@ export const Update = ({ modal, setModal }) => {
               <Label text={"Classe name"} />
               <Input
                 type="text"
-                name="className"
+                name="class_name"
                 onChange={handleChangeClass}
-                value={classData.className}
+                placholder={classData.class_name}
                 border="black"
                 text="black"
               />
 
-              <Label text={"Teacher ID"} />
-              <Input
-                type="text"
-                name="teacherId"
-                onChange={handleChangeClass}
-                placholder={classData.teacherId}
-                border="black"
-                text="black"
+              <Label text={"Teacher ID"}/>
+              <Select
+                width={"100%"}
+                bg={"white"}
+                border={"black"}
+                title={"change Teacher ID"}
+                options={teacher}
+                value={selectedTeacher}
+                onchange={(e) => {
+                  handleChangeClass({
+                    target: { name: "teacher_id", value: e.target.value },
+                  });
+                }}
+                ky={"full_name"}
+                valueToSelect="id"
               />
 
               <Label text={"Section"} />
