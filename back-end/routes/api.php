@@ -105,7 +105,7 @@ Route::prefix("notification")->middleware(CheckAuthentication::class)->group(fun
     Route::get("/getNotifications", [NotificationController::class, "getNotifications"]);
     Route::post("/createNotification", [NotificationController::class, "createNotification"]);
     Route::delete("/deleteNotification/{id}", [NotificationController::class, "deleteNotification"]);
-    Route::put("/makeNotificationSeend/{id}", [NotificationController::class, "makeNotificationSeend"]);
+    Route::put("/makeNotificationSeen/{id}", [NotificationController::class, "makeNotificationSeen"]);
 });
 
 
