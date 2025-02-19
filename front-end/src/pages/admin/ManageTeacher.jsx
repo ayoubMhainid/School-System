@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "../../components/UI/Input";
 import { Select } from "../../components/UI/Select";
 import { Button } from "../../components/UI/Button";
@@ -93,8 +93,8 @@ export const ManageTeacher = () => {
     const viewClasses = async () => {
       const response = await getClasses(user.token);
       response.status == 200
-        ? response.data.classes.length
-          ? setClasses(response.data.classes)
+        ? response.data.classes.data.length
+          ? setClasses(response.data.classes.data)
           : setErrorMessage(errors.notFound)
         : setErrorMessage(errors.tryAgain);
     };
@@ -129,6 +129,7 @@ export const ManageTeacher = () => {
         dataSearch.class_id
       );
       setPaginate(false);
+      console.log(dataSearch.class_id);
       console.log(response);
       // response.status === 200
       //   ? response.data.students.length
@@ -144,7 +145,7 @@ export const ManageTeacher = () => {
     !isMenuOpen && (
       <div className="ml-6 mt-6 w-[85%]">
         <div className="w-[100%] px-2">
-          <h1 className="text-3xl font-semibold">Manage students</h1>
+          <h1 className="text-3xl font-semibold">Manage teacher</h1>
           <br></br>
           <div className="sm:flex block justify-between w-[100%]">
             <div className="sm:flex flex-row gap-2 block w-[70%]">

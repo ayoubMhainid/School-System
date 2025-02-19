@@ -1,4 +1,3 @@
-import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { Login } from "./pages/auth/Login";
 import { Layout } from "./layouts/Layout";
@@ -10,7 +9,7 @@ import { ManageTeam } from "./pages/admin/ManageTeam";
 import { PersisLogin } from "./pages/auth/PersisLogin";
 import { ManageSubjects } from "./pages/admin/MannageSubjects";
 import { ManageClasses } from "./pages/admin/ManageClasses";
-import {ManageTeacher} from "./pages/admin/ManageTeacher"
+import { ManageTeacher } from "./pages/admin/ManageTeacher";
 function App() {
   return (
     <Routes>
@@ -21,7 +20,6 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/admin/dashboard" element={<Dashboard />} />
           <Route path="/admin/students" element={<ManageStudents />} />
-          {/* <Route path="/admin/Subjects" element={<ManageSubjects />} /> */}
           <Route path="/admin/teachers" element={<ManageTeacher />} />
           <Route path="/admin/team" element={<ManageTeam />} />
           <Route path="/admin/subjects" element={<ManageSubjects />} />
