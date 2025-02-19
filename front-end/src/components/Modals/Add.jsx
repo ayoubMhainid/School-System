@@ -10,6 +10,7 @@ import { createTeacher } from "../../services/teacherServices";
 import { createAdmin } from "../../services/adminServices";
 import { Select } from "../UI/Select";
 import { AddSubjects, getallSubject, getSubjects } from "../../services/subjectServices";
+import { createNotification } from "../../services/notificationServices";
 
 export const Add = ({ setOpen, toAdd }) => {
   const [dataUser, setDataUser] = useState({});
@@ -35,6 +36,7 @@ export const Add = ({ setOpen, toAdd }) => {
   const _subject = "subject";
   const _announcement = "announcement";
   const _classe = "classe";
+  const _notification = "notification";
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -67,25 +69,28 @@ export const Add = ({ setOpen, toAdd }) => {
         case _teacher:
           response = await createTeacher(user.token, dataUser);
           setNotification({ type: "success", message: response.data.message });
-          console.log(response);
           break;
-
-        case _admin:
+        
+          case _admin:
           response = await createAdmin(user.token, dataUser);
           setNotification({ type: "success", message: response.data.message });
-          console.log(response);
           break;
+        
           case _subject:
-            response = await AddSubjects(user.token, newSubject);
-            setNotification({ type: "success", message: response.data.message });
-            console.log(response);
-            break;
+          response = await AddSubjects(user.token, newSubject);
+          setNotification({ type: "success", message: response.data.message });
+          break;
+        
         case _classe :
-          console.log("hiii")
           response = await createClasse(user.token,dataUser)
           setNotification({ type: "success", message: response.data.message });
-          console.log(response);
           break;
+        
+        case _notification :
+          response = await createNotification(user.token,dataUser)
+          setNotification({ type: "success", message: response.data.message });
+          break;
+        
         default:
           setNotification({ type: "error", message: "Unauthorized" });
           break;
@@ -186,6 +191,25 @@ export const Add = ({ setOpen, toAdd }) => {
                   border="black"
                   text="black"
                 />
+              </>
+            )}
+
+            {toAdd === _notification && (
+              <>
+                <Label text={"User id"} /><br />
+                <Input
+                  type="number"
+                  name="receiver_id"
+                  value={dataUser.receiver_id}
+                  placholder={"Enter a valid user id"}
+                  onChange={handleChange}
+                  border="black"
+                  text="black"
+                />
+                <br></br>
+                <Label text={"Content"} />
+                <textarea className="w-[100%] px-3 py-1 rounded-sm border border-black resize-none h-32 outline-none"
+                name="content" value={dataUser.content} onChange={handleChange} placeholder="Max: 300 chars"></textarea>
               </>
             )}
 
