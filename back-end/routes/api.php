@@ -38,6 +38,7 @@ Route::prefix("admin")->group(function () {
 
 Route::prefix('event')->group(function () {
     Route::get("/getEvents", [EventController::class, 'getEvents']);
+    Route::get("/getEventsPaginate", [EventController::class, 'getEventsPaginate'])->middleware(CheckAuthentication::class);;
     Route::delete("/deletEvent/{id}", [EventController::class, 'deleteEventById'])->middleware(CheckRole::class . ":admin");
     Route::post("/createEvent", [EventController::class, 'createEvent'])->middleware(CheckRole::class . ':admin');
 });

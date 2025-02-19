@@ -144,7 +144,6 @@ export const Add = ({ setOpen, toAdd }) => {
               </p>
             </div>
 
-<<<<<<< HEAD
             {(toAdd === _admin || toAdd === _teacher || toAdd === _student) &&(
               <>
                 <Label text={"Fullname"} />
@@ -159,23 +158,6 @@ export const Add = ({ setOpen, toAdd }) => {
                 />
               </>
             )}
-=======
-            {toAdd !== _subject ||
-              (toAdd !== _classe && (
-                <>
-                  <Label text={"Fullname"} />
-                  <Input
-                    type="text"
-                    name="full_name"
-                    value={dataUser.full_name}
-                    onChange={handleChange}
-                    placholder="Ex: Joen doe"
-                    border="black"
-                    text="black"
-                  />
-                </>
-              ))}
->>>>>>> ddc5a59 (add button addAnnouncement)
 
             {toAdd === _student && (
               <>
@@ -217,7 +199,6 @@ export const Add = ({ setOpen, toAdd }) => {
               </>
             )}
 
-<<<<<<< HEAD
             {(toAdd === _admin || toAdd === _teacher || toAdd === _student) && (
               <>
                 <Label text={"Phone"} />
@@ -232,23 +213,6 @@ export const Add = ({ setOpen, toAdd }) => {
                 />
               </>
             )}
-=======
-            {toAdd !== _subject ||
-              (toAdd !== _classe && (
-                <>
-                  <Label text={"Phone"} />
-                  <Input
-                    type="number"
-                    name="phone"
-                    value={dataUser.phone}
-                    onChange={handleChange}
-                    placholder="Ex: 0659520000"
-                    border="black"
-                    text="black"
-                  />
-                </>
-              ))}
->>>>>>> ddc5a59 (add button addAnnouncement)
 
             {toAdd === _teacher && (
               <>
@@ -312,7 +276,6 @@ export const Add = ({ setOpen, toAdd }) => {
               </>
             )}
 
-<<<<<<< HEAD
             {(toAdd === _admin || toAdd === _teacher || toAdd === _student) &&(
               <>
                 <Label text={"Address"} />
@@ -352,51 +315,6 @@ export const Add = ({ setOpen, toAdd }) => {
                 />
               </>
             )}
-=======
-            {toAdd !== _admin &&
-              toAdd !== _subject &&
-              toAdd !== _classe &&
-              toAdd !== _announcement && (
-                <>
-                  <Label text={"Address"} />
-                  <Input
-                    type="text"
-                    name="address"
-                    value={dataUser.address}
-                    onChange={handleChange}
-                    placholder="Ex: 213 Lot HAMA officiel, tiznit"
-                    border="black"
-                    text="black"
-                  />
-                </>
-              )}
-
-            {toAdd !== _subject ||
-              (toAdd !== _classe && (
-                <>
-                  <Label text={"Email"} />
-                  <Input
-                    type="text"
-                    name="email"
-                    value={dataUser.email}
-                    onChange={handleChange}
-                    placholder="ex: bijo@gmail.com"
-                    border="black"
-                    text="black"
-                  />
-                  <Label text={"Password"} />
-                  <Input
-                    type="password"
-                    name="password"
-                    value={dataUser.password}
-                    onChange={handleChange}
-                    placholder="********"
-                    border="black"
-                    text="black"
-                  />
-                </>
-              ))}
->>>>>>> ddc5a59 (add button addAnnouncement)
 
             {toAdd === _student && (
               <>
