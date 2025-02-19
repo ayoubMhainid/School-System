@@ -134,7 +134,7 @@ export const Add = ({ setOpen, toAdd }) => {
               </p>
             </div>
 
-            {toAdd !== _subject || toAdd !== _classe &&(
+            {(toAdd === _admin || toAdd === _teacher || toAdd === _student) &&(
               <>
                 <Label text={"Fullname"} />
                 <Input
@@ -189,7 +189,7 @@ export const Add = ({ setOpen, toAdd }) => {
               </>
             )}
 
-            {toAdd !== _subject || toAdd !== _classe && (
+            {(toAdd === _admin || toAdd === _teacher || toAdd === _student) && (
               <>
                 <Label text={"Phone"} />
                 <Input
@@ -257,7 +257,7 @@ export const Add = ({ setOpen, toAdd }) => {
               </>
             )}
 
-            {toAdd !== _admin && toAdd !== _subject && toAdd !== _classe &&(
+            {(toAdd === _admin || toAdd === _teacher || toAdd === _student) &&(
               <>
                 <Label text={"Address"} />
                 <Input
@@ -272,7 +272,7 @@ export const Add = ({ setOpen, toAdd }) => {
               </>
             )}
 
-            {toAdd !== _subject || toAdd !== _classe && (
+            {(toAdd === _admin || toAdd === _teacher || toAdd === _student) && (
               <>
                 <Label text={"Email"} />
                 <Input
