@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAppContext } from "../../context/AppContext";
-import { getClasses } from "../../services/classServices";
+import { createClasse, getClasses } from "../../services/classServices";
 import { Label } from "../UI/Label";
 import { Button } from "../UI/Button";
 import { Input } from "../UI/Input";
@@ -33,11 +33,14 @@ export const Add = ({ setOpen, toAdd }) => {
   const _teacher = "teacher";
   const _admin = "admin";
   const _subject = "subject";
+  const _announcement = "announcement";
+  const _classe = "classe";
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setDataUser((prev) => ({ ...prev, [name]: value }));
   };
+
   const handleChangeSubject = (e) => {
     const { name, value } = e.target;
     setNewSubject((prev) => ({ ...prev, [name]: value }));
@@ -77,7 +80,12 @@ export const Add = ({ setOpen, toAdd }) => {
             setNotification({ type: "success", message: response.data.message });
             console.log(response);
             break;
-
+        case _classe :
+          console.log("hiii")
+          response = await createClasse(user.token,dataUser)
+          setNotification({ type: "success", message: response.data.message });
+          console.log(response);
+          break;
         default:
           setNotification({ type: "error", message: "Unauthorized" });
           break;
@@ -126,7 +134,7 @@ export const Add = ({ setOpen, toAdd }) => {
               </p>
             </div>
 
-            {toAdd !== _subject && (
+            {toAdd !== _subject || toAdd !== _classe &&(
               <>
                 <Label text={"Fullname"} />
                 <Input
@@ -181,7 +189,7 @@ export const Add = ({ setOpen, toAdd }) => {
               </>
             )}
 
-            {toAdd !== _subject && (
+            {toAdd !== _subject || toAdd !== _classe && (
               <>
                 <Label text={"Phone"} />
                 <Input
@@ -249,7 +257,7 @@ export const Add = ({ setOpen, toAdd }) => {
               </>
             )}
 
-            {toAdd !== _admin && toAdd !== _subject && (
+            {toAdd !== _admin && toAdd !== _subject && toAdd !== _classe &&(
               <>
                 <Label text={"Address"} />
                 <Input
@@ -264,7 +272,7 @@ export const Add = ({ setOpen, toAdd }) => {
               </>
             )}
 
-            {toAdd !== _subject && (
+            {toAdd !== _subject || toAdd !== _classe && (
               <>
                 <Label text={"Email"} />
                 <Input
@@ -311,7 +319,39 @@ export const Add = ({ setOpen, toAdd }) => {
                 </select>
               </>
             )}
+            {toAdd === _classe &&(
+              <>
+                <Label text="Class Name" />
+                <Input
+                  type="text"
+                  name="class_name"
+                  onChange={handleChange}
+                  placholder="classe name"
+                  border="black"
+                  text="black"
+                />
 
+                <Label text="section" />
+                <Input
+                  type="text"
+                  name="section"
+                  onChange={handleChange}
+                  placholder="section"
+                  border="black"
+                  text="black"
+                />
+
+                <Label text="teacher id" />
+                <Input
+                  type="text"
+                  name="teacher_id"
+                  onChange={handleChange}
+                  placholder="teacher id"
+                  border="black"
+                  text="black"
+                />  
+              </>
+            )}
             <div className="flex justify-end gap-4 mt-6">
               <Button
                 type="button"

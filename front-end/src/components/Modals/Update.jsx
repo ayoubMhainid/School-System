@@ -8,8 +8,9 @@ import { errors } from "../../constants/Errors";
 import { Notification } from "../UI/Notification";
 import { Select } from "../UI/Select";
 import { getTeachers } from "../../services/teacherServices";
-import { getClasses } from "../../services/classServices";
+import { getClasses, updateClass } from "../../services/classServices";
 import { UpdateSubject } from "../../services/subjectServices";
+
 
 export const Update = ({ modal, setModal }) => {
   const [teacher, setTeacher] = useState([]);
@@ -34,6 +35,13 @@ export const Update = ({ modal, setModal }) => {
     classId: modal?.data?.class_id,
   });
 
+  const [classData,setClassData] = useState({
+    class_name : modal?.data?.class_name,
+    teacher_id : modal?.data?.teacher_id,
+    teacher_name : modal?.data?.teacher.full_name,
+    section : modal?.data?.section
+  })
+
   const handleChangeUserCredentials = (e) => {
     const { name, value } = e.target;
     setUserCredentialsForm((prevData) => ({
@@ -44,13 +52,14 @@ export const Update = ({ modal, setModal }) => {
   const getClasse = async () => {
     const response = await getClasses(localStorage.getItem("token"));
     if (response.data.classes) {
-      setClasses(response.data.classes);
+      setClasses(response.data.classes.data);
     }
   };
   const getTeacher = async () => {
     const response = await getTeachers(localStorage.getItem("token"));
     if (response.data) {
       setTeacher(response.data.teachers.data);
+      console.log(teacher)
     }
   };
   useEffect(() => {
@@ -64,6 +73,15 @@ export const Update = ({ modal, setModal }) => {
       [name]: value,
     }));
   };
+
+  const handleChangeClass = (e) => {
+    const { name, value } = e.target;
+    setClassData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+  console.log(classData)
 
   const update_FUNCTION = async (e) => {
     e.preventDefault();
@@ -95,6 +113,24 @@ export const Update = ({ modal, setModal }) => {
           localStorage.getItem("token"),
           subjectData
         );
+        setLoading(false);
+        response.status === 200
+          ? response.data.message
+            ? (setNotification({
+                type: "success",
+                message: response.data.message,
+              }),
+              setTimeout(() => {
+                setModal({ type: "" });
+              }, 3000))
+            : setNotification({ type: "error", message: errors.tryAgain })
+          : setNotification({ type: "error", message: errors.notFound });
+      }else if (modal.toUpdateOrDelete === "Classe"){
+        const response = await updateClass(
+          localStorage.getItem('token'),
+          modal.data.id,
+          classData
+        )
         setLoading(false);
         response.status === 200
           ? response.data.message
@@ -204,6 +240,46 @@ export const Update = ({ modal, setModal }) => {
                 }}
                 ky={"class_name"}
                 valueToSelect="id"
+              />
+            </>
+          )}
+          {modal.toUpdateOrDelete === "Classe" &&(
+            <>
+              <Label text={"Classe name"} />
+              <Input
+                type="text"
+                name="class_name"
+                onChange={handleChangeClass}
+                value={classData.class_name}
+                border="black"
+                text="black"
+              />
+
+              <Label text={`Teacher (${classData.teacher_name})`}/>
+              <Select
+                width={"100%"}
+                bg={"white"}
+                border={"black"}
+                title={"change Teacher"}
+                options={teacher}
+                value={selectedTeacher}
+                onchange={(e) => {
+                  handleChangeClass({
+                    target: { name: "teacher_id", value: e.target.value },
+                  });
+                }}
+                ky={"full_name"}
+                valueToSelect="id"
+              />
+
+              <Label text={"Section"} />
+              <Input
+                type="text"
+                name="section"
+                onChange={handleChangeClass}
+                value={classData.section}
+                border="black"
+                text="black"
               />
             </>
           )}

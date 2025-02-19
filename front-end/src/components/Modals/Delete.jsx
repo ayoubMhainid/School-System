@@ -4,7 +4,8 @@ import { deleteUser } from "../../services/userServices";
 import { errors } from "../../constants/Errors";
 import { Notification } from "../UI/Notification";
 import { deleteSubject } from "../../services/subjectServices";
-import { deleteTeacher } from "../../services/teacherServices";
+import { deleteAnnouncement } from "../../services/announcementServices";
+import { deleteClass } from "../../services/classServices";
 
 export const Delete = ({ modal, setModal, listData, setNewData }) => {
   const [loading, setLoading] = useState(false);
@@ -62,17 +63,45 @@ export const Delete = ({ modal, setModal, listData, setNewData }) => {
         : setNotification({ type: "error", message: errors.tryAgain })
       : setNotification({ type: "error", message: errors.notFound });
   };
+  const deleteClass_FUNCTION = async () => { 
+    setNotification(null);
+    setLoading(true);
+    const response = await deleteClass(
+      localStorage.getItem("token"),
+      modal.data.id
+    );
+    setLoading(false);
+    response.status === 200
+      ? response.data.message
+        ? (setNotification({ type: "success", message: response.data.message }),
+          setTimeout(() => {
+            setModal({ type: "" });
+          }, 1000))
+        : setNotification({ type: "error", message: errors.tryAgain })
+      : setNotification({ type: "error", message: errors.notFound });
+  }
 
-  const delete_FUNCTION = async (e) => {
+  const deleteAnnouncement_FUNCTION = async () =>{
+    setNotification(null);
+    setLoading(false);
+    const response = await deleteAnnouncement(localStorage.getItem('token'),modal.data.id);    
+    response.status === 200 ? response.data.message ? 
+    (setNotification({type:"success",message:response.data.message}),setTimeout(() => {setModal({type:''})},3000))
+     : setNotification({type:'error',message:errors.tryAgain}) : setNotification({type:'error',message: errors.notFound});
+  }
+
+  const delete_FUNCTION = async (e) =>{
     e.preventDefault();
     if (modal.toUpdateOrDelete === "User") {
       deleteUser_FUNCTION();
     } else if (modal.toUpdateOrDelete === "Subject") {
       deleteSubject_FUNCTION();
-    } else if (modal.toUpdateOrDelete === "Teacher") {
-      deleteTeacher_FUNCTION();
+    }else if (modal.toUpdateOrDelete === "Announcement") {
+      deleteAnnouncement_FUNCTION();
+    }else if(modal.toUpdateOrDelete === "Classe"){
+      deleteClass_FUNCTION()
     }
-  };
+}
 
   return (
     <div className="z-20 fixed inset-0 flex items-center justify-center bg-opacity-50 backdrop-blur-md">
@@ -125,4 +154,4 @@ export const Delete = ({ modal, setModal, listData, setNewData }) => {
       </div>
     </div>
   );
-};
+}
