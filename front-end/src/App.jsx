@@ -8,9 +8,7 @@ import { ManageStudents } from "./pages/admin/ManageStudents";
 import { ManageTeam } from "./pages/admin/ManageTeam";
 import { PersisLogin } from "./pages/auth/PersisLogin";
 import { ManageSubjects } from "./pages/admin/MannageSubjects";
-import { ManageTeacher } from "./pages/admin/ManageTeacher";
 import Profile from "./pages/admin/Profile";
-
 import { ManageClasses } from "./pages/admin/ManageClasses";
 import {ManageTeacher} from "./pages/admin/ManageTeacher"
 import  {ManageAnnouncement}  from "./pages/admin/ManageAnnouncement";	
