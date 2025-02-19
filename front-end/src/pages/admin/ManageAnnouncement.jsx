@@ -4,10 +4,11 @@ import { errors } from "../../constants/Errors";
 import { Button } from "../../components/UI/Button";
 import { Add } from "../../components/Modals/Add";
 import { Announcement } from "../../components/App/Announcement";
-
+import { Table as TableSkeleton } from "../../components/Skeletons/Table";
 export const ManageAnnouncement = () => {
   const [announcements, setAnnouncements] = useState([]);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [loading,setLoading] = useState(false);
   const [pagination, setPagination] = useState({
     currentPage: 0,
     lastPage: 0,
@@ -28,10 +29,13 @@ export const ManageAnnouncement = () => {
     useState(false);
 
   const getAnnouncements_FUNCTION = async (page) => {
+    setLoading(true);
+    setErrorMessage(null);
     const response = await getAnnouncements(
       localStorage.getItem("token"),
       page
     );
+    
     if (response.status === 200) {
       setAnnouncements(response.data.announcements.data);
       setPagination({
@@ -42,6 +46,7 @@ export const ManageAnnouncement = () => {
     } else {
       setErrorMessage(errors.tryAgain);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -60,14 +65,16 @@ export const ManageAnnouncement = () => {
             text="Add Announcement"
             width="20%"
             onClick={() => setOpenModalAddAnnouncement(true)}
+            disabled={loading}
           />
         </div>
 
         {/* Announcements List */}
-        <div className="border p-4 rounded-md shadow-md">
+        <div className="p-4 rounded-md shadow-md">
+          {loading && <TableSkeleton/>}
           {errorMessage && <p className="text-red-500">{errorMessage}</p>}
 
-          {announcements.length > 0 ? (
+          {!loading && announcements.length > 0 ? (
             <div className="flex flex-col gap-4">
               {announcements.map((announcement) => (
                 <Announcement key={announcement.id} announcement={announcement} />
