@@ -80,9 +80,9 @@ class TeacherController extends Controller
                 return response()->json(["message" => "Class not found"], 404);
             }
 
-            $teachers = Teacher::whereHas('class', function ($query) use ($id) {
+            $teachers = Teacher::whereHas('classes', function ($query) use ($id) {
                 $query->where('id', $id);
-            })->get();
+            })->paginate(10);
             if (!$teachers) {
                 return response()->json(["message" => "No teacher with this class"], 404);
             }

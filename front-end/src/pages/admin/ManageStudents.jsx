@@ -115,13 +115,25 @@ export const ManageStudents = () => {
   }, [username]);
 
   useEffect(() => {
-    selectedGender
-      ? filterStudentsByGender_FUNCTION()
-      : getStudents_FUNCTION(1);
+    if (selectedGender) {
+      if (selectedGender !== "Filter by gender") {
+        filterStudentsByGender_FUNCTION();
+      } else {
+        setErrorMessage(null);
+        getStudents_FUNCTION(1);
+      }
+    }
   }, [selectedGender]);
 
   useEffect(() => {
-    selectedClass ? getStudentsByClass_FUNCTION() : getStudents_FUNCTION(1);
+    if (selectedClass) {
+      if (selectedClass !== "Filter by class") {
+        getStudentsByClass_FUNCTION();
+      } else {
+        setErrorMessage(null);
+        getStudents_FUNCTION(1);
+      }
+    }
   }, [selectedClass]);
 
   useEffect(() => {

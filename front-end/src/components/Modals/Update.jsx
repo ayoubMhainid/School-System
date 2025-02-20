@@ -11,11 +11,12 @@ import { getTeachers } from "../../services/teacherServices";
 import { getClasses, updateClass } from "../../services/classServices";
 import { UpdateSubject } from "../../services/subjectServices";
 
-
 export const Update = ({ modal, setModal }) => {
   const [teacher, setTeacher] = useState([]);
   const [classes, setClasses] = useState([]);
-  const [selectedTeacher, setSelectedTeacher] = useState(modal?.data?.teacher_id);
+  const [selectedTeacher, setSelectedTeacher] = useState(
+    modal?.data?.teacher_id
+  );
   const [selectedClass, setSelectedClass] = useState(modal?.data?.class_id);
 
   const [loading, setLoading] = useState(false);
@@ -35,12 +36,12 @@ export const Update = ({ modal, setModal }) => {
     classId: modal?.data?.class_id,
   });
 
-  const [classData,setClassData] = useState({
-    class_name : modal?.data?.class_name,
-    teacher_id : modal?.data?.teacher_id,
-    teacher_name : modal?.data?.teacher.full_name,
-    section : modal?.data?.section
-  })
+  const [classData, setClassData] = useState({
+    class_name: modal?.data?.class_name,
+    teacher_id: modal?.data?.teacher_id,
+    teacher_name: modal?.data?.teacher.full_name,
+    section: modal?.data?.section,
+  });
 
   const handleChangeUserCredentials = (e) => {
     const { name, value } = e.target;
@@ -57,9 +58,9 @@ export const Update = ({ modal, setModal }) => {
   };
   const getTeacher = async () => {
     const response = await getTeachers(localStorage.getItem("token"));
+    console.log(response);
     if (response.data) {
       setTeacher(response.data.teachers.data);
-      console.log(teacher)
     }
   };
   useEffect(() => {
@@ -81,7 +82,6 @@ export const Update = ({ modal, setModal }) => {
       [name]: value,
     }));
   };
-  console.log(classData)
 
   const update_FUNCTION = async (e) => {
     e.preventDefault();
@@ -125,12 +125,12 @@ export const Update = ({ modal, setModal }) => {
               }, 3000))
             : setNotification({ type: "error", message: errors.tryAgain })
           : setNotification({ type: "error", message: errors.notFound });
-      }else if (modal.toUpdateOrDelete === "Classe"){
+      } else if (modal.toUpdateOrDelete === "Classe") {
         const response = await updateClass(
-          localStorage.getItem('token'),
+          localStorage.getItem("token"),
           modal.data.id,
           classData
-        )
+        );
         setLoading(false);
         response.status === 200
           ? response.data.message
@@ -243,7 +243,7 @@ export const Update = ({ modal, setModal }) => {
               />
             </>
           )}
-          {modal.toUpdateOrDelete === "Classe" &&(
+          {modal.toUpdateOrDelete === "Classe" && (
             <>
               <Label text={"Classe name"} />
               <Input
@@ -255,7 +255,7 @@ export const Update = ({ modal, setModal }) => {
                 text="black"
               />
 
-              <Label text={`Teacher (${classData.teacher_name})`}/>
+              <Label text={`Teacher (${classData.teacher_name})`} />
               <Select
                 width={"100%"}
                 bg={"white"}
