@@ -125,9 +125,11 @@ export const Delete = ({ modal, setModal, listData, setNewData }) => {
     }else if (modal.toUpdateOrDelete === "Announcement") {
       deleteAnnouncement_FUNCTION();
     }else if(modal.toUpdateOrDelete === "Classe"){
-      deleteClass_FUNCTION()
+      deleteClass_FUNCTION();
     }else if (modal.toUpdateOrDelete === "Event"){
-      deleteEvent_FUNCTION()
+      deleteEvent_FUNCTION();
+    }else if(modal.toUpdateOrDelete === 'Notification'){
+      deleteNotification_FUNCTION();
     }
 }
 
