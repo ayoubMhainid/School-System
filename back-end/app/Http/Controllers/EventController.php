@@ -35,6 +35,24 @@ class EventController extends Controller
         };
     }
 
+    public function getEventsPaginate()
+    {
+        try {
+            $events = Event::with('admin')->latest()->paginate(4);
+            if ($events) {
+                return response()->json([
+                    'events' => $events,
+                ]);
+            }
+            return response()->json([
+                "messge" => "Events is not found",
+            ]);
+        } catch (Exception $ex) {
+            return response()->json([
+                'message' => $ex->getMessage(),
+            ], 500);
+        };
+    }
     public function deleteEventById(Request $request, $id)
     {
         try {

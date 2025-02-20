@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Classe;
+use App\Models\Teacher;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -12,6 +13,29 @@ class ClassController extends Controller
         try{
             $classes = Classe::with("teacher")
                             ->latest()
+                            ->get();
+            return response()->json([
+                "classes" => $classes
+            ]);
+
+        }catch(Exception $ex){
+            return response()->json([
+                "message" => $ex->getMessage(),
+            ],500);
+        }
+    }
+    public function getClassesByTeacher($id){
+        try{
+            $teacher = Teacher::find($id);
+            if (!$teacher) {
+                return response()->json([
+                    "message" => "Teacher not found"
+                ], 404);
+            }
+            $classes = Classe::where("teacher_id", $teacher->id)
+                            ->with("teacher")
+                            ->latest()
+                            ->take(3)
                             ->get();
             return response()->json([
                 "classes" => $classes

@@ -12,6 +12,8 @@ import Profile from "./pages/admin/Profile";
 import { ManageClasses } from "./pages/admin/ManageClasses";
 import {ManageTeacher} from "./pages/admin/ManageTeacher"
 import  {ManageAnnouncement}  from "./pages/admin/ManageAnnouncement";	
+import { ManageEvents } from "./pages/admin/ManageEvents";
+import { Notifications } from "./shared/Notifications";
 
 function App() {
   return (
@@ -30,6 +32,8 @@ function App() {
           <Route path="/user/:id" element={<Profile />} />
           <Route path="/admin/classes" element={<ManageClasses />} />
           <Route path="/admin/announcement" element={<ManageAnnouncement />} />
+          <Route path="/admin/events" element={<ManageEvents/>} />
+          <Route path="/user/notifications" element={<Notifications />} />
         </Route>
       </Route>
     </Routes>

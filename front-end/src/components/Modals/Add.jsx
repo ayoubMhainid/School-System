@@ -9,11 +9,8 @@ import { Notification } from "../UI/Notification";
 import { createTeacher } from "../../services/teacherServices";
 import { createAdmin } from "../../services/adminServices";
 import { Select } from "../UI/Select";
-import {
-  AddSubjects,
-  getallSubject,
-  getSubjects,
-} from "../../services/subjectServices";
+import { AddSubjects, getallSubject, getSubjects } from "../../services/subjectServices";
+import { createNotification } from "../../services/notificationServices";
 import { createAnnouncement } from "../../services/announcementServices";
 
 export const Add = ({ setOpen, toAdd }) => {
@@ -39,6 +36,7 @@ export const Add = ({ setOpen, toAdd }) => {
   const _subject = "subject";
   const _announcement = "announcement";
   const _classe = "classe";
+  const _notification = "notification";
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -71,31 +69,33 @@ export const Add = ({ setOpen, toAdd }) => {
         case _teacher:
           response = await createTeacher(user.token, dataUser);
           setNotification({ type: "success", message: response.data.message });
-          console.log(response);
           break;
-
+        
         case _admin:
           response = await createAdmin(user.token, dataUser);
           setNotification({ type: "success", message: response.data.message });
-          console.log(response);
           break;
+      
         case _subject:
           response = await AddSubjects(user.token, newSubject);
           setNotification({ type: "success", message: response.data.message });
-          console.log(response);
           break;
+        
         case _classe:
-          console.log("hiii");
           response = await createClasse(user.token, dataUser);
           setNotification({ type: "success", message: response.data.message });
-          console.log(response);
           break;
+        
         case _announcement:
-          console.log("hiii");
           response = await createAnnouncement(user.token, dataUser);
           setNotification({ type: "success", message: response.data.message });
-          console.log(response);
           break;
+
+        case _notification :
+          response = await createNotification(user.token,dataUser)
+          setNotification({ type: "success", message: response.data.message });
+          break;
+        
         default:
           setNotification({ type: "error", message: "Unauthorized" });
           break;
@@ -315,6 +315,30 @@ export const Add = ({ setOpen, toAdd }) => {
                 />
               </>
             )}
+<<<<<<< HEAD
+=======
+
+
+            {(toAdd === _notification) && (
+              <>
+                <Label text={"Receiver id"} />
+                <Input
+                  type="number"
+                  name="receiver_id"
+                  value={dataUser.receiver_id}
+                  onChange={handleChange}
+                  placholder="Enter a valid user id"
+                  border="black"
+                  text="black"
+                />
+                <Label text={"Message"} /><br></br>
+                <textarea name="content" 
+                required
+                placeholder="Max chars: 300" onChange={handleChange}
+                className="border border-black px-3 py-1 rounded-sm w-[100%] resize-none outline-none h-32"></textarea>
+              </>
+            )}    
+>>>>>>> d6c03c1b10e41d6808bc2f0d0555b084aa29c0d0
 
             {toAdd === _student && (
               <>
@@ -360,7 +384,7 @@ export const Add = ({ setOpen, toAdd }) => {
                   text="black"
                 />
 
-                <Label text="teacher id" />
+                <Label text="Teacher id" />
                 <Input
                   type="text"
                   name="teacher_id"
@@ -399,7 +423,7 @@ export const Add = ({ setOpen, toAdd }) => {
                 <Label text="Message" /> <br></br>
                 <textarea
                   className={
-                    "border border-gray-600  text-black px-3 py-1 text-md bg-inherit rounded-sm outline-none w-[100%]"
+                    "border border-gray-600 resize-none outline-none text-black px-3 py-1 text-md bg-inherit rounded-sm outline-none w-[100%]"
                   }
                   name="message"
                   value={dataUser.message}

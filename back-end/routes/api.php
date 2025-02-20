@@ -38,6 +38,7 @@ Route::prefix("admin")->group(function () {
 
 Route::prefix('event')->group(function () {
     Route::get("/getEvents", [EventController::class, 'getEvents']);
+    Route::get("/getEventsPaginate", [EventController::class, 'getEventsPaginate'])->middleware(CheckAuthentication::class);;
     Route::delete("/deletEvent/{id}", [EventController::class, 'deleteEventById'])->middleware(CheckRole::class . ":admin");
     Route::post("/createEvent", [EventController::class, 'createEvent'])->middleware(CheckRole::class . ':admin');
 });
@@ -82,6 +83,7 @@ Route::prefix("teacher")->group(function () {
 
 Route::prefix("class")->group(function () {
     Route::get("/getClasses", [ClassController::class, "getClasses"])->middleware(CheckAuthentication::class);
+    Route::get("/getClassesByTeacher/{id}", [ClassController::class, "getClassesByTeacher"])->middleware(CheckAuthentication::class);
     Route::get("/getClassespaginate",[ClassController::class, "getClassespaginate"])->middleware(CheckAuthentication::class);
     Route::post("/createClass", [ClassController::class, "createClass"])->middleware(CheckRole::class . ":admin");
     Route::put("/updateClass/{id}",[ClassController::class, "updateClass"])->middleware(CheckRole::class . ":admin");
@@ -105,7 +107,7 @@ Route::prefix("notification")->middleware(CheckAuthentication::class)->group(fun
     Route::get("/getNotifications", [NotificationController::class, "getNotifications"]);
     Route::post("/createNotification", [NotificationController::class, "createNotification"]);
     Route::delete("/deleteNotification/{id}", [NotificationController::class, "deleteNotification"]);
-    Route::put("/makeNotificationSeend/{id}", [NotificationController::class, "makeNotificationSeend"]);
+    Route::put("/makeNotificationSeen/{id}", [NotificationController::class, "makeNotificationSeen"]);
 });
 
 

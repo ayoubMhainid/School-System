@@ -102,7 +102,7 @@ class AnnouncementController extends Controller
             } else {
                 return response()->json([
                     "message" => "Announcement not found"
-                ]);
+                ],404);
             }
         } catch (Exception $ex) {
             return response()->json([
