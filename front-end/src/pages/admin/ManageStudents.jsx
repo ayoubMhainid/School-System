@@ -36,8 +36,10 @@ export const ManageStudents = () => {
   const { isMenuOpen } = useAppContext();
 
   const getStudents_FUNCTION = async (page) => {
+    setErrorMessage(null);
     setLoading(true);
     const response = await getStudents(localStorage.getItem("token"), page);
+    console.log(response);
     setLoading(false);
     setPaginate(true);
 
@@ -91,6 +93,7 @@ export const ManageStudents = () => {
   };
 
   const filterStudentsByGender_FUNCTION = async () => {
+    setErrorMessage(null);
     const response = await filterStudentsByGender(
       localStorage.getItem("token"),
       selectedGender
@@ -115,13 +118,24 @@ export const ManageStudents = () => {
   }, [username]);
 
   useEffect(() => {
-    selectedGender
-      ? filterStudentsByGender_FUNCTION()
-      : getStudents_FUNCTION(1);
+    if (selectedGender) {
+      if (selectedGender !== "Filter by gender") {
+        console.log("object");
+        filterStudentsByGender_FUNCTION();
+      } else {
+        getStudents_FUNCTION(1);
+      }
+    }
   }, [selectedGender]);
 
   useEffect(() => {
-    selectedClass ? getStudentsByClass_FUNCTION() : getStudents_FUNCTION(1);
+    if (selectedClass) {
+      if (selectedClass !== "Filter by class") {
+        getStudentsByClass_FUNCTION();
+      } else {
+        getStudents_FUNCTION(1);
+      }
+    }
   }, [selectedClass]);
 
   useEffect(() => {

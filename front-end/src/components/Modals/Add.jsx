@@ -199,25 +199,6 @@ export const Add = ({ setOpen, toAdd }) => {
               </>
             )}
 
-            {toAdd === _notification && (
-              <>
-                <Label text={"User id"} /><br />
-                <Input
-                  type="number"
-                  name="receiver_id"
-                  value={dataUser.receiver_id}
-                  placholder={"Enter a valid user id"}
-                  onChange={handleChange}
-                  border="black"
-                  text="black"
-                />
-                <br></br>
-                <Label text={"Content"} />
-                <textarea className="w-[100%] px-3 py-1 rounded-sm border border-black resize-none h-32 outline-none"
-                name="content" value={dataUser.content} onChange={handleChange} placeholder="Max: 300 chars"></textarea>
-              </>
-            )}
-
             {(toAdd === _admin || toAdd === _teacher || toAdd === _student) && (
               <>
                 <Label text={"Phone"} />
@@ -335,6 +316,27 @@ export const Add = ({ setOpen, toAdd }) => {
               </>
             )}
 
+
+            {(toAdd === _notification) && (
+              <>
+                <Label text={"Receiver id"} />
+                <Input
+                  type="number"
+                  name="receiver_id"
+                  value={dataUser.receiver_id}
+                  onChange={handleChange}
+                  placholder="Enter a valid user id"
+                  border="black"
+                  text="black"
+                />
+                <Label text={"Message"} /><br></br>
+                <textarea name="content" 
+                required
+                placeholder="Max chars: 300" onChange={handleChange}
+                className="border border-black px-3 py-1 rounded-sm w-[100%] resize-none outline-none h-32"></textarea>
+              </>
+            )}    
+
             {toAdd === _student && (
               <>
                 <Label text="Classes" />
@@ -418,7 +420,7 @@ export const Add = ({ setOpen, toAdd }) => {
                 <Label text="Message" /> <br></br>
                 <textarea
                   className={
-                    "border border-gray-600  text-black px-3 py-1 text-md bg-inherit rounded-sm outline-none w-[100%]"
+                    "border border-gray-600 resize-none outline-none text-black px-3 py-1 text-md bg-inherit rounded-sm outline-none w-[100%]"
                   }
                   name="message"
                   value={dataUser.message}

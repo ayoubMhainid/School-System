@@ -64,7 +64,7 @@ export const dataSideBar = [
     ROLE: "admin",
     SVG: <CalendarDaysIcon strokeWidth="1" className="w-6 h-6" />,
     TEXT: "Events",
-    LINK: "/admin/categories",
+    LINK: "/admin/events",
   },
   {
     ROLE: "admin",
@@ -125,7 +125,7 @@ export const dataSideBar = [
     ROLE: "teacher",
     SVG: <CalendarDaysIcon strokeWidth="1" className="w-6 h-6" />,
     TEXT: "Events",
-    LINK: "/teacher/categories",
+    LINK: "/teacher/events",
   },
   {
     ROLE: "teacher",

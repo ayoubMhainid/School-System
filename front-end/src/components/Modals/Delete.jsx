@@ -6,6 +6,7 @@ import { Notification } from "../UI/Notification";
 import { deleteSubject } from "../../services/subjectServices";
 import { deleteAnnouncement } from "../../services/announcementServices";
 import { deleteClass } from "../../services/classServices";
+import { deleteEvent } from "../../services/eventServices";
 import { deleteNotification } from "../../services/notificationServices";
 
 export const Delete = ({ modal, setModal }) => {
@@ -48,6 +49,7 @@ export const Delete = ({ modal, setModal }) => {
         : setNotification({ type: "error", message: errors.tryAgain })
       : setNotification({ type: "error", message: errors.notFound });
   };
+
 
   const deleteTeacher_FUNCTION = async () => {
     setNotification(null);
@@ -110,6 +112,14 @@ export const Delete = ({ modal, setModal }) => {
     (setNotification({type:"success",message:response.data.message}),setTimeout(() => {setModal({type:''})},3000))
      : setNotification({type:'error',message:errors.tryAgain}) : setNotification({type:'error',message: errors.notFound});
   }
+  const deleteEvent_FUNCTION = async () =>{
+    setNotification(null);
+    setLoading(false);
+    const response = await deleteEvent(localStorage.getItem('token'),modal.data.id);    
+    response.status === 200 ? response.data.message ? 
+    (setNotification({type:"success",message:response.data.message}),setTimeout(() => {setModal({type:''})},3000))
+     : setNotification({type:'error',message:errors.tryAgain}) : setNotification({type:'error',message: errors.notFound});
+  }
 
   const delete_FUNCTION = async (e) =>{
     e.preventDefault();
@@ -121,6 +131,8 @@ export const Delete = ({ modal, setModal }) => {
       deleteAnnouncement_FUNCTION();
     }else if(modal.toUpdateOrDelete === "Classe"){
       deleteClass_FUNCTION();
+    }else if (modal.toUpdateOrDelete === "Event"){
+      deleteEvent_FUNCTION();
     }else if(modal.toUpdateOrDelete === 'Notification'){
       deleteNotification_FUNCTION();
     }
