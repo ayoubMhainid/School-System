@@ -4,8 +4,9 @@ import { deleteUser } from "../../services/userServices";
 import { errors } from "../../constants/Errors";
 import { Notification } from "../UI/Notification";
 import { deleteSubject } from "../../services/subjectServices";
-import { deleteTeacher } from "../../services/teacherServices";
-import { deleteClass } from "../../services/classServices"
+import { deleteAnnouncement } from "../../services/announcementServices";
+import { deleteClass } from "../../services/classServices";
+import { deleteNotification } from "../../services/notificationServices";
 
 export const Delete = ({ modal, setModal }) => {
   const [loading, setLoading] = useState(false);
@@ -27,6 +28,8 @@ export const Delete = ({ modal, setModal }) => {
         : setNotification({ type: "error", message: errors.tryAgain })
       : setNotification({ type: "error", message: errors.notFound });
   };
+
+
   const deleteSubject_FUNCTION = async () => {
     setNotification(null);
     setLoading(true);
@@ -68,7 +71,9 @@ export const Delete = ({ modal, setModal }) => {
         : setNotification({ type: "error", message: errors.tryAgain })
       : setNotification({ type: "error", message: errors.notFound });
   };
-  const deleteClass_function = async () => { 
+
+
+  const deleteClass_FUNCTION = async () => { 
     setNotification(null);
     setLoading(true);
     const response = await deleteClass(
@@ -86,18 +91,40 @@ export const Delete = ({ modal, setModal }) => {
       : setNotification({ type: "error", message: errors.notFound });
   }
 
-  const delete_FUNCTION = async (e) => {
+  const deleteAnnouncement_FUNCTION = async () =>{
+    setNotification(null);
+    setLoading(true);
+    const response = await deleteAnnouncement(localStorage.getItem('token'),modal.data.id);    
+    setLoading(false);
+    response.status === 200 ? response.data.message ? 
+    (setNotification({type:"success",message:response.data.message}),setTimeout(() => {setModal({type:''})},3000))
+     : setNotification({type:'error',message:errors.tryAgain}) : setNotification({type:'error',message: errors.notFound});
+  }
+
+  const deleteNotification_FUNCTION = async () =>{
+    setNotification(null);
+    setLoading(true);
+    const response = await deleteNotification(localStorage.getItem('token'),modal.data.id);   
+    setLoading(false);
+    response.status === 200 ? response.data.message ? 
+    (setNotification({type:"success",message:response.data.message}),setTimeout(() => {setModal({type:''})},3000))
+     : setNotification({type:'error',message:errors.tryAgain}) : setNotification({type:'error',message: errors.notFound});
+  }
+
+  const delete_FUNCTION = async (e) =>{
     e.preventDefault();
     if (modal.toUpdateOrDelete === "User") {
       deleteUser_FUNCTION();
     } else if (modal.toUpdateOrDelete === "Subject") {
       deleteSubject_FUNCTION();
-    } else if (modal.toUpdateOrDelete === "Teacher") {
-      deleteTeacher_FUNCTION();
-    }else if(modal.toUpdateOrDelete === "classe"){
-      deleteClass_function()
+    }else if (modal.toUpdateOrDelete === "Announcement") {
+      deleteAnnouncement_FUNCTION();
+    }else if(modal.toUpdateOrDelete === "Classe"){
+      deleteClass_FUNCTION();
+    }else if(modal.toUpdateOrDelete === 'Notification'){
+      deleteNotification_FUNCTION();
     }
-  };
+}
 
   return (
     <div className="z-20 fixed inset-0 flex items-center justify-center bg-opacity-50 backdrop-blur-md">
@@ -150,4 +177,4 @@ export const Delete = ({ modal, setModal }) => {
       </div>
     </div>
   );
-};
+}

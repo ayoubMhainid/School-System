@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
 use App\Models\Announcement;
 use Exception;
 use Illuminate\Http\Request;
@@ -16,7 +17,7 @@ class AnnouncementController extends Controller
             if($user->role === 'admin'){
                 $announcements = Announcement::with('admin')
                                             ->latest()
-                                            ->paginate(15);
+                                            ->paginate(3);
 
                 return response()->json([
                     "announcements" => $announcements,
@@ -59,31 +60,35 @@ class AnnouncementController extends Controller
         }
     }
     public function createAnnouncement(Request $request)
-    {
-        try {
-            $request->validate([
-                "receiver" => "required|in:students,teachers",
-                "title" => "required|string|max:30",
-                "message" => "required|string|max:300",
-                "admin_id" => "required|integer|exists:admins,id",
-            ]);
+{
+    try {
+        $user = JWTAuth::parseToken()->authenticate();
 
-            Announcement::create([
-                "receiver" => $request->receiver,
-                "title" => $request->title,
-                "message" => $request->message,
-                "admin_id" => $request->admin_id,
-            ]);
+        $admin = Admin::where('user_id',$user->id)->first();
 
-            return response()->json([
-                "message" => "New announcement created successfully!"
-            ]);
-        } catch (Exception $ex) {
-            return response()->json([
-                "message" => $ex->getMessage(),
-            ], 500);
-        }
+        $request->validate([
+            "receiver" => "required|in:students,teachers",
+            "title" => "required|string|max:30",
+            "message" => "required|string|max:300",
+        ]);
+
+        Announcement::create([
+            "receiver" => $request->receiver,
+            "title" => $request->title,
+            "message" => $request->message,
+            "admin_id" => $admin->id,
+        ]);
+
+        return response()->json([
+            "message" => "New announcement created successfully!"
+        ]);
+    } catch (Exception $ex) {
+        return response()->json([
+            "message" => $ex->getMessage(),
+        ], 500);
     }
+}
+
 
     public function deleteAnnouncement($id)
     {
@@ -97,7 +102,7 @@ class AnnouncementController extends Controller
             } else {
                 return response()->json([
                     "message" => "Announcement not found"
-                ]);
+                ],404);
             }
         } catch (Exception $ex) {
             return response()->json([

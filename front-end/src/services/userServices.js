@@ -19,3 +19,15 @@ export const deleteUser = async (token,id) =>{
     });
     return response;
 }
+
+export const getUserById = async (token, id) => {
+    const response = await axios.get(
+      `${apiUrl}/user/getUserById/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response;
+  };

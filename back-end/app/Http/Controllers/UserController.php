@@ -2,13 +2,45 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
+use App\Models\Student;
+use App\Models\Teacher;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
 class UserController extends Controller
-{
+{   
+    public function getUserById($id){
+        try{
+            $user = User::find($id);
+            if($user->role === "student"){
+                $student = Student::where('user_id',$user->id)->with('user')->first();
+                return response()->json([
+                    "user" => $student
+                ]);
+            }if($user->role === "admin"){
+                $admin = Admin::where('user_id',$user->id)->with('user')->first();
+                return response()->json([
+                    "user" => $admin
+                ]);
+            }if($user->role === "teacher"){
+                $teacher = Teacher::where('user_id',$user->id)->with('user')->first()   ;
+                return response()->json([
+                    "user" => $teacher
+                ]);
+            }else{
+                return response()->json([
+                    "message" => "Couldn't find the user"
+                ],404);
+            }
+        }catch (Exception $ex) {
+            return response()->json([
+                "message" => $ex->getMessage(),
+            ],500);
+        }
+    }
     public function updateUserCredentials(Request $request,$id){
         try {
             $user = User::find($id);

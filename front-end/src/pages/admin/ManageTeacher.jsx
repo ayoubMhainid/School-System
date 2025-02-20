@@ -12,7 +12,8 @@ import {
   getTeachersByClass,
   searchTeachersByUsername,
 } from "../../services/teacherServices";
-import { Add } from "../../components/modals/Add";
+import { Add } from "../../components/Modals/Add";
+
 
 export const ManageTeacher = () => {
   const [openAddUser, setOpenAddUser] = useState(false);

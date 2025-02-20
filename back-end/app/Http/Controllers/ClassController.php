@@ -10,9 +10,9 @@ class ClassController extends Controller
 {
     public function getClasses(){
         try{
-            $classes = Classe::with("teacher.user")
-                            ->paginate(15);
-
+            $classes = Classe::with("teacher")
+                            ->latest()
+                            ->get();
             return response()->json([
                 "classes" => $classes
             ]);
@@ -23,8 +23,21 @@ class ClassController extends Controller
             ],500);
         }
     }
+    public function getClassespaginate(){
+        try{
+            $classes = Classe::with("teacher")
+                            ->latest()
+                            ->paginate(10);
+            return response()->json([
+                "classes" => $classes
+            ]);
 
-
+        }catch(Exception $ex){
+            return response()->json([
+                "message" => $ex->getMessage(),
+            ],500);
+        }
+    }
     public function createClass(Request $request){
         try{
             $request->validate([
@@ -67,6 +80,31 @@ class ClassController extends Controller
         }catch(Exception $ex){
             return response()->json([
                 "message" => $ex->getMessage(),
+            ],500);
+        }
+    }
+    public function updateClass(Request $request,$id){
+        try {
+            $validation = $request->validate([
+                "class_name" => "required|string|max:20",
+                "section" => "required|string|max:30",
+                "teacher_id" => "required|integer"
+            ]);
+            $class = Classe::find($id);
+            if(!$class){
+                return response()->json([
+                    "message" => "class not found"
+                ],404);
+            }
+            $class -> update($validation);
+
+            return response()->json([
+                "message" => "updated successfully"
+            ],200);
+
+        }catch(Exception $e){
+            return response()->json([
+                "message" =>  $e->getMessage()
             ],500);
         }
     }
