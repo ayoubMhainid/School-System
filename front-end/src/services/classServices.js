@@ -47,3 +47,12 @@ export const updateClass = async(token,id,data) =>{
     })
     return response
 }
+
+export const getClassesByTeacher = async (token,id) =>{
+    const response = await axios.get(`${apiUrl}/class/getClassesByTeacher/${id}`,{
+        headers : {
+            Authorization : `Bearer ${token}`
+        }
+    });
+    return response;
+}

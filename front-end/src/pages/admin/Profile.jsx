@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { getUserById } from '../../services/userServices';
 import img from '../../../public/imgProfile.png'
-import { getClasses } from '../../services/classServices';
+import { getClasses,  getClassesByTeacher } from '../../services/classServices';
 import { useParams } from 'react-router-dom';
 
 function Profile() {
     const [userData , setUserData] = useState([]);
     const [classes, setClasses] = useState([]);  
     const [loading, setLoading] = useState(false);
-    const {id} = useParams()
-    
+    const [classesByTeacher , setClassesByTeacher] = useState([]);
+    const {id} = useParams()    
     const getUserData = async ($id) =>{
         setLoading(true);
         const response = await getUserById(localStorage.getItem("token"),$id)
@@ -26,10 +26,23 @@ function Profile() {
             : setErrorMessage(errors.notFound)
           : setErrorMessage(errors.tryAgain);
       };
+      const getClassesByTeacher_FUNCTION = async ($id) => {
+        const response = await getClassesByTeacher(localStorage.getItem("token"),$id);        
+        response.data 
+          ? response.data.classes.length
+            ? setClassesByTeacher(response.data.classes)
+            : null
+          : setErrorMessage(errors.tryAgain);
+      };
     useEffect(() => {
         getUserData(id);
         getClasses_FUNCTION();
       }, []);
+      useEffect(() => {
+        if (userData?.specialization) {    
+            getClassesByTeacher_FUNCTION(userData.id);
+        }
+    }, [userData]); 
   return (
     <div className={`ml-6 mt-6 w-[81%]`}>
         <div className="w-[100%] px-2">
@@ -53,40 +66,47 @@ function Profile() {
         <hr className='mt-10'/>
         <div className='w-[100%] px-2 py-3 gap mt-4 space-y-3'>
             
-        <div className='w-[100%] px-2 py-3 gap mt-4 space-y-3'>
-            
-            {userData.gender ? (
-                <div>
-                  gender : <span className='text-gray-400'>{userData.gender}</span> 
-                </div>
-            ):null}
+            <div className='w-[100%] px-2 py-3 gap mt-4 space-y-3'>
+                
+                    {userData.gender ? (
+                        <div>
+                        gender : <span className='text-gray-400'>{userData.gender}</span> 
+                        </div>
+                    ):null}
+                    {userData.date_of_birth ? (
+                        <div>
+                            date of birth : <span className='text-gray-400'>{userData.date_of_birth}</span> 
+                        </div>
+                    ):null}
+                    {userData.specialization ? (
+                        <div>
+                            specialization : <span className='text-gray-400'>{userData.specialization}</span> 
+                        </div>
+                    ):null}
+                    {classesByTeacher.length > 0 ? (
+                        <div>
+                            <span>Classes:</span>
+                            <ul>
+                            {classesByTeacher.map((c) => (
+                                <li key={c.id} className="text-gray-400">{c.class_name}</li>
+                            ))}
+                            </ul>
+                        </div>
+                        ) : null}
 
-            {userData.date_of_birth ? (
-                <div>
-                    date of birth : <span className='text-gray-400'>{userData.date_of_birth}</span> 
+                    {classes && classes.length && userData.class_id ? (
+                        <div>
+                            Classe : <span className='text-gray-400'>
+                            {classes.find((c) => c.id === userData.class_id)?.class_name}
+                            </span> 
+                        </div>
+                    ):null}
+                    {userData.address ? (
+                        <div>
+                        address : <span className='text-gray-400'>{userData.address}</span> 
+                        </div>
+                    ):null}
                 </div>
-            ):null}
-            {userData.specialization ? (
-                <div>
-                    specialization : <span className='text-gray-400'>{userData.specialization}</span> 
-                </div>
-            ):null}
-
-            {classes && classes.length && userData.class_id ? (
-                <div>
-                    Classes : <span className='text-gray-400'>
-                    {classes.find((c) => c.id === userData.class_id)?.class_name}
-                    </span> 
-                </div>
-            ):null}
-
-            {userData.address ? (
-                <div>
-                   address : <span className='text-gray-400'>{userData.address}</span> 
-                </div>
-            ):null}
-
-            </div>
         </div>
     </div>
   )

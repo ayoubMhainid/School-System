@@ -33,8 +33,9 @@ class ClassController extends Controller
                 ], 404);
             }
             $classes = Classe::where("teacher_id", $teacher->id)
-                            // ->with("teacher")
+                            ->with("teacher")
                             ->latest()
+                            ->take(3)
                             ->get();
             return response()->json([
                 "classes" => $classes
