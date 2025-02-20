@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Subject;
+use App\Models\Teacher;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,6 +25,31 @@ class SubjectController extends Controller
             return response()->json(['message' => 'Unauthorized'], 401);
         }
         return response()->json($subjects);
+    }
+
+    public function getSubjectsByTeacher($id){
+        try{
+            $teacher = Teacher::find($id);
+            if(!$teacher){
+                return response()->json(['message' => 'Teacher not found'], 404);
+            }
+            $user = JWTAuth::parseToken()->authenticate();
+            if($user->role !== 'admin'){
+            return response()->json(['message' => 'Unauthorized'], 401);
+            }
+            $subjects = Subject::join("classes","subjects.class_id","=","classes.id")
+                                ->where("subjects.teacher_id", $id)
+                                ->select("subjects.id","classes.class_name","subjects.name")
+                                ->get();
+            if(!$subjects){
+                return response()->json(['message' =>"No subjects found for this teacher"],404);
+            }
+            return response([
+                "Subjects" => $subjects
+            ]);
+        }catch(Exception $e){
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
     }
 
     public function createSubject(Request $request){

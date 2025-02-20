@@ -11,7 +11,7 @@ use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Exception;
-use Illuminate\Container\Attributes\DB;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -80,14 +80,23 @@ class TeacherController extends Controller
                 return response()->json(["message" => "Class not found"], 404);
             }
 
-            $teachers = Teacher::whereHas('class', function ($query) use ($id) {
+            $teachers = Teacher::whereHas('classes', function ($query) use ($id) {
                 $query->where('id', $id);
             })->get();
             if (!$teachers) {
                 return response()->json(["message" => "No teacher with this class"], 404);
             }
-
-            return response()->json(["teachers" => $teachers]);
+            $studentCount = DB::table("students")
+            ->join("classes", "students.class_id", "=", "classes.id")
+            ->where("classes.id", $id)
+            ->select('classes.id', 'classes.class_name', 'classes.section',DB::raw('COUNT(students.id) as student_count'))
+            ->groupBy('classes.id', 'classes.class_name', 'classes.section')
+            ->first();
+        
+            return response()->json([
+                "teachers" => $teachers,
+                "Students" => $studentCount
+            ]);
         } catch (Exception $e) {
             return response()->json(["message" => $e->getMessage()], 500);
         }
