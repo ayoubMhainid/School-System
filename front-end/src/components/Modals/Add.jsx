@@ -315,8 +315,6 @@ export const Add = ({ setOpen, toAdd }) => {
                 />
               </>
             )}
-<<<<<<< HEAD
-=======
 
 
             {(toAdd === _notification) && (
@@ -338,7 +336,6 @@ export const Add = ({ setOpen, toAdd }) => {
                 className="border border-black px-3 py-1 rounded-sm w-[100%] resize-none outline-none h-32"></textarea>
               </>
             )}    
->>>>>>> d6c03c1b10e41d6808bc2f0d0555b084aa29c0d0
 
             {toAdd === _student && (
               <>
