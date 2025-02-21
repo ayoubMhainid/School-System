@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "../../components/UI/Input";
 import { Select } from "../../components/UI/Select";
 import { Button } from "../../components/UI/Button";
@@ -13,7 +13,6 @@ import {
   searchTeachersByUsername,
 } from "../../services/teacherServices";
 import { Add } from "../../components/Modals/Add";
-
 
 export const ManageTeacher = () => {
   const [openAddUser, setOpenAddUser] = useState(false);
@@ -109,18 +108,6 @@ export const ManageTeacher = () => {
       }
     }
   }, [user.token, dataSearch.username]);
-  /*
-  const searchTeacherByClass = async () => {
-    setErrorMessage(null);
-    const response = await getTeachersByClass(user.token, dataSearch.class_id);
-    setPaginate(false);
-    console.log(response);
-    response.status === 200
-      ? response.data.students.length
-        ? setStudents(response.data.students)
-        : (setErrorMessage(errors.notFound), setStudents([]))
-      : setErrorMessage(errors.tryAgain);
-  };*/
 
   useEffect(() => {
     const searchTeacherByClass = async () => {
@@ -129,23 +116,45 @@ export const ManageTeacher = () => {
         user.token,
         dataSearch.class_id
       );
-      setPaginate(false);
-      console.log(response);
-      // response.status === 200
-      //   ? response.data.students.length
-      //     ? setStudents(response.data.students)
-      //     : (setErrorMessage(errors.notFound), setStudents([]))
-      //   : setErrorMessage(errors.tryAgain);
+      setLoading(false);
+      const _response = response.data.teachers;
+      switch (response.status) {
+        case 200:
+          setPaginate(true);
+          setPagination({
+            currentPage: _response.current_page,
+            lastPage: _response.last_page,
+            total: _response.total,
+          });
+          _response.data.length
+            ? setTeachers(_response.data)
+            : setErrorMessage(errors.notFound);
+          break;
+        case 404:
+          setErrorMessage(_response.data.message);
+          break;
+        default:
+          setErrorMessage(errors.tryAgain);
+          break;
+      }
     };
-
-    user.token && dataSearch.class_id && searchTeacherByClass();
+    if (user.token) {
+      if (dataSearch.class_id) {
+        if (dataSearch.class_id !== "Filter by class") {
+          searchTeacherByClass();
+        } else {
+          setErrorMessage(null);
+          getTeachers_FUNCTION(1);
+        }
+      }
+    }
   }, [dataSearch.class_id]);
 
   return (
     !isMenuOpen && (
       <div className="ml-6 mt-6 w-[85%]">
         <div className="w-[100%] px-2">
-          <h1 className="text-3xl font-semibold">Manage students</h1>
+          <h1 className="text-3xl font-semibold">Manage teacher</h1>
           <br></br>
           <div className="sm:flex block justify-between w-[100%]">
             <div className="sm:flex flex-row gap-2 block w-[70%]">
@@ -167,14 +176,6 @@ export const ManageTeacher = () => {
                 onchange={handleCahnge}
                 valueToSelect={"id"}
               />
-              {/* <Select
-                title={"Filter by gender"}
-                name="gender"
-                width={"50%"}
-                options={["female", "male"]}
-                value={dataSearch.gender}
-                onchange={handleCahnge}
-              /> */}
             </div>
             <div>
               <Button
@@ -196,7 +197,6 @@ export const ManageTeacher = () => {
           {loading && <TableSkeleton />}
           {teachers && teachers.length > 0 && !loading ? (
             <Table
-              newViewFuction={setTeachers}
               heads={["Full name", "Username", "specialization"]}
               data={teachers}
               viewButton={true}
@@ -206,7 +206,7 @@ export const ManageTeacher = () => {
               pagination={pagination}
               paginate={paginate}
               getData={getTeachers_FUNCTION}
-              toUpdateOrDelete={"User"}
+              toUpdateOrDelete={"Teacher"}
             />
           ) : null}
         </div>

@@ -5,7 +5,7 @@ import moment from 'moment';
 import { LinearProgress} from '@mui/material';
 import { Pagination } from '../components/UI/Paginations';
 
-export const Event = () => {
+export const Events = () => {
     const [events,setEvents]=useState([])
     const [loading, setLoading] = useState(false);
     const [paginate, setPaginate] = useState(false);

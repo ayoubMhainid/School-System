@@ -31,3 +31,8 @@ export const getUserById = async (token, id) => {
     );
     return response;
   };
+
+
+export const getAuthenticatedUserData = async (token) =>{
+  // const response = await axios.get();
+}

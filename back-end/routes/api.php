@@ -43,18 +43,12 @@ Route::prefix('event')->group(function () {
     Route::post("/createEvent", [EventController::class, 'createEvent'])->middleware(CheckRole::class . ':admin');
 });
 
-Route::prefix("teacher")->group(function () {
-    Route::get("/getTeachers", [TeacherController::class, "getTeachers"]);
-    Route::post("/createTeacher", [TeacherController::class, "createTeacher"]);
-    Route::put("/updateTeacher/{id}", [TeacherController::class, "updateTeacher"]);
-    Route::delete("/deleteTeacher/{id}", [TeacherController::class, "deleteTeacher"]);
-});
 
 Route::prefix("user")->group(function () {
     Route::put("/updateUserData/{id}", [UserController::class, 'updateUserCredentials'])->middleware(CheckRole::class . ":admin");
     Route::delete("/deleteUser/{id}", [UserController::class, 'deleteUser'])->middleware(CheckRole::class . ":admin");
-    Route::get("/getUserById/{id}", [UserController::class, "getUserById"]);
-
+    Route::get("/getUserById/{id}", [UserController::class, "getUserById"])->middleware(CheckAuthentication::class);
+    Route::get("/getAuthUserData",[UserController::class, "getAuthUserData"])->middleware(CheckAuthentication::class);
 });
 
 
