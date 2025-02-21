@@ -4,6 +4,8 @@ import { Button } from "../../components/UI/Button";
 import { Delete } from "../../components/Modals/Delete";
 import { Add } from "../../components/Modals/Add";
 import moment from "moment";
+import { LinearProgress } from "@mui/material";
+import { Pagination } from "../../components/UI/Paginations";
 
 export const ManageEvents = () => {
     const [events,setEvents]=useState([])
@@ -59,9 +61,13 @@ export const ManageEvents = () => {
         <>
         {/* events List */}
         <div className="m-10 p-4 rounded-md shadow-md w-[90%]">
+          {loading ?
+          <LinearProgress />
+          :null}
           {!loading && events.length > 0 ? (
             <div className="flex flex-col gap-4">
-              <div className="flex justify-start mb-4">
+              <h1 className="text-3xl font-semibold mb-3">Manage events</h1>
+              <div className="flex justify-start mb-2">
               <Button
                 text="Add Event"
                 width="20%"
@@ -69,8 +75,7 @@ export const ManageEvents = () => {
                 disabled={loading}
                 />
               </div>
-              <h1 className="text-3xl font-semibold">Manage events</h1>
-              <br />
+              
               {events.map((event) => (
                 <div
                 key={event.id}
@@ -100,27 +105,18 @@ export const ManageEvents = () => {
                       }
                 </div>
               ))}
+               <Pagination currentPage={pagination.currentPage} lastPage={pagination.lastPage} previus={prevData} next={nextData} total={pagination.total}/>
             </div>
           ) : (
             <p className="text-center text-gray-500">No events found.</p>
           )}
-          <div className="flex justify-center items-center mt-6 gap-4">
-            <div>
-                <span className="text-lg font-medium mr-100 ">
-                    Total {pagination.total} ,Page {pagination.currentPage} of {pagination.lastPage}
-                </span>
-            </div>
-            <div className="flex justify-center gap-4" >
-                <Button text="Previous" width="20%" onClick={prevData} />
-                <Button text="Next" width="20%" onClick={nextData} />
-            </div>
+           
             {openModalAddEvent && (
           <Add
             toAdd="event"
             setOpen={setOpenModalAddEvent}
           />
         )}
-          </div>
         </div>
         </>
     )
