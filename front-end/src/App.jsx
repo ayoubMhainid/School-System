@@ -15,6 +15,7 @@ import { ManageEvents } from "./pages/admin/ManageEvents";
 import { Notifications } from "./shared/Notifications";
 import { ManageClasse } from "./pages/teacher/ManageClasse";
 import { ManageSubject } from "./pages/teacher/ManageSubject";
+import { Events } from "./shared/Event";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
           <Route path="/user/notifications" element={<Notifications />} />
           <Route path="/teacher/classes" element={<ManageClasse />} />
           <Route path="/teacher/subjects" element={<ManageSubject />} />
+          <Route path="/user/events" element={<Events />} />
         </Route>
       </Route>
     </Routes>

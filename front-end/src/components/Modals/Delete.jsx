@@ -58,15 +58,7 @@ export const Delete = ({ modal, setModal }) => {
       localStorage.getItem("token"),
       modal.data.id
     );
-<<<<<<< HEAD
-    setLoading(true);
-
-    // const teachers = listData.filter((teacher) => teacher.id !== modal.data.id);
-    // setNewData(teachers);
-    // setpage({});
-=======
     setLoading(false);
->>>>>>> said
     response.status === 200
       ? response.data.message
         ? (setNotification({ type: "success", message: response.data.message }),
