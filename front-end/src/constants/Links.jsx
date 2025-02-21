@@ -57,8 +57,8 @@ export const dataSideBar = [
   {
     ROLE: "admin",
     SVG: <DocumentTextIcon strokeWidth="1" className="w-6 h-6" />,
-    TEXT: "Exams & Results",
-    LINK: "/admin/exams",
+    TEXT: "Attendance",
+    LINK: "/admin/attencances",
   },
   {
     ROLE: "admin",
@@ -119,13 +119,13 @@ export const dataSideBar = [
     ROLE: "teacher",
     SVG: <MegaphoneIcon strokeWidth="1" className="w-6 h-6" />,
     TEXT: "Announcements",
-    LINK: "/teacher/announcements",
+    LINK: "/user/announcements",
   },
   {
     ROLE: "teacher",
     SVG: <CalendarDaysIcon strokeWidth="1" className="w-6 h-6" />,
     TEXT: "Events",
-    LINK: "/teacher/events",
+    LINK: "/user/events",
   },
   {
     ROLE: "teacher",
@@ -168,7 +168,7 @@ export const dataSideBar = [
     ROLE: "student",
     SVG: <MegaphoneIcon strokeWidth="1" className="w-6 h-6" />,
     TEXT: "Announcements",
-    LINK: "/student/announcements",
+    LINK: "/user/announcements",
   },
   {
     ROLE: "student",
@@ -180,7 +180,7 @@ export const dataSideBar = [
     ROLE: "student",
     SVG: <CalendarDaysIcon strokeWidth="1" className="w-6 h-6" />,
     TEXT: "Events",
-    LINK: "/student/events",
+    LINK: "/user/events",
   },
   {
     ROLE: "student",
