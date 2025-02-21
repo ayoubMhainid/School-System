@@ -10,11 +10,12 @@ import { PersisLogin } from "./pages/auth/PersisLogin";
 import { ManageSubjects } from "./pages/admin/MannageSubjects";
 import Profile from "./pages/admin/Profile";
 import { ManageClasses } from "./pages/admin/ManageClasses";
-import {ManageTeacher} from "./pages/admin/ManageTeacher"
-import  {ManageAnnouncement}  from "./pages/admin/ManageAnnouncement";	
+import { ManageTeacher } from "./pages/admin/ManageTeacher";
+import { ManageAnnouncement } from "./pages/admin/ManageAnnouncement";
 import { ManageEvents } from "./pages/admin/ManageEvents";
 import { Notifications } from "./shared/Notifications";
-import { Event } from "./shared/Event";
+import { ManageClasse } from "./pages/teacher/ManageClasse";
+import { ManageSubject } from "./pages/teacher/ManageSubject";
 
 function App() {
   return (
@@ -33,10 +34,10 @@ function App() {
           <Route path="/user/:id" element={<Profile />} />
           <Route path="/admin/classes" element={<ManageClasses />} />
           <Route path="/admin/announcement" element={<ManageAnnouncement />} />
-          <Route path="/admin/events" element={<ManageEvents/>} />
+          <Route path="/admin/events" element={<ManageEvents />} />
           <Route path="/user/notifications" element={<Notifications />} />
-          <Route path="/user/events" element={<Event />} />
-          
+          <Route path="/teacher/classes" element={<ManageClasse />} />
+          <Route path="/teacher/subjects" element={<ManageSubject />} />
         </Route>
       </Route>
     </Routes>

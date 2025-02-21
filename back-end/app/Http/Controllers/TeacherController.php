@@ -86,17 +86,8 @@ class TeacherController extends Controller
             if (!$teachers) {
                 return response()->json(["message" => "No teacher with this class"], 404);
             }
-            $studentCount = DB::table("students")
-            ->join("classes", "students.class_id", "=", "classes.id")
-            ->where("classes.id", $id)
-            ->select('classes.id', 'classes.class_name', 'classes.section',DB::raw('COUNT(students.id) as student_count'))
-            ->groupBy('classes.id', 'classes.class_name', 'classes.section')
-            ->first();
-        
-            return response()->json([
-                "teachers" => $teachers,
-                "Students" => $studentCount
-            ]);
+            
+            return response()->json(["teachers" => $teachers]);
         } catch (Exception $e) {
             return response()->json(["message" => $e->getMessage()], 500);
         }
