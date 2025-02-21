@@ -24,10 +24,11 @@ class StudentFactory extends Factory
         if ($id) {
             self::$usedIds[] = $id; // Mark this ID as used
         }
+        $classId = Classe::inRandomOrder()->first()?->id;
 
         return [
             'user_id' => $id,
-            'class_id' => Classe::orderBy('id')->value('id'), // Assign class in order
+            'class_id' => $classId,
             'full_name' => fake()->unique()->name(),
             'date_of_birth' => fake()->dateTimeBetween('2000-01-01', '2012-12-31')->format('Y-m-d'),
             'gender' => fake()->randomElement(["female", "male"]),
