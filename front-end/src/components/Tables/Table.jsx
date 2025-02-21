@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { ButtonSvg } from "../UI/ButtonSvg";
 import {
   EyeIcon,
+  MinusCircleIcon,
   PencilSquareIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline";
@@ -16,6 +17,7 @@ export const Table = ({
   viewButton,
   updateButton,
   deleteButton,
+  attendanceButton,
   keys,
   pagination,
   paginate,
@@ -103,6 +105,19 @@ export const Table = ({
                           onclick={() =>
                             setModal({
                               type: "delete",
+                              data: dataVar,
+                              toUpdateOrDelete: toUpdateOrDelete,
+                            })
+                          }
+                        />
+                      )}
+                      {attendanceButton && (
+                        <ButtonSvg
+                          svg={<MinusCircleIcon className="w-5 h-5 text-white" />}
+                          color={"pink"}
+                          onclick={() =>
+                            setModal({
+                              type: "attendance",
                               data: dataVar,
                               toUpdateOrDelete: toUpdateOrDelete,
                             })
