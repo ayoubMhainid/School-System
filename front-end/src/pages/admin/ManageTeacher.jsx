@@ -154,7 +154,7 @@ export const ManageTeacher = () => {
     !isMenuOpen && (
       <div className="ml-6 mt-6 w-[85%]">
         <div className="w-[100%] px-2">
-          <h1 className="text-3xl font-semibold">Manage students</h1>
+          <h1 className="text-3xl font-semibold">Manage teacher</h1>
           <br></br>
           <div className="sm:flex block justify-between w-[100%]">
             <div className="sm:flex flex-row gap-2 block w-[70%]">

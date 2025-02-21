@@ -39,7 +39,7 @@ export const Update = ({ modal, setModal }) => {
   const [classData, setClassData] = useState({
     class_name: modal?.data?.class_name,
     teacher_id: modal?.data?.teacher_id,
-    teacher_name: modal?.data?.teacher.full_name,
+    teacher_name: modal?.data?.teacher?.full_name,
     section: modal?.data?.section,
   });
 
