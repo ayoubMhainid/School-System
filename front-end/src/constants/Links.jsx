@@ -82,7 +82,7 @@ export const dataSideBar = [
     ROLE: "admin",
     SVG: <IdentificationIcon strokeWidth="1" className="w-6 h-6" />,
     TEXT: "Profile",
-    LINK: "/admin/profile",
+    LINK: "/user/profile",
   },
 
   {
@@ -137,7 +137,7 @@ export const dataSideBar = [
     ROLE: "teacher",
     SVG: <IdentificationIcon strokeWidth="1" className="w-6 h-6" />,
     TEXT: "Profile",
-    LINK: "/teacher/profile",
+    LINK: "/user/profile",
   },
 
   {
@@ -186,6 +186,6 @@ export const dataSideBar = [
     ROLE: "student",
     SVG: <IdentificationIcon strokeWidth="1" className="w-6 h-6" />,
     TEXT: "Profile",
-    LINK: "/student/profile",
+    LINK: "/user/profile",
   },
 ];
