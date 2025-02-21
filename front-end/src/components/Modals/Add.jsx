@@ -315,30 +315,6 @@ export const Add = ({ setOpen, toAdd }) => {
                 />
               </>
             )}
-<<<<<<< HEAD
-=======
-
-
-            {(toAdd === _notification) && (
-              <>
-                <Label text={"Receiver id"} />
-                <Input
-                  type="number"
-                  name="receiver_id"
-                  value={dataUser.receiver_id}
-                  onChange={handleChange}
-                  placholder="Enter a valid user id"
-                  border="black"
-                  text="black"
-                />
-                <Label text={"Message"} /><br></br>
-                <textarea name="content" 
-                required
-                placeholder="Max chars: 300" onChange={handleChange}
-                className="border border-black px-3 py-1 rounded-sm w-[100%] resize-none outline-none h-32"></textarea>
-              </>
-            )}    
->>>>>>> d6c03c1b10e41d6808bc2f0d0555b084aa29c0d0
 
             {toAdd === _student && (
               <>

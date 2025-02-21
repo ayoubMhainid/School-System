@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Classe;
 use App\Models\Teacher;
+use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ClassController extends Controller
 {
@@ -26,7 +28,7 @@ class ClassController extends Controller
     }
     public function getClassesByTeacher($id){
         try{
-            $teacher = Teacher::find($id);
+            $teacher = Teacher::where("user_id", $id)->first();
             if (!$teacher) {
                 return response()->json([
                     "message" => "Teacher not found"
@@ -37,8 +39,15 @@ class ClassController extends Controller
                             ->latest()
                             ->take(3)
                             ->get();
+            $studentCount = DB::table("students")
+            ->join("classes", "students.class_id", "=", "classes.id")
+            ->where("classes.teacher_id", $id)
+            ->select('classes.id', 'classes.class_name', 'classes.section',DB::raw('COUNT(students.id) as student_count'))
+            ->groupBy('classes.id', 'classes.class_name', 'classes.section')
+            ->get();
             return response()->json([
-                "classes" => $classes
+                "classes" => $classes,
+                "Students" => $studentCount
             ]);
 
         }catch(Exception $ex){
