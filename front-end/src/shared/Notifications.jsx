@@ -84,12 +84,12 @@ export const Notifications = () => {
                     notifications.map((notification) =>{
                         return <NotificationComponent notification={notification} />
                     })
-                : "No notifications founded"
+                : null
             }
           </div>
           {
-            <Pagination currentPage={pagination.currentPage} lastPage={pagination.lastPage}
-                        total={pagination.total} next={nextData} previus={prevData} />
+            notifications && notifications.length ? <Pagination currentPage={pagination.currentPage} lastPage={pagination.lastPage}
+                        total={pagination.total} next={nextData} previus={prevData} /> : null
           }
         </div>
         {openMakeMessage && <Add toAdd="notification" setOpen={setOpenMakeMessage} />}

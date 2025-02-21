@@ -36,7 +36,7 @@ export const searchTeachersByUsername = async (token, username) => {
 
 export const getTeachersByClass = async (token, class_id) => {
   const response = await axios.get(
-    `${apiUrl}/teacher/searchTeachersByUsername/${class_id}`,
+    `${apiUrl}/teacher/getTeachersByClass/${class_id}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,

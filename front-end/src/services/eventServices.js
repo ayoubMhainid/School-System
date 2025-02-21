@@ -20,3 +20,13 @@ export const deleteEvent = async (token,id) => {
   })
   return response
 }
+
+export const createEvent = async (token,data) =>{
+  const response = await axios.post(`${apiUrl}/event/createEvent`,data,{
+      headers : {
+          Authorization : `Bearer ${token}`,
+          "Content-Type": "multipart/form-data"
+      }
+  });
+  return response;
+}
