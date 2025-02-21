@@ -60,19 +60,15 @@ class ClassController extends Controller
                     "message" => "Teacher not found"
                 ], 404);
             }
-            $classes = Classe::where("teacher_id", $teacher->id)
-                ->latest()
-                ->get();
             $studentCount = DB::table("students")
                 ->join("classes", "students.class_id", "=", "classes.id")
-                ->where("classes.teacher_id", $user->id)
+                ->where("classes.teacher_id", $teacher->id)
                 ->select('classes.id', 'classes.class_name', 'classes.section', DB::raw('COUNT(students.id) as student_count'))
                 ->groupBy('classes.id', 'classes.class_name', 'classes.section')
                 ->get();
 
             return response()->json([
-                "classes" => $classes,
-                "Students" => $studentCount
+                "students" => $studentCount
             ]);
         } catch (Exception $ex) {
             return response()->json([

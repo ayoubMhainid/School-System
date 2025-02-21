@@ -112,10 +112,10 @@ Route::prefix("notification")->middleware(CheckAuthentication::class)->group(fun
 });
 
 
-Route::prefix("subject")->middleware(CheckRole::class . ":admin")->group(function () {
-    Route::get("/getSubjects", [SubjectController::class, "getSubjects"]);
-    Route::get("/getSubjectsByTeacher/{id}", [SubjectController::class, "getSubjectsByTeacher"]);
-    Route::post("/createSubject", [SubjectController::class, "createSubject"]);
-    Route::delete("/deleteSubject/{id}", [SubjectController::class, "deleteSubject"]);
-    Route::put("/updateSubject", [SubjectController::class, "updateSubject"]);
+Route::prefix("subject")->group(function () {
+    Route::get("/getSubjects", [SubjectController::class, "getSubjects"])->middleware(CheckRole::class . ":admin");
+    Route::get("/getSubjectsByTeacher", [SubjectController::class, "getSubjectsByTeacher"])->middleware(CheckRole::class . ":teacher");
+    Route::post("/createSubject", [SubjectController::class, "createSubject"])->middleware(CheckRole::class . ":admin");
+    Route::delete("/deleteSubject/{id}", [SubjectController::class, "deleteSubject"])->middleware(CheckRole::class . ":admin");
+    Route::put("/updateSubject", [SubjectController::class, "updateSubject"])->middleware(CheckRole::class . ":admin");
 });
