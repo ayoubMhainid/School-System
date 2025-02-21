@@ -38,7 +38,7 @@ class EventController extends Controller
     public function getEventsPaginate()
     {
         try {
-            $events = Event::with('admin')->latest()->paginate(4);
+            $events = Event::with('admin')->latest()->paginate(3);
             if ($events) {
                 return response()->json([
                     'events' => $events,
@@ -79,44 +79,43 @@ class EventController extends Controller
     }
 
     public function createEvent(Request $request)
-    {
-        try {
-            $user = JWTAuth::parseToken()->authenticate();
+{
+    try {
+        $user = JWTAuth::parseToken()->authenticate();
 
-            $request->validate([
-                'title' => 'required',
-                'message' => 'required|max:400',
-                'image' => 'mimes:jpeg,jpg,png,webp|max:2048',
-            ]);
+        $request->validate([
+            'title' => 'required',
+            'message' => 'required|max:400',
+            'image' => 'mimes:jpeg,jpg,png,webp|max:2048',
+        ]);
 
+        $title = $request->input("title");
+        $message = $request->input("message");
+        $event_picture = null; 
+
+        if ($request->hasFile('image')) {
             $file = $request->file('image');
             $fileName = time() . "_" . $file->getClientOriginalName();
-
-            $title = $request->input("title");
-            $message = $request->input("message");
-            $event_picture = $fileName;
-
-            $admin = Admin::where('user_id', $user->id)
-                ->first();
-            if (!$admin) {
-                return response()->json([
-                    "message" => 'Unauthorized',
-                ], 401);
-            }
             $file->move('storage/events', $fileName);
-            Event::create([
-                "admin_id" => $admin->id,
-                "title" => $title,
-                "message" => $message,
-                "event_picture" => $event_picture,
-            ]);
-            return response()->json([
-                "message" => "New event created successfully!",
-            ]);
-        } catch (Exception $ex) {
-            return response()->json([
-                "message" => $ex->getMessage(),
-            ], 500);
+            $event_picture = $fileName; 
         }
+
+        $admin = Admin::where('user_id', $user->id)->first();
+        if (!$admin) {
+            return response()->json(["message" => 'Unauthorized'], 401);
+        }
+
+        Event::create([
+            "admin_id" => $admin->id,
+            "title" => $title,
+            "message" => $message,
+            "event_picture" => $event_picture,
+        ]);
+
+        return response()->json(["message" => "New event created successfully!"], 201);
+
+    } catch (Exception $ex) {
+        return response()->json(["message" => $ex->getMessage()], 500);
     }
+}
 }
