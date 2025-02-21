@@ -59,7 +59,7 @@ export const ManageSubjects = () => {
           <Table
             heads={["teacher name", "class name", "name"]}
             data={subject}
-            viewButton={true}
+            viewButton={false}
             updateButton={true}
             deleteButton={true}
             keys={["teacher.full_name", "class.class_name", "name"]}
