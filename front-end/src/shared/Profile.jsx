@@ -8,9 +8,9 @@ export const Profile = () => {
     const [loading,setLoading] = useState(false);
     const { isMenuOpen } = useAppContext();
 
-
-
-
+    const getAuthenticatedUserData_FUNCTION = async () =>{
+      
+    }
   return (
     !isMenuOpen && (
       <div className={`ml-6 mt-6 w-[85%]`}>
