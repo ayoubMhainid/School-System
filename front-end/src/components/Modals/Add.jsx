@@ -323,6 +323,7 @@ export const Add = ({ setOpen, toAdd }) => {
               </>
             )}
 
+
             {(toAdd === _notification) && (
               <>
                 <Label text={"Receiver id"} />

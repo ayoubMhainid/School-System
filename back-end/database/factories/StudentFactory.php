@@ -11,19 +11,27 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class StudentFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
+    protected static $usedIds = [];
+
     public function definition(): array
     {
+        // Get the next available user ID with the 'student' role
+        $id = User::where('role', 'student')
+            ->whereNotIn('id', self::$usedIds) // Exclude used IDs
+            ->orderBy('id')
+            ->value('id');
+
+        if ($id) {
+            self::$usedIds[] = $id; // Mark this ID as used
+        }
+        $classId = Classe::inRandomOrder()->first()?->id;
+
         return [
-            'user_id' => User::inRandomOrder()->value('id'),
-            'class_id' => Classe::inRandomOrder()->value('id'),
+            'user_id' => $id,
+            'class_id' => $classId,
             'full_name' => fake()->unique()->name(),
             'date_of_birth' => fake()->dateTimeBetween('2000-01-01', '2012-12-31')->format('Y-m-d'),
-            'gender' => fake()->randomElement(["female","male"]),
+            'gender' => fake()->randomElement(["female", "male"]),
             'address' => fake()->address(),
             'phone' => fake()->unique()->numerify('+212 6 ## ## ## ##'),
             'username' => fake()->unique()->userName(),            
