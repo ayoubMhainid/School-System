@@ -25,4 +25,8 @@ class Admin extends Model
     {
         return $this->hasMany(Event::class);
     }
+
+    public function getProfilePictureAttribute(){
+        return asset("storage/users/adminImage.jpg");
+    }
 }

@@ -60,7 +60,7 @@ function Profile() {
             <>
               <div className="mt-6 flex items-center gap-4">
                 <div>
-                  <img src={imgProfile} className="w-20 h-20 rounded-full" alt="Profile" />
+                  <img src={userData.profile_picture} className="w-20 h-20 rounded-full" alt="Profile" />
                 </div>
                 <div className="flex justify-start flex-col">
                   <span className="text-2xl font-semibold">{userData.full_name}</span>
