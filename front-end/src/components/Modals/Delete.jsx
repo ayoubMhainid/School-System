@@ -8,6 +8,7 @@ import { deleteAnnouncement } from "../../services/announcementServices";
 import { deleteClass } from "../../services/classServices";
 import { deleteEvent } from "../../services/eventServices";
 import { deleteNotification } from "../../services/notificationServices";
+import { deleteTeacher } from "../../services/teacherServices";
 
 export const Delete = ({ modal, setModal }) => {
   const [loading, setLoading] = useState(false);
@@ -30,7 +31,6 @@ export const Delete = ({ modal, setModal }) => {
       : setNotification({ type: "error", message: errors.notFound });
   };
 
-
   const deleteSubject_FUNCTION = async () => {
     setNotification(null);
     setLoading(true);
@@ -50,7 +50,6 @@ export const Delete = ({ modal, setModal }) => {
       : setNotification({ type: "error", message: errors.notFound });
   };
 
-
   const deleteTeacher_FUNCTION = async () => {
     setNotification(null);
     setLoading(true);
@@ -59,11 +58,15 @@ export const Delete = ({ modal, setModal }) => {
       localStorage.getItem("token"),
       modal.data.id
     );
+<<<<<<< HEAD
     setLoading(true);
 
     // const teachers = listData.filter((teacher) => teacher.id !== modal.data.id);
     // setNewData(teachers);
     // setpage({});
+=======
+    setLoading(false);
+>>>>>>> said
     response.status === 200
       ? response.data.message
         ? (setNotification({ type: "success", message: response.data.message }),
@@ -74,8 +77,7 @@ export const Delete = ({ modal, setModal }) => {
       : setNotification({ type: "error", message: errors.notFound });
   };
 
-
-  const deleteClass_FUNCTION = async () => { 
+  const deleteClass_FUNCTION = async () => {
     setNotification(null);
     setLoading(true);
     const response = await deleteClass(
@@ -91,52 +93,78 @@ export const Delete = ({ modal, setModal }) => {
           }, 1000))
         : setNotification({ type: "error", message: errors.tryAgain })
       : setNotification({ type: "error", message: errors.notFound });
-  }
+  };
 
-  const deleteAnnouncement_FUNCTION = async () =>{
+  const deleteAnnouncement_FUNCTION = async () => {
     setNotification(null);
     setLoading(true);
-    const response = await deleteAnnouncement(localStorage.getItem('token'),modal.data.id);    
+    const response = await deleteAnnouncement(
+      localStorage.getItem("token"),
+      modal.data.id
+    );
     setLoading(false);
-    response.status === 200 ? response.data.message ? 
-    (setNotification({type:"success",message:response.data.message}),setTimeout(() => {setModal({type:''})},3000))
-     : setNotification({type:'error',message:errors.tryAgain}) : setNotification({type:'error',message: errors.notFound});
-  }
+    response.status === 200
+      ? response.data.message
+        ? (setNotification({ type: "success", message: response.data.message }),
+          setTimeout(() => {
+            setModal({ type: "" });
+          }, 3000))
+        : setNotification({ type: "error", message: errors.tryAgain })
+      : setNotification({ type: "error", message: errors.notFound });
+  };
 
-  const deleteNotification_FUNCTION = async () =>{
+  const deleteNotification_FUNCTION = async () => {
     setNotification(null);
     setLoading(true);
-    const response = await deleteNotification(localStorage.getItem('token'),modal.data.id);   
+    const response = await deleteNotification(
+      localStorage.getItem("token"),
+      modal.data.id
+    );
     setLoading(false);
-    response.status === 200 ? response.data.message ? 
-    (setNotification({type:"success",message:response.data.message}),setTimeout(() => {setModal({type:''})},3000))
-     : setNotification({type:'error',message:errors.tryAgain}) : setNotification({type:'error',message: errors.notFound});
-  }
-  const deleteEvent_FUNCTION = async () =>{
+    response.status === 200
+      ? response.data.message
+        ? (setNotification({ type: "success", message: response.data.message }),
+          setTimeout(() => {
+            setModal({ type: "" });
+          }, 3000))
+        : setNotification({ type: "error", message: errors.tryAgain })
+      : setNotification({ type: "error", message: errors.notFound });
+  };
+  const deleteEvent_FUNCTION = async () => {
     setNotification(null);
     setLoading(false);
-    const response = await deleteEvent(localStorage.getItem('token'),modal.data.id);    
-    response.status === 200 ? response.data.message ? 
-    (setNotification({type:"success",message:response.data.message}),setTimeout(() => {setModal({type:''})},3000))
-     : setNotification({type:'error',message:errors.tryAgain}) : setNotification({type:'error',message: errors.notFound});
-  }
+    const response = await deleteEvent(
+      localStorage.getItem("token"),
+      modal.data.id
+    );
+    response.status === 200
+      ? response.data.message
+        ? (setNotification({ type: "success", message: response.data.message }),
+          setTimeout(() => {
+            setModal({ type: "" });
+          }, 3000))
+        : setNotification({ type: "error", message: errors.tryAgain })
+      : setNotification({ type: "error", message: errors.notFound });
+  };
 
-  const delete_FUNCTION = async (e) =>{
+  const delete_FUNCTION = async (e) => {
     e.preventDefault();
     if (modal.toUpdateOrDelete === "User") {
       deleteUser_FUNCTION();
     } else if (modal.toUpdateOrDelete === "Subject") {
       deleteSubject_FUNCTION();
-    }else if (modal.toUpdateOrDelete === "Announcement") {
+    } else if (modal.toUpdateOrDelete === "Announcement") {
       deleteAnnouncement_FUNCTION();
-    }else if(modal.toUpdateOrDelete === "Classe"){
+    } else if (modal.toUpdateOrDelete === "Classe") {
       deleteClass_FUNCTION();
-    }else if (modal.toUpdateOrDelete === "Event"){
+    } else if (modal.toUpdateOrDelete === "Event") {
       deleteEvent_FUNCTION();
-    }else if(modal.toUpdateOrDelete === 'Notification'){
+    } else if (modal.toUpdateOrDelete === "Notification") {
       deleteNotification_FUNCTION();
+    } else if (modal.toUpdateOrDelete === "Teacher") {
+      deleteTeacher_FUNCTION();
     }
-}
+  };
 
   return (
     <div className="z-20 fixed inset-0 flex items-center justify-center bg-opacity-50 backdrop-blur-md">
@@ -189,4 +217,4 @@ export const Delete = ({ modal, setModal }) => {
       </div>
     </div>
   );
-}
+};

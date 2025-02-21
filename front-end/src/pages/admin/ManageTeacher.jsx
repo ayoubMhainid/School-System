@@ -138,12 +138,12 @@ export const ManageTeacher = () => {
           break;
       }
     };
-
     if (user.token) {
       if (dataSearch.class_id) {
         if (dataSearch.class_id !== "Filter by class") {
           searchTeacherByClass();
         } else {
+          setErrorMessage(null);
           getTeachers_FUNCTION(1);
         }
       }

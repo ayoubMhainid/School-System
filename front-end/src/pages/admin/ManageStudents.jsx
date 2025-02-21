@@ -120,9 +120,9 @@ export const ManageStudents = () => {
   useEffect(() => {
     if (selectedGender) {
       if (selectedGender !== "Filter by gender") {
-        console.log("object");
         filterStudentsByGender_FUNCTION();
       } else {
+        setErrorMessage(null);
         getStudents_FUNCTION(1);
       }
     }
@@ -133,6 +133,7 @@ export const ManageStudents = () => {
       if (selectedClass !== "Filter by class") {
         getStudentsByClass_FUNCTION();
       } else {
+        setErrorMessage(null);
         getStudents_FUNCTION(1);
       }
     }
