@@ -12,6 +12,7 @@ import { Select } from "../UI/Select";
 import { AddSubjects, getallSubject, getSubjects } from "../../services/subjectServices";
 import { createNotification } from "../../services/notificationServices";
 import { createAnnouncement } from "../../services/announcementServices";
+import { createEvent } from "../../services/eventServices";
 
 export const Add = ({ setOpen, toAdd }) => {
   const [dataUser, setDataUser] = useState({});
@@ -19,7 +20,6 @@ export const Add = ({ setOpen, toAdd }) => {
   const [classList, setClassList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [notification, setNotification] = useState({});
-
   const [newSubject, setNewSubject] = useState({
     teacher_id: "",
     class_id: "",
@@ -37,12 +37,16 @@ export const Add = ({ setOpen, toAdd }) => {
   const _announcement = "announcement";
   const _classe = "classe";
   const _notification = "notification";
+  const _event = "event"
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setDataUser((prev) => ({ ...prev, [name]: value }));
-  };
+    const { name, value, type, files } = e.target;
 
+    setDataUser((prev) => ({
+        ...prev,
+        [name]: type === "file" ? files[0] : value,
+    }));
+};
   const handleChangeSubject = (e) => {
     const { name, value } = e.target;
     setNewSubject((prev) => ({ ...prev, [name]: value }));
@@ -95,7 +99,10 @@ export const Add = ({ setOpen, toAdd }) => {
           response = await createNotification(user.token,dataUser)
           setNotification({ type: "success", message: response.data.message });
           break;
-        
+        case _event : 
+          response = await createEvent(user.token,dataUser)
+          setNotification({ type: "success", message: response.data.message });
+          break;
         default:
           setNotification({ type: "error", message: "Unauthorized" });
           break;
@@ -429,6 +436,37 @@ export const Add = ({ setOpen, toAdd }) => {
                 ></textarea>
               </>
             )}
+              {toAdd === _event &&(
+                <>
+                  <Label text="Title" />
+                  <Input
+                    type="text"
+                    name="title"
+                    onChange={handleChange}
+                    placholder="title"
+                    border="black"
+                    text="black"
+                  />
+                  <Label text="Message" /> <br></br>
+                <textarea
+                  className={
+                    "border border-gray-600 resize-none outline-none text-black px-3 py-1 text-md bg-inherit rounded-sm outline-none w-[100%]"
+                  }
+                  name="message"
+                  onChange={handleChange}
+                  placeholder="Message"
+                ></textarea>
+                <Label text="Event Picture" /> <br></br>
+                <Input
+                    type="file"
+                    name="image"
+                    onChange={handleChange}
+                    placholder="chose the event picture"
+                    border="black"
+                    text="black"
+                  />
+                </>
+              )}
             <div className="flex justify-end gap-4 mt-6">
               <Button
                 type="button"
