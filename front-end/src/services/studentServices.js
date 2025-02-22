@@ -57,3 +57,13 @@ export const createStudent = async (token, data) => {
   });
   return response;
 };
+
+
+export const updateStudentData = async (token,data) =>{
+  const response = await axios.put(`${apiUrl}/student/updateStudentData`, data,{
+    headers : {
+      Authorization : `Bearer ${token}`
+    }
+  });
+  return response;
+}

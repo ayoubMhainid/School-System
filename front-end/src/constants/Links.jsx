@@ -15,6 +15,7 @@ import {
   BuildingLibraryIcon,
   IdentificationIcon,
   PencilSquareIcon,
+  KeyIcon,
 } from "@heroicons/react/24/outline";
 
 export const dataSideBar = [
@@ -71,6 +72,12 @@ export const dataSideBar = [
     SVG: <BellIcon strokeWidth="1" className="w-6 h-6" />,
     TEXT: "Notifications",
     LINK: "/user/notifications",
+  },
+  {
+    ROLE: "admin",
+    SVG: <KeyIcon strokeWidth="1" className="w-6 h-6" />,
+    TEXT: "Secret Keys",
+    LINK: "/admin/keys",
   },
   {
     ROLE: "admin",

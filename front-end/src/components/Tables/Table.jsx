@@ -10,6 +10,7 @@ import { Pagination } from "../UI/Paginations";
 import { Update } from "../Modals/Update";
 import { Delete } from "../Modals/Delete";
 import { Link, useNavigate } from "react-router-dom";
+import moment from "moment";
 
 export const Table = ({
   heads,
@@ -69,9 +70,13 @@ export const Table = ({
                   {keys &&
                     keys.map((key, colIndex) => (
                       <td key={colIndex} className="py-1 text-center">
-                        {key
+                        {
+                          key === 'expires_at' ? moment(dataVar['expires_at']).diff(moment(), 'days') + " Days" :
+                          key
                           .split(".")
-                          .reduce((obj, prop) => obj?.[prop], dataVar)}
+                          .reduce((obj, prop) => obj?.[prop], dataVar)
+                        }
+                        
                       </td>
                     ))}
                   {(viewButton || updateButton || deleteButton) && (
