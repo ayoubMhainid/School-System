@@ -66,9 +66,23 @@ class ExamController extends Controller
     {
         try {
             $user = JWTAuth::parseToken()->authenticate();
-            if ($user->role !== "teacher") {
+
+            if ($user->role === "admin") {
                 return response()->json([
-                    "user" => $user,
+                    "message" => "Unauthorized",
+                ], 401);
+            }
+            if ($user->role === "student") {
+
+                $student = Student::where('user_id', $user->id)->first();
+                $exams = Exam::where("class_id", $student->class_id)
+                    ->with("subject")
+                    ->with("class")
+                    ->latest()
+                    ->paginate(5);
+
+                return response()->json([
+                    "exams" => $exams
                 ]);
             }
 
@@ -98,6 +112,72 @@ class ExamController extends Controller
         }
     }
 
+    public function getExamById($id)
+    {
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+            if ($user->role !== "teacher" && $user->role !== "student") {
+                return response()->json([
+                    "message" => "Unautnorized"
+                ], 401);
+            }
+            $exam = Exam::find($id);
+            return response()->json([
+                "exam" => $exam
+            ]);
+        } catch (Exception $ex) {
+            return response()->json([
+                "message" => $ex->getMessage()
+            ], 500);
+        }
+    }
+
+    public function updateExam(Request $request, $id)
+    {
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+
+            $exam = Exam::find($id);
+            if (!$exam) {
+                return response()->json([
+                    "message" => "Exam not found"
+                ], 404);
+            }
+
+            $validator = $request->validate([
+                "subject_id" => "required|exists:subjects,id",
+                "class_id" => "required|exists:classes,id",
+                "exam_name" => "required|string|max:255",
+                "date" => "required|date",
+            ]);
+
+            $date = Carbon::createFromFormat('d-m-Y', $validator['date'])->format('Y-m-d');
+            $teacher = Teacher::where("user_id", $user->id)->first();
+            $subject = Subject::find($exam->subject_id);
+
+
+            if ($teacher->id !== $subject->teacher_id || $exam->class_id !== $subject->class_id) {
+                return response()->json([
+                    "message" => "Unauthorized"
+                ], 401);
+            }
+
+            $exam->subject_id = $validator["subject_id"];
+            $exam->class_id = $validator["class_id"];
+            $exam->exam_name = $validator["exam_name"];
+            $exam->date = $date;
+            $exam->save();
+
+            return response()->json([
+                "message" => "Exam updated successfully"
+            ]);
+        } catch (Exception $ex) {
+            return response()->json([
+                "message" => $ex->getMessage()
+            ], 500);
+        }
+    }
+
     public function deleteExam($id)
     {
         try {
@@ -113,7 +193,7 @@ class ExamController extends Controller
             $teacher = Teacher::where("user_id", $user->id)->first();
             $subject = Subject::find($exam->subject_id);
 
-            if ($teacher->id !== $subject->teacher_id && $exam->class_id !== $subject->class_id) {
+            if ($teacher->id !== $subject->teacher_id || $exam->class_id !== $subject->class_id) {
                 return response()->json([
                     "message" => "Unauthorized"
                 ], 401);
