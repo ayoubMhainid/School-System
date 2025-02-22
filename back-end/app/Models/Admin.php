@@ -29,4 +29,8 @@ class Admin extends Model
     public function getProfilePictureAttribute(){
         return asset("storage/users/adminImage.jpg");
     }
+
+    public function secrets(){
+        return $this->hasMany(Secret::class);
+    }
 }
