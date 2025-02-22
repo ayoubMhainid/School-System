@@ -46,7 +46,7 @@ export const Layout = () => {
       </div>
       {newdataSideBar && newdataSideBar.length > 0 && (
         <div
-          className={`z-40 bg-dark [#011a41]) font-[500] font-[Poppins,sans-serif] w-[80%] 2xl:w-[15%] md:w-[300px] h-full shadow-[0_0_15px_rgba(0,0,0,0.5)] flex flex-col pl-1 ${
+          className={`z-40 bg-dark [#011a41]) font-[500] font-[Poppins,sans-serif] w-[80%] 2xl:w-[15%] md:w-[300px] h-full flex flex-col pl-1 ${
             user !== "admin" && "pt-8"
           } absolute sm:translate-x-0 duration-500 ${
             !isMenuOpen && "-translate-x-full"

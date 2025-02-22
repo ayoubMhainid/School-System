@@ -9,6 +9,7 @@ import { deleteClass } from "../../services/classServices";
 import { deleteEvent } from "../../services/eventServices";
 import { deleteNotification } from "../../services/notificationServices";
 import { deleteTeacher } from "../../services/teacherServices";
+import { deleteSecret } from "../../services/secretsServices";
 
 export const Delete = ({ modal, setModal }) => {
   const [loading, setLoading] = useState(false);
@@ -16,19 +17,29 @@ export const Delete = ({ modal, setModal }) => {
 
   const deleteUser_FUNCTION = async () => {
     setNotification(null);
-    setLoading(true);
-    const response = await deleteUser(
-      localStorage.getItem("token"),
-      modal.data.user.id
-    );
-    response.status === 200
-      ? response.data.message
-        ? (setNotification({ type: "success", message: response.data.message }),
-          setTimeout(() => {
-            setModal({ type: "" });
-          }, 3000))
-        : setNotification({ type: "error", message: errors.tryAgain })
-      : setNotification({ type: "error", message: errors.notFound });
+    try{
+      setLoading(true);
+      const response = await deleteUser(
+        localStorage.getItem("token"),
+        modal.data.user.id
+      );
+      setLoading(false);
+      response.status === 200
+        ? response.data.message
+          ? (setNotification({ type: "success", message: response.data.message }),
+            setTimeout(() => {
+              setModal({ type: "" });
+            }, 3000))
+          : setNotification({ type: "error", message: errors.tryAgain })
+        : setNotification({ type: "error", message: errors.notFound });
+    }catch(error) {
+      setLoading(false);
+      if(error.response.data.message){
+        setNotification({type:"error",message:error.response.data.message})
+      }else{
+        setNotification({ type: "error", message: errors.tryAgain })
+      }
+    }
   };
 
   const deleteSubject_FUNCTION = async () => {
@@ -124,11 +135,12 @@ export const Delete = ({ modal, setModal }) => {
   };
   const deleteEvent_FUNCTION = async () => {
     setNotification(null);
-    setLoading(false);
+    setLoading(true);
     const response = await deleteEvent(
       localStorage.getItem("token"),
       modal.data.id
     );
+    setLoading(false);
     response.status === 200
       ? response.data.message
         ? (setNotification({ type: "success", message: response.data.message }),
@@ -138,6 +150,33 @@ export const Delete = ({ modal, setModal }) => {
         : setNotification({ type: "error", message: errors.tryAgain })
       : setNotification({ type: "error", message: errors.notFound });
   };
+
+  const deleteSecretKey_FUNCTION = async () =>{
+    setNotification(null);
+    try {
+      setLoading(true);
+      const response = await deleteSecret(
+        localStorage.getItem("token"),
+        modal.data.id
+      );
+      setLoading(false);
+      response.status === 200
+        ? response.data.message
+          ? (setNotification({ type: "success", message: response.data.message }),
+            setTimeout(() => {
+              setModal({ type: "" });
+            }, 3000))
+          : setNotification({ type: "error", message: errors.tryAgain })
+        : setNotification({ type: "error", message: errors.notFound });
+    } catch(error) {
+      setLoading(false);
+      if(error.response.data.message){
+        setNotification({type:"error",message:error.response.data.message})
+      }else{
+        setNotification({ type: "error", message: errors.tryAgain })
+      }
+    }
+  }
 
   const delete_FUNCTION = async (e) => {
     e.preventDefault();
@@ -155,6 +194,8 @@ export const Delete = ({ modal, setModal }) => {
       deleteNotification_FUNCTION();
     } else if (modal.toUpdateOrDelete === "Teacher") {
       deleteTeacher_FUNCTION();
+    }else if(modal.toUpdateOrDelete === 'Secret'){
+      deleteSecretKey_FUNCTION();
     }
   };
 

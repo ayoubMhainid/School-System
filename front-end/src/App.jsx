@@ -17,6 +17,7 @@ import { ManageClasse } from "./pages/teacher/ManageClasse";
 import { ManageSubject } from "./pages/teacher/ManageSubject";
 import { Events } from "./shared/Event";
 import { Profile as ProfilePage } from "./shared/Profile";
+import { SecretKeys } from "./pages/admin/SecretKeys";
 function App() {
   return (
     <Routes>
@@ -39,6 +40,7 @@ function App() {
           <Route path="/teacher/subjects" element={<ManageSubject />} />
           <Route path="/user/events" element={<Events />} />
           <Route path="/user/profile" element={<ProfilePage />} />
+          <Route path="/admin/keys" element={<SecretKeys />} />
         </Route>
       </Route>
     </Routes>
