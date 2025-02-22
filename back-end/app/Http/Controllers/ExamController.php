@@ -30,12 +30,6 @@ class ExamController extends Controller
                 "date" => "required|date",
             ]);
 
-            if ($user->role !== "teacher") {
-                return response()->json([
-                    "message" => "Unauthorized",
-                ], 401);
-            }
-
             $teacher = Teacher::where("user_id", $user->id)->first();
             $subject = Subject::find($validator["subject_id"]);
             $students = Student::where("class_id", $validator['class_id'])->get();
@@ -79,15 +73,9 @@ class ExamController extends Controller
             }
 
             $teacher = Teacher::where("user_id", $user->id)->first();
-
             $subjects = Subject::where("teacher_id", $teacher->id)->get();
 
-            // $listexam = [
-            //     "current_page" => 0,
-            //     "data" => [],
-            //     "last_page" => 0,
-            //     "total" => 0,
-            // ];
+            $listexam = array();
 
             foreach ($subjects as $subject) {
                 $exam = Exam::where("subject_id", $subject->id)
@@ -95,20 +83,13 @@ class ExamController extends Controller
                     ->with("subject")
                     ->with("class")
                     ->latest()
-                    ->paginate(4);
+                    ->get();
 
-                // array_push($listexam, $exam);
-                // $listexam["current_page"] += $exam->current_page;
-                // array_push($listexam["data"], $exam->data);
-                // $listexam["last_page"] += $exam->last_page;
-                // $listexam["total"] += $exam->total;
+                array_push($listexam, $exam);
             }
 
             return response()->json([
-                "teacher" => $teacher,
-                "subject" => $subjects,
-                "exams" => $exam,
-                "cur" => $exam->current_page
+                "exams" => $listexam
             ]);
         } catch (Exception $e) {
             return response()->json([
@@ -122,23 +103,11 @@ class ExamController extends Controller
         try {
             $user = JWTAuth::parseToken()->authenticate();
 
-            if ($user->role !== "teacher" && $user->role !== "admin") {
-                return response()->json([
-                    "message" => "Unauthorized"
-                ], 401);
-            }
-
             $exam = Exam::find($id);
             if (!$exam) {
                 return response()->json([
                     "message" => "Exam not found"
                 ], 404);
-            }
-            if ($user->role === "admin") {
-                $exam->delete();
-                return response()->json([
-                    "message" => "Exam deleted successfully"
-                ]);
             }
 
             $teacher = Teacher::where("user_id", $user->id)->first();
