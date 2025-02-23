@@ -57,3 +57,13 @@ export const deleteTeacher = async (token, teacher_id) => {
   );
   return response;
 };
+
+
+export const updateTeacherData = async (token,data) =>{
+  const response = await axios.put(`${apiUrl}/teacher/updateTeacher`,data,{
+    headers : {
+      Authorization : `Bearer ${token}`
+    }
+  });
+  return response;
+}

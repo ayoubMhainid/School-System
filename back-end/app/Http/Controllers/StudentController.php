@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Secret;
 use Exception;
 use App\Models\User;
 use App\Models\Student;
@@ -149,7 +150,6 @@ class StudentController extends Controller
             $generatedUsername = $randString . $randNumber;
 
             Student::create([
-
                 "user_id" => $user->id,
                 "class_id" => $request->class_id,
                 "full_name" => $request->full_name,
@@ -189,26 +189,41 @@ class StudentController extends Controller
                 'username' => [
                     Rule::unique('students', 'username')->ignore($student->id),
                 ],
-                'birth_date' => 'date',
-                'gender' => 'required|in:male,female'
+                'date_of_birth' => 'date',
+                'phone' => 'required|string|unique:students,phone,' . $student->id,
+                'gender' => 'required|in:male,female',
+                "class_id" => "required|exists:classes,id",
+                "secretKey" => "required"
             ]);
+
+
+            $secretKey = Secret::where("secretKey",$request->secretKey)
+                                ->where("expires_at",">",now())
+                                ->first();
+
+            if(!$secretKey){
+                return response()->json([
+                    'message' => "Invalid secret Key"
+                ],404);
+            }
 
             $student->full_name = $request->full_name;
             $student->username = $request->username;
-            $student->date_of_birth = $request->birth_date;
+            $student->date_of_birth = $request->date_of_birth;
             $student->gender = $request->gender;
             $student->address = $request->address;
             $student->phone = $request->phone;
+            $student->class_id = $request->class_id;
 
             $student->save();
 
             return response()->json([
-                'message' => "Student updated successfully"
+                'message' => "Student Data updated successfully"
             ]);
         } catch (Exception $ex) {
             return response()->json([
                 "message" => $ex->getMessage(),
-            ]);
+            ],500);
         }
     }
 

@@ -49,6 +49,7 @@ class UserController extends Controller
             $user = JWTAuth::parseToken()->authenticate();
             if($user->role === 'admin'){
                 $userData = Admin::where("user_id",$user->id)
+                                    ->with("user")
                                     ->first();
                 return response()->json([
                     "role" => "admin",
@@ -56,6 +57,7 @@ class UserController extends Controller
                 ]);
             }else if($user->role === 'teacher'){
                 $userData = Teacher::where("user_id",$user->id)
+                                    ->with("user")
                                     ->first();
                 return response()->json([
                     "role" => "teacher",
@@ -64,6 +66,7 @@ class UserController extends Controller
             }else if($user->role === 'student'){
                 $userData = Student::where("user_id",$user->id)
                                     ->with('class')
+                                    ->with("user")
                                     ->first();
                 return response()->json([
                     "role" => "student",
@@ -78,7 +81,7 @@ class UserController extends Controller
         }catch(Exception $ex){
             return response()->json([
                 "message" => $ex->getMessage(),
-            ]);
+            ],500);
         }
     }
     public function updateUserCredentials(Request $request,$id){

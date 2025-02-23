@@ -30,4 +30,8 @@ class Student extends Model
     public function marks(){
         return $this->hasMany(Mark::class);
     }
+
+    public function getProfilePictureAttribute(){
+        return asset("storage/users/studentImage.png");
+    }
 }
