@@ -9,7 +9,11 @@ import { Notification } from "../UI/Notification";
 import { createTeacher } from "../../services/teacherServices";
 import { createAdmin } from "../../services/adminServices";
 import { Select } from "../UI/Select";
-import { AddSubjects, getallSubject, getSubjects } from "../../services/subjectServices";
+import {
+  AddSubjects,
+  getallSubject,
+  getSubjects,
+} from "../../services/subjectServices";
 import { createNotification } from "../../services/notificationServices";
 import { createAnnouncement } from "../../services/announcementServices";
 import { createEvent } from "../../services/eventServices";
@@ -37,16 +41,16 @@ export const Add = ({ setOpen, toAdd }) => {
   const _announcement = "announcement";
   const _classe = "classe";
   const _notification = "notification";
-  const _event = "event"
+  const _event = "event";
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
 
     setDataUser((prev) => ({
-        ...prev,
-        [name]: type === "file" ? files[0] : value,
+      ...prev,
+      [name]: type === "file" ? files[0] : value,
     }));
-};
+  };
   const handleChangeSubject = (e) => {
     const { name, value } = e.target;
     setNewSubject((prev) => ({ ...prev, [name]: value }));
@@ -74,33 +78,33 @@ export const Add = ({ setOpen, toAdd }) => {
           response = await createTeacher(user.token, dataUser);
           setNotification({ type: "success", message: response.data.message });
           break;
-        
+
         case _admin:
           response = await createAdmin(user.token, dataUser);
           setNotification({ type: "success", message: response.data.message });
           break;
-      
+
         case _subject:
           response = await AddSubjects(user.token, newSubject);
           setNotification({ type: "success", message: response.data.message });
           break;
-        
+
         case _classe:
           response = await createClasse(user.token, dataUser);
           setNotification({ type: "success", message: response.data.message });
           break;
-        
+
         case _announcement:
           response = await createAnnouncement(user.token, dataUser);
           setNotification({ type: "success", message: response.data.message });
           break;
 
-        case _notification :
-          response = await createNotification(user.token,dataUser)
+        case _notification:
+          response = await createNotification(user.token, dataUser);
           setNotification({ type: "success", message: response.data.message });
           break;
-        case _event : 
-          response = await createEvent(user.token,dataUser)
+        case _event:
+          response = await createEvent(user.token, dataUser);
           setNotification({ type: "success", message: response.data.message });
           break;
         default:
@@ -151,7 +155,7 @@ export const Add = ({ setOpen, toAdd }) => {
               </p>
             </div>
 
-            {(toAdd === _admin || toAdd === _teacher || toAdd === _student) &&(
+            {(toAdd === _admin || toAdd === _teacher || toAdd === _student) && (
               <>
                 <Label text={"Fullname"} />
                 <Input
@@ -283,7 +287,7 @@ export const Add = ({ setOpen, toAdd }) => {
               </>
             )}
 
-            {(toAdd === _admin || toAdd === _teacher || toAdd === _student) &&(
+            {(toAdd === _admin || toAdd === _teacher || toAdd === _student) && (
               <>
                 <Label text={"Address"} />
                 <Input
@@ -323,8 +327,7 @@ export const Add = ({ setOpen, toAdd }) => {
               </>
             )}
 
-
-            {(toAdd === _notification) && (
+            {toAdd === _notification && (
               <>
                 <Label text={"Receiver id"} />
                 <Input
@@ -336,13 +339,17 @@ export const Add = ({ setOpen, toAdd }) => {
                   border="black"
                   text="black"
                 />
-                <Label text={"Message"} /><br></br>
-                <textarea name="content" 
-                required
-                placeholder="Max chars: 300" onChange={handleChange}
-                className="border border-black px-3 py-1 rounded-sm w-[100%] resize-none outline-none h-32"></textarea>
+                <Label text={"Message"} />
+                <br></br>
+                <textarea
+                  name="content"
+                  required
+                  placeholder="Max chars: 300"
+                  onChange={handleChange}
+                  className="border border-black px-3 py-1 rounded-sm w-[100%] resize-none outline-none h-32"
+                ></textarea>
               </>
-            )}    
+            )}
 
             {toAdd === _student && (
               <>
@@ -436,18 +443,18 @@ export const Add = ({ setOpen, toAdd }) => {
                 ></textarea>
               </>
             )}
-              {toAdd === _event &&(
-                <>
-                  <Label text="Title" />
-                  <Input
-                    type="text"
-                    name="title"
-                    onChange={handleChange}
-                    placholder="title"
-                    border="black"
-                    text="black"
-                  />
-                  <Label text="Message" /> <br></br>
+            {toAdd === _event && (
+              <>
+                <Label text="Title" />
+                <Input
+                  type="text"
+                  name="title"
+                  onChange={handleChange}
+                  placholder="title"
+                  border="black"
+                  text="black"
+                />
+                <Label text="Message" /> <br></br>
                 <textarea
                   className={
                     "border border-gray-600 resize-none outline-none text-black px-3 py-1 text-md bg-inherit rounded-sm outline-none w-[100%]"
@@ -458,15 +465,15 @@ export const Add = ({ setOpen, toAdd }) => {
                 ></textarea>
                 <Label text="Event Picture" /> <br></br>
                 <Input
-                    type="file"
-                    name="image"
-                    onChange={handleChange}
-                    placholder="chose the event picture"
-                    border="black"
-                    text="black"
-                  />
-                </>
-              )}
+                  type="file"
+                  name="image"
+                  onChange={handleChange}
+                  placholder="chose the event picture"
+                  border="black"
+                  text="black"
+                />
+              </>
+            )}
             <div className="flex justify-end gap-4 mt-6">
               <Button
                 type="button"
