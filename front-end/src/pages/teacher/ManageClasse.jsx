@@ -15,13 +15,12 @@ export const ManageClasse = () => {
       const response = await getClassesAndStudentsByTeacher(
         localStorage.getItem("token")
       );
-      console.log(response.data);
       if (response.status === 200) {
         setStudents(response.data.students);
       }
     } catch (error) {
       console.error("Error fetching classes:", error);
-      setErrorMessage(errors.tryAgain)
+      setErrorMessage(errors.tryAgain);
     } finally {
       setLoading(false);
     }

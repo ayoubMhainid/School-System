@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useAppContext } from "../../context/AppContext";
-import { createClasse, getClasses } from "../../services/classServices";
+import {
+  createClasse,
+  getClasses,
+  getClassesByTeacherAuth,
+} from "../../services/classServices";
 import { Label } from "../UI/Label";
 import { Button } from "../UI/Button";
 import { Input } from "../UI/Input";
@@ -13,13 +17,17 @@ import {
   AddSubjects,
   getallSubject,
   getSubjects,
+  getSubjectsByteacherAndClass,
 } from "../../services/subjectServices";
 import { createNotification } from "../../services/notificationServices";
 import { createAnnouncement } from "../../services/announcementServices";
 import { createEvent } from "../../services/eventServices";
+import { errors } from "../../constants/Errors";
+import { createExam } from "../../services/examServices";
 
 export const Add = ({ setOpen, toAdd }) => {
   const [dataUser, setDataUser] = useState({});
+  const [dataExam, setDataExam] = useState({});
   const [dataSubject, setDataSubject] = useState({});
   const [classList, setClassList] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -31,6 +39,11 @@ export const Add = ({ setOpen, toAdd }) => {
   });
 
   const [subject, setSubject] = useState([]);
+  const [dataSelect, setDataSelect] = useState({
+    classesByTeacher: [],
+    subjectsByteacher: [],
+  });
+  const [errorMessage, setErrorMessage] = useState("");
 
   const { user } = useAppContext();
 
@@ -42,6 +55,7 @@ export const Add = ({ setOpen, toAdd }) => {
   const _classe = "classe";
   const _notification = "notification";
   const _event = "event";
+  const _exam = "exam";
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
@@ -51,6 +65,12 @@ export const Add = ({ setOpen, toAdd }) => {
       [name]: type === "file" ? files[0] : value,
     }));
   };
+
+  const handleChangeExam = (e) => {
+    const { name, value } = e.target;
+    setDataExam((prev) => ({ ...prev, [name]: value }));
+  };
+
   const handleChangeSubject = (e) => {
     const { name, value } = e.target;
     setNewSubject((prev) => ({ ...prev, [name]: value }));
@@ -65,6 +85,7 @@ export const Add = ({ setOpen, toAdd }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setErrorMessage(null);
     setNotification(null);
     try {
       let response;
@@ -107,6 +128,17 @@ export const Add = ({ setOpen, toAdd }) => {
           response = await createEvent(user.token, dataUser);
           setNotification({ type: "success", message: response.data.message });
           break;
+        case _exam:
+          dataExam.subject_id || dataExam.subject_id !== "Select subject"
+            ? dataExam.class_id !== "select class" &&
+              ((response = await createExam(user.token, dataExam)),
+              setNotification({
+                type: "success",
+                message: response.data.message,
+              }))
+            : setErrorMessage("field is required");
+          break;
+
         default:
           setNotification({ type: "error", message: "Unauthorized" });
           break;
@@ -125,20 +157,69 @@ export const Add = ({ setOpen, toAdd }) => {
 
   useEffect(() => {
     const viewclasses = async () => {
+      setNotification(null);
+      setErrorMessage(null);
       try {
-        setNotification(null);
-        const response = await getClasses(user.token);
-        setClassList(response.data.classes);
+        let response;
+        switch (toAdd) {
+          case _student:
+            response = await getClasses(user.token);
+            setClassList(response.data.classes);
+            console.log("student");
+            break;
+
+          case _exam:
+            response = await getClassesByTeacherAuth(user.token);
+            setDataSelect({
+              ...dataSelect,
+              classesByTeacher: response.data.classes,
+            });
+            break;
+
+          default:
+            setNotification({ type: "error", message: errors.tryAgain });
+        }
       } catch (error) {
         error.response
           ? setNotification({ type: "error", message: error.response.message })
           : setNotification({ type: "error", message: "try later again" });
       }
     };
-    user.token && toAdd === _student && viewclasses();
+    user.token && (toAdd === _student || toAdd === _exam) && viewclasses();
   }, [user.token]);
+
   useEffect(() => {
-    getSubject();
+    const viewSubjectByTeacher = async () => {
+      setNotification(null);
+      setErrorMessage(null);
+      try {
+        const response = await getSubjectsByteacherAndClass(
+          user.token,
+          dataExam.class_id
+        );
+        response.data.subjects.length
+          ? setDataSelect({
+              ...dataSelect,
+              subjectsByteacher: response.data.subjects,
+            })
+          : (setErrorMessage("not subject"),
+            setDataSelect({ ...dataSelect, subjectsByteacher: [] }),
+            setDataExam({ ...dataExam, subject_id: null }));
+      } catch (error) {
+        error.response
+          ? setNotification({ type: "error", message: error.response.message })
+          : setNotification({ type: "error", message: "try later again" });
+      }
+    };
+
+    user.token &&
+      dataExam.class_id &&
+      dataExam.class_id !== "select class" &&
+      viewSubjectByTeacher();
+  }, [user.token, dataExam.class_id]);
+
+  useEffect(() => {
+    toAdd == _subject && getSubject();
   }, []);
 
   return (
@@ -240,53 +321,97 @@ export const Add = ({ setOpen, toAdd }) => {
               </>
             )}
 
-            {toAdd === _subject && (
+            {(toAdd === _subject || toAdd === _exam) && (
               <>
-                <Label text={"Subject name"} />
-                <Input
-                  type="text"
-                  name="name"
-                  value={dataSubject.name}
-                  onChange={handleChangeSubject}
-                  placholder="Ex: CLOUD-NATIVE"
-                  border="black"
-                  text="black"
+                <Label
+                  text={toAdd === _subject ? "Subject name" : "Content exam"}
                 />
-
-                <Label text={"Teacher"} />
-                <br></br>
-                <select
-                  className="w-[100%] border border-black py-1"
-                  name="teacher_id"
-                  onChange={handleChangeSubject}
-                >
-                  <option>select teacher</option>
-                  {subject.map((s) => {
-                    return (
-                      <option value={s.teacher.id}>
-                        {s.teacher.full_name}
-                      </option>
-                    );
-                  })}
-                </select>
-                <br></br>
+                {toAdd === _exam ? (
+                  <textarea
+                    name="exam_name"
+                    onChange={handleChangeExam}
+                    placholder="Bio"
+                    maxLength="255"
+                    className="border border-gray-600 text-black px-3 py-1 text-md bg-inherit rounded-sm outline-none w-[100%]"
+                  />
+                ) : (
+                  <Input
+                    type="text"
+                    name="name"
+                    value={dataSubject.name}
+                    onChange={handleChangeSubject}
+                    placholder="Ex: CLOUD-NATIVE"
+                    border="black"
+                    text="black"
+                  />
+                )}
                 <Label text={"Class"} />
-                <br></br>
                 <select
                   className="w-[100%] border border-black py-1"
                   name="class_id"
-                  onChange={handleChangeSubject}
+                  onChange={
+                    toAdd === _subject ? handleChangeSubject : handleChangeExam
+                  }
                 >
                   <option>select class</option>
-                  {subject.map((s) => {
-                    return (
-                      <option value={s.class.id}>{s.class.class_name}</option>
-                    );
-                  })}
+                  {toAdd === _subject
+                    ? subject.map((s) => {
+                        return (
+                          <option key={s.class.id} value={s.class.id}>
+                            {s.class.class_name}
+                          </option>
+                        );
+                      })
+                    : dataSelect.classesByTeacher.map((item) => (
+                        <option key={item.id} value={item.id}>
+                          {item.class_name}
+                        </option>
+                      ))}
                 </select>
+
+                <Label text={toAdd === _subject ? "Teacher" : "Subject"} />
+                <select
+                  className="w-[100%] border border-black py-1"
+                  name={toAdd === _subject ? "teacher_id" : "subject_id"}
+                  onChange={
+                    toAdd === _subject ? handleChangeSubject : handleChangeExam
+                  }
+                >
+                  <option>
+                    {toAdd === _subject ? "select teacher" : "Select subject"}
+                  </option>
+                  {toAdd === _subject
+                    ? subject.map((s) => {
+                        return (
+                          <option value={s.teacher.id}>
+                            {s.teacher.full_name}
+                          </option>
+                        );
+                      })
+                    : dataSelect.subjectsByteacher.map((item) => (
+                        <option key={item.id} value={item.id}>
+                          {item.name}
+                        </option>
+                      ))}
+                </select>
+                {errorMessage && toAdd === _exam && (
+                  <span className="text-red-500">{errorMessage}</span>
+                )}
+                {toAdd === _exam && (
+                  <>
+                    <Label text={"Date"} />
+                    <Input
+                      type="date"
+                      name="date"
+                      value={dataExam.date}
+                      onChange={handleChangeExam}
+                      border="black"
+                      text="black"
+                    />
+                  </>
+                )}
               </>
             )}
-
             {(toAdd === _admin || toAdd === _teacher || toAdd === _student) && (
               <>
                 <Label text={"Address"} />

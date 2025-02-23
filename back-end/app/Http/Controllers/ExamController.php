@@ -33,7 +33,7 @@ class ExamController extends Controller
             $teacher = Teacher::where("user_id", $user->id)->first();
             $subject = Subject::find($validator["subject_id"]);
             $students = Student::where("class_id", $validator['class_id'])->get();
-            $date = Carbon::createFromFormat('d-m-Y', $validator['date'])->format('Y-m-d');
+            $date = Carbon::createFromFormat('Y-m-d', $validator['date'])->format('Y-m-d');
 
             Exam::create([
                 "subject_id" => $validator["subject_id"],
