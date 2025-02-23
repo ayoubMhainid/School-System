@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\EventController;
@@ -56,7 +57,7 @@ Route::prefix("student")->group(function () {
     Route::get("/getStudents", [StudentController::class, "getStudents"])->middleware(CheckAuthentication::class);
     Route::get("/getStudent/{id}", [StudentController::class, "getStudent"])->middleware(CheckAuthentication::class);
     Route::get("/searchStudentsByUsername/{username}", [StudentController::class, "searchStudentsByUsername"])->middleware(CheckRole::class . ':admin');
-    Route::get("/filterStudentsByClass/{class_id}", [StudentController::class, "filterStudentsByClass"])->middleware(CheckRole::class . ':admin');
+    Route::get("/filterStudentsByClass/{class_id}", [StudentController::class, "filterStudentsByClass"])->middleware(CheckRole::class . ':teacher');
     Route::get("/filterStudentsByGender/{gender}", [StudentController::class, "filterStudentsByGender"])->middleware(CheckRole::class . ':admin');
     Route::post("/createStudent", [StudentController::class, "createStudent"])->middleware(CheckRole::class . ':admin');
     Route::put("/updateStudentData", [StudentController::class, "updateStudent"])->middleware(CheckAuthentication::class);
@@ -78,6 +79,7 @@ Route::prefix("teacher")->group(function () {
 Route::prefix("class")->group(function () {
     Route::get("/getClasses", [ClassController::class, "getClasses"])->middleware(CheckAuthentication::class);
     Route::get("/getClassesByTeacher/{id}", [ClassController::class, "getClassesByTeacher"])->middleware(CheckAuthentication::class);
+    Route::get("/getClassesByTeacher_2", [ClassController::class, "getClassesByTeacher_2"])->middleware(CheckRole::class . ":teacher");
     Route::get("/getClassesAndStudentsByTeacher", [ClassController::class, "getClassesAndStudentsByTeacher"])->middleware(CheckAuthentication::class);
     Route::get("/getClassespaginate",[ClassController::class, "getClassespaginate"])->middleware(CheckAuthentication::class);
     Route::post("/createClass", [ClassController::class, "createClass"])->middleware(CheckRole::class . ":admin");
@@ -112,4 +114,10 @@ Route::prefix("subject")->group(function () {
     Route::post("/createSubject", [SubjectController::class, "createSubject"])->middleware(CheckRole::class . ":admin");
     Route::delete("/deleteSubject/{id}", [SubjectController::class, "deleteSubject"])->middleware(CheckRole::class . ":admin");
     Route::put("/updateSubject", [SubjectController::class, "updateSubject"])->middleware(CheckRole::class . ":admin");
+});
+
+Route::prefix('attendance')->group(function () {
+    Route::get('/getAttendance', [AttendanceController::class, 'getAttendance']);
+    Route::post('/createAttendance', [AttendanceController::class, 'store']); 
+    Route::delete('/deleteAttendance/{id}', [AttendanceController::class, 'delete']);
 });

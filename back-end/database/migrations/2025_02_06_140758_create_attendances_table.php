@@ -14,15 +14,12 @@ return new class extends Migration
         Schema::create('attendances', function (Blueprint $table) {
             $table->id();
             $table->foreignId("user_id")->constrained("users")->onDelete("cascade");
-            $table->date("date");
+            $table->string("time");
             $table->enum("status",["absent","late"]);
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('attendances');

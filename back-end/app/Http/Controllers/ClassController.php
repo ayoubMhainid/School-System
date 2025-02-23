@@ -33,12 +33,35 @@ class ClassController extends Controller
             if (!$teacher) {
                 return response()->json([
                     "message" => "Teacher not found"
+                ], 404);}
+            $classes = Classe::where("teacher_id", $teacher->id)
+                ->with("teacher")
+                ->latest()
+                ->take(3)
+                ->get();
+            return response()->json([
+                "classes" => $classes
+            ]);
+        } catch (Exception $ex) {
+            return response()->json([
+                "message" => $ex->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function getClassesByTeacher_2()
+    {
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+            $teacher = Teacher::where("user_id", $user->id)->first();
+            if (!$teacher) {
+                return response()->json([
+                    "message" => "Teacher not found"
                 ], 404);
             }
             $classes = Classe::where("teacher_id", $teacher->id)
                 ->with("teacher")
                 ->latest()
-                ->take(3)
                 ->get();
             return response()->json([
                 "classes" => $classes
