@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Classe;
+use App\Models\Secret;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -86,7 +87,7 @@ class TeacherController extends Controller
             if (!$teachers) {
                 return response()->json(["message" => "No teacher with this class"], 404);
             }
-            
+
             return response()->json(["teachers" => $teachers]);
         } catch (Exception $e) {
             return response()->json(["message" => $e->getMessage()], 500);
@@ -143,7 +144,7 @@ class TeacherController extends Controller
     {
         try {
             $user = JWTAuth::parseToken()->authenticate();
-            $teacher = Teacher::where("id", $user->id)->first();
+            $teacher = Teacher::where("user_id", $user->id)->first();
 
             if (!$teacher) {
                 return response()->json([
@@ -156,21 +157,27 @@ class TeacherController extends Controller
                 'username' => [
                     Rule::unique('teachers', 'username')->ignore($teacher->id),
                 ],
-                'phone' => 'required|string|max:13|unique:teachers,phone,' . $teacher->id,
+                'phone' => 'required|string|unique:teachers,phone,' . $teacher->id,
                 'address' => 'required|string|max:500',
                 'specialization' => 'required|string|max:255',
+                "secretKey" => "required"
             ]);
+
+            $secretKey = Secret::where("secretKey",$request->secretKey)
+                                ->where("expires_at",">",now())
+                                ->first();
+
+            if(!$secretKey){
+                return response()->json([
+                    'message' => "Invalid secret Key"
+                ],404);
+            }
 
             $teacher->update($validation);
 
             return response()->json([
-                "message" => "teacher updated successfully"
+                "message" => "Teacher data updated successfully"
             ]);
-        } catch (ValidationException $e) {
-            return response()->json([
-                'message' => 'Data verification failed',
-                'errors' => $e->errors()
-            ], 422);
         } catch (Exception $e) {
             return response()->json([
                 "message" => $e->getMessage()

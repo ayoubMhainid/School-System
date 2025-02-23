@@ -196,12 +196,12 @@ export const ManageStudents = () => {
           {loading && <TableSkeleton />}
           {students && students.length && !loading ? (
             <Table
-              heads={["Full name", "Username", "Gender", "Date of birth"]}
+              heads={["Full name", "Username", "Email", "Date of birth"]}
               data={students}
               viewButton={true}
               updateButton={true}
               deleteButton={true}
-              keys={["full_name", "username", "gender", "date_of_birth"]}
+              keys={["full_name", "username", "user.email", "date_of_birth"]}
               pagination={pagination}
               paginate={paginate}
               getData={getStudents_FUNCTION}
