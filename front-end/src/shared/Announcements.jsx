@@ -47,8 +47,8 @@ export const Announcements = () => {
     }, []);
 return (
         <>
-        <div className="m-10 p-4 rounded-md shadow-md w-[90%]">
-        <h1 className="text-3xl font-semibold mb-6">Manage announcements</h1>
+        <div className="ml-6 mt-6 w-[85%]">
+        <h1 className="text-3xl font-semibold mb-6">Announcements</h1>
             {loading &&
             <LinearProgress />
             }

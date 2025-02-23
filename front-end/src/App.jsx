@@ -18,6 +18,7 @@ import { ManageSubject } from "./pages/teacher/ManageSubject";
 import { Events } from "./shared/Event";
 import { Profile as ProfilePage } from "./shared/Profile";
 import { Announcements } from "./shared/Announcements";
+import { SecretKeys } from "./pages/admin/SecretKeys";
 function App() {
   return (
     <Routes>
@@ -41,6 +42,7 @@ function App() {
           <Route path="/user/events" element={<Events />} />
           <Route path="/user/announcements" element={<Announcements />} />
           <Route path="/user/profile" element={<ProfilePage />} />
+          <Route path="/admin/keys" element={<SecretKeys />} />
         </Route>
       </Route>
     </Routes>
