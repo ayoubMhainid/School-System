@@ -48,8 +48,8 @@ export const Events = () => {
     }, []);
 return (
         <>
-        <div className="m-10 p-4 rounded-md shadow-md w-[90%]">
-        <h1 className="text-3xl font-semibold mb-6">Manage events</h1>
+        <div className="ml-6 mt-6 w-[85%]">
+        <h1 className="text-3xl font-semibold mb-6">Events</h1>
             {loading &&
             <LinearProgress />
             }
@@ -62,8 +62,8 @@ return (
                         > 
                             <div className="flex justify-start items-center gap-10">
                             <img 
-                                src={`http://localhost:8000/storage/events/${event.event_picture}`} 
-                                className="w-25 h-25 object-cover"
+                                src={`${event.event_picture}`} 
+                                className="w-25 h-25 object-cover rounded-md"
                             />
                             <div>
                                 <p className="text-3xl" >{event.title}</p>
