@@ -18,3 +18,13 @@ export const createAdmin = async (token, data) => {
   });
   return response;
 };
+
+
+export const updateAdminData = async (token,data) => {
+  const response = await axios.put(`${apiUrl}/admin/updateAdminData`,data, {
+    headers : {
+      Authorization : `Bearer ${token}`
+    }
+  });
+  return response;
+}

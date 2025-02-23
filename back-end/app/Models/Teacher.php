@@ -25,4 +25,8 @@ class Teacher extends Model
     {
         return $this->hasMany(Subject::class);
     }
+
+    public function getProfilePictureAttribute(){
+        return asset("storage/users/teacherImage.png");
+    }
 }

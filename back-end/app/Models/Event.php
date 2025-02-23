@@ -16,4 +16,9 @@ class Event extends Model
     {
         return $this->belongsTo(Admin::class);
     }
+
+    public function getEventPictureAttribute($value){
+        return $value ? asset('/storage/events/'.$value) :
+                        asset('/storage/events/eventImage.png');
+    }
 }

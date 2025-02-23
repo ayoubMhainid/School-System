@@ -11,6 +11,15 @@ export const getAnnouncements = async (token,page) => {
     return response;
 }
 
+export const getAnnouncementsPaginate = async (token,page) => {
+    const response = await axios.get(`${apiUrl}/announcement/getAnnouncementsPaginate?page=${page}`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+    return response;
+}
+
 export const createAnnouncement = async (token, data) => {
     const response = await axios.post(`${apiUrl}/announcement/createAnnouncements`, data, {
         headers: {
