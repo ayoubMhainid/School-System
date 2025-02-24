@@ -11,6 +11,7 @@ import { deleteNotification } from "../../services/notificationServices";
 import { deleteTeacher } from "../../services/teacherServices";
 import { deleteAttendance } from "../../services/attendanceServices";
 import { deleteSecret } from "../../services/secretsServices";
+import { deleteExam } from "../../services/examServices";
 
 export const Delete = ({ modal, setModal }) => {
   const [loading, setLoading] = useState(false);
@@ -18,7 +19,7 @@ export const Delete = ({ modal, setModal }) => {
 
   const deleteUser_FUNCTION = async () => {
     setNotification(null);
-    try{
+    try {
       setLoading(true);
       const response = await deleteUser(
         localStorage.getItem("token"),
@@ -27,18 +28,24 @@ export const Delete = ({ modal, setModal }) => {
       setLoading(false);
       response.status === 200
         ? response.data.message
-          ? (setNotification({ type: "success", message: response.data.message }),
+          ? (setNotification({
+              type: "success",
+              message: response.data.message,
+            }),
             setTimeout(() => {
               setModal({ type: "" });
             }, 3000))
           : setNotification({ type: "error", message: errors.tryAgain })
         : setNotification({ type: "error", message: errors.notFound });
-    }catch(error) {
+    } catch (error) {
       setLoading(false);
-      if(error.response.data.message){
-        setNotification({type:"error",message:error.response.data.message})
-      }else{
-        setNotification({ type: "error", message: errors.tryAgain })
+      if (error.response.data.message) {
+        setNotification({
+          type: "error",
+          message: error.response.data.message,
+        });
+      } else {
+        setNotification({ type: "error", message: errors.tryAgain });
       }
     }
   };
@@ -151,7 +158,7 @@ export const Delete = ({ modal, setModal }) => {
         : setNotification({ type: "error", message: errors.tryAgain })
       : setNotification({ type: "error", message: errors.notFound });
   };
-   const deleteAttendance_FUNCTION = async()=>{
+  const deleteAttendance_FUNCTION = async () => {
     setNotification(null);
     setLoading(false);
     const response = await deleteAttendance(
@@ -166,9 +173,9 @@ export const Delete = ({ modal, setModal }) => {
           }, 3000))
         : setNotification({ type: "error", message: errors.tryAgain })
       : setNotification({ type: "error", message: errors.notFound });
-    }
+  };
 
-  const deleteSecretKey_FUNCTION = async () =>{
+  const deleteSecretKey_FUNCTION = async () => {
     setNotification(null);
     try {
       setLoading(true);
@@ -179,21 +186,60 @@ export const Delete = ({ modal, setModal }) => {
       setLoading(false);
       response.status === 200
         ? response.data.message
-          ? (setNotification({ type: "success", message: response.data.message }),
+          ? (setNotification({
+              type: "success",
+              message: response.data.message,
+            }),
             setTimeout(() => {
               setModal({ type: "" });
             }, 3000))
           : setNotification({ type: "error", message: errors.tryAgain })
         : setNotification({ type: "error", message: errors.notFound });
-    } catch(error) {
+    } catch (error) {
       setLoading(false);
-      if(error.response.data.message){
-        setNotification({type:"error",message:error.response.data.message})
-      }else{
-        setNotification({ type: "error", message: errors.tryAgain })
+      if (error.response.data.message) {
+        setNotification({
+          type: "error",
+          message: error.response.data.message,
+        });
+      } else {
+        setNotification({ type: "error", message: errors.tryAgain });
       }
     }
-  }
+  };
+
+  const deleteExam_FUNCTION = async () => {
+    setNotification(null);
+    try {
+      setLoading(true);
+      const response = await deleteExam(
+        localStorage.getItem("token"),
+        modal.data.id
+      );
+      setLoading(false);
+      response.status === 200
+        ? response.data.message
+          ? (setNotification({
+              type: "success",
+              message: response.data.message,
+            }),
+            setTimeout(() => {
+              setModal({ type: "" });
+            }, 3000))
+          : setNotification({ type: "error", message: errors.tryAgain })
+        : setNotification({ type: "error", message: errors.notFound });
+    } catch (error) {
+      setLoading(false);
+      if (error.response.data.message) {
+        setNotification({
+          type: "error",
+          message: error.response.data.message,
+        });
+      } else {
+        setNotification({ type: "error", message: errors.tryAgain });
+      }
+    }
+  };
 
   const delete_FUNCTION = async (e) => {
     e.preventDefault();
@@ -211,10 +257,12 @@ export const Delete = ({ modal, setModal }) => {
       deleteNotification_FUNCTION();
     } else if (modal.toUpdateOrDelete === "Teacher") {
       deleteTeacher_FUNCTION();
-    }else if (modal.toUpdateOrDelete === "Attendance") {
+    } else if (modal.toUpdateOrDelete === "Attendance") {
       deleteAttendance_FUNCTION();
-    }else if(modal.toUpdateOrDelete === 'Secret'){
+    } else if (modal.toUpdateOrDelete === "Secret") {
       deleteSecretKey_FUNCTION();
+    } else if (modal.toUpdateOrDelete === "Exam") {
+      deleteExam_FUNCTION();
     }
   };
 

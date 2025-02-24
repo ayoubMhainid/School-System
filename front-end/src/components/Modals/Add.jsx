@@ -165,7 +165,6 @@ export const Add = ({ setOpen, toAdd }) => {
           case _student:
             response = await getClasses(user.token);
             setClassList(response.data.classes);
-            console.log("student");
             break;
 
           case _exam:
@@ -395,7 +394,7 @@ export const Add = ({ setOpen, toAdd }) => {
                       ))}
                 </select>
                 {errorMessage && toAdd === _exam && (
-                  <span className="text-red-500">{errorMessage}</span>
+                  <span className="text-red-500 block">{errorMessage}</span>
                 )}
                 {toAdd === _exam && (
                   <>

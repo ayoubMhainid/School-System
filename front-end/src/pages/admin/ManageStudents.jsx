@@ -39,7 +39,6 @@ export const ManageStudents = () => {
     setErrorMessage(null);
     setLoading(true);
     const response = await getStudents(localStorage.getItem("token"), page);
-    console.log(response);
     setLoading(false);
     setPaginate(true);
 
