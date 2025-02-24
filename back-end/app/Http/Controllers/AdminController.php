@@ -18,6 +18,15 @@ class AdminController extends Controller
         try{
             $user = JWTAuth::parseToken()->authenticate();
 
+            if($user->role !== 'admin'){
+                $admins = Admin::with("user")
+                                ->paginate(15);
+
+                return response()->json([
+                    "admins" => $admins,
+                ]);
+            }
+
             $admins = Admin::where('user_id','!=',$user->id)
                             ->with('user')
                             ->paginate(15);

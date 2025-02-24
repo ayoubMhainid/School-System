@@ -6,6 +6,7 @@ use App\Models\Secret;
 use Exception;
 use App\Models\User;
 use App\Models\Student;
+use App\Models\Teacher;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -18,9 +19,9 @@ class StudentController extends Controller
     {
         try {
             $students = Student::latest()
-                                ->with('user')
-                                ->paginate(15);
-            if($students){
+                ->with('user')
+                ->paginate(15);
+            if ($students) {
                 return response()->json([
                     "students" => $students,
                 ]);
@@ -59,14 +60,15 @@ class StudentController extends Controller
             ]);
         }
     }
+
     public function searchStudentsByUsername($username)
     {
         try {
             $students = Student::where('username', 'LIKE', "%$username%")
-                                ->with('user')
-                                ->latest()
-                                ->paginate(15);
-            if(!$students){
+                ->with('user')
+                ->latest()
+                ->paginate(15);
+            if (!$students) {
                 response()->json([
                     "message" => "No student with this username"
                 ], 404);
@@ -103,12 +105,13 @@ class StudentController extends Controller
             ], 500);
         }
     }
-    public function filterStudentsByGender($gender){
-        try{
-            $students = Student::where("gender",$gender)
-                                ->with('user')
-                                ->latest()
-                                ->paginate(15);
+    public function filterStudentsByGender($gender)
+    {
+        try {
+            $students = Student::where("gender", $gender)
+                ->with('user')
+                ->latest()
+                ->paginate(15);
 
             if (!$students) {
                 return response()->json([

@@ -9,6 +9,7 @@ import { deleteClass } from "../../services/classServices";
 import { deleteEvent } from "../../services/eventServices";
 import { deleteNotification } from "../../services/notificationServices";
 import { deleteTeacher } from "../../services/teacherServices";
+import { deleteAttendance } from "../../services/attendanceServices";
 import { deleteSecret } from "../../services/secretsServices";
 
 export const Delete = ({ modal, setModal }) => {
@@ -150,6 +151,22 @@ export const Delete = ({ modal, setModal }) => {
         : setNotification({ type: "error", message: errors.tryAgain })
       : setNotification({ type: "error", message: errors.notFound });
   };
+   const deleteAttendance_FUNCTION = async()=>{
+    setNotification(null);
+    setLoading(false);
+    const response = await deleteAttendance(
+      localStorage.getItem("token"),
+      modal.data.id
+    );
+    response.status === 200
+      ? response.data.message
+        ? (setNotification({ type: "success", message: response.data.message }),
+          setTimeout(() => {
+            setModal({ type: "" });
+          }, 3000))
+        : setNotification({ type: "error", message: errors.tryAgain })
+      : setNotification({ type: "error", message: errors.notFound });
+    }
 
   const deleteSecretKey_FUNCTION = async () =>{
     setNotification(null);
@@ -194,6 +211,8 @@ export const Delete = ({ modal, setModal }) => {
       deleteNotification_FUNCTION();
     } else if (modal.toUpdateOrDelete === "Teacher") {
       deleteTeacher_FUNCTION();
+    }else if (modal.toUpdateOrDelete === "Attendance") {
+      deleteAttendance_FUNCTION();
     }else if(modal.toUpdateOrDelete === 'Secret'){
       deleteSecretKey_FUNCTION();
     }

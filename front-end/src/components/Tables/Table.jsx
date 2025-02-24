@@ -79,7 +79,7 @@ export const Table = ({
                         
                       </td>
                     ))}
-                  {(viewButton || updateButton || deleteButton) && (
+                  {(viewButton || updateButton || deleteButton || attendanceButton) && (
                     <td className="flex space-x-2 justify-center">
                       {viewButton && (
                         <ButtonSvg
@@ -120,13 +120,7 @@ export const Table = ({
                         <ButtonSvg
                           svg={<MinusCircleIcon className="w-5 h-5 text-white" />}
                           color={"pink"}
-                          onclick={() =>
-                            setModal({
-                              type: "attendance",
-                              data: dataVar,
-                              toUpdateOrDelete: toUpdateOrDelete,
-                            })
-                          }
+                          onclick={() => attendanceButton(dataVar)}
                         />
                       )}
                     </td>
