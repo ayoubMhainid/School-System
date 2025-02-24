@@ -16,6 +16,7 @@ import {
   IdentificationIcon,
   PencilSquareIcon,
   KeyIcon,
+  BriefcaseIcon,
 } from "@heroicons/react/24/outline";
 
 export const dataSideBar = [
@@ -176,6 +177,12 @@ export const dataSideBar = [
     SVG: <DocumentCheckIcon strokeWidth="1" className="w-6 h-6" />,
     TEXT: "Marks",
     LINK: "/student/grades",
+  },
+  {
+    ROLE: "student",
+    SVG: <BriefcaseIcon strokeWidth="1" className="w-6 h-6" />,
+    TEXT: "My teachers",
+    LINK: "/student/teachers",
   },
   {
     ROLE: "student",

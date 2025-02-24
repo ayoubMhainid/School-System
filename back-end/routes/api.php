@@ -31,7 +31,7 @@ Route::prefix("auth")->group(function () {
 
 
 Route::prefix("admin")->group(function () {
-    Route::get("/getAdmins", [AdminController::class, "getAdmins"])->middleware(CheckRole::class . ":admin");
+    Route::get("/getAdmins", [AdminController::class, "getAdmins"])->middleware(CheckAuthentication::class);
     Route::post("/createAdmin", [AdminController::class, "createAdmin"])->middleware(CheckRole::class . ":admin");
     Route::put("/updateAdminData", [AdminController::class, "updateAdmin"])->middleware(CheckRole::class . ":admin");
     Route::delete("/deleteAdmin/{id}", [AdminController::class, "deleteAdmin"])->middleware(CheckRole::class . ":admin");
