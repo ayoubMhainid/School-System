@@ -15,6 +15,7 @@ import  {ManageAnnouncement}  from "./pages/admin/ManageAnnouncement";
 import { ManageEvents } from "./pages/admin/ManageEvents";
 import { Notifications } from "./shared/Notifications";
 import { Event } from "./shared/Event";
+import { Admins } from "./shared/Admins";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
           <Route path="/admin/events" element={<ManageEvents/>} />
           <Route path="/user/notifications" element={<Notifications />} />
           <Route path="/user/events" element={<Event />} />
+          <Route path="/user/admins" element={<Admins />} />
           
         </Route>
       </Route>
