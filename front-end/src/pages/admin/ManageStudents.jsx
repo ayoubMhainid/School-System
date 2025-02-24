@@ -13,7 +13,7 @@ import { Table as TableSkeleton } from "../../components/Skeletons/Table";
 import { getClasses } from "../../services/classServices";
 import { errors } from "../../constants/Errors";
 import { useAppContext } from "../../context/AppContext";
-import { Add } from "../../components/Modals/Add";
+import { Add } from "../../components/modals/Add";
 
 export const ManageStudents = () => {
   const [students, setStudents] = useState([]);
@@ -39,7 +39,6 @@ export const ManageStudents = () => {
     setErrorMessage(null);
     setLoading(true);
     const response = await getStudents(localStorage.getItem("token"), page);
-    console.log(response);
     setLoading(false);
     setPaginate(true);
 

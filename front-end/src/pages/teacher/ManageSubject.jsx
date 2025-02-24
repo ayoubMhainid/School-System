@@ -16,13 +16,12 @@ export const ManageSubject = () => {
       const response = await getSubjectsByTeacher(
         localStorage.getItem("token")
       );
-      console.log(response.data);
       if (response.status === 200) {
         setSubjects(response.data.subjects);
       }
     } catch (error) {
       console.error("Error fetching subjects:", error);
-      setErrorMessage(errors.tryAgain)
+      setErrorMessage(errors.tryAgain);
     } finally {
       setLoading(false);
     }
