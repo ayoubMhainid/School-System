@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { getAllAdmins } from '../services/adminServices';
+import { getAdmins } from '../services/adminServices';
 import { LinearProgress } from '@mui/material';
 import { Table } from '../components/Tables/Table';
 
@@ -13,10 +13,10 @@ export const Admins = () => {
         total: 0,
     });
 
-    const getAdmins = async (page) => {
+    const getAdmin = async (page) => {
         try{
             setLoading(true);
-            const response = await getAllAdmins(localStorage.getItem('token'),page);
+            const response = await getAdmins(localStorage.getItem('token'),page);
             setPagination({
                 currentPage: response.data.admins.current_page,
                 lastPage: response.data.admins.last_page,
@@ -33,15 +33,15 @@ export const Admins = () => {
     }
     const nextData = async () => {
         if (pagination.lastPage <= pagination.currentPage) return;
-        await getAdmins(pagination.currentPage + 1);
+        await getAdmin(pagination.currentPage + 1);
     };
     
     const prevData = async () => {
         if (pagination.currentPage === 1) return;
-        await getAdmins(pagination.currentPage - 1);
+        await getAdmin(pagination.currentPage - 1);
     };
     useEffect(() => {
-            getAdmins(1)
+            getAdmin(1)
         }, []);
   return (
     <div className="m-10 p-4 rounded-md shadow-md w-[90%]">

@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { getEventsPaginate } from '../services/eventServices';
-import { Button } from '../components/UI/Button';
 import moment from 'moment';
 import { LinearProgress} from '@mui/material';
 import { Pagination } from '../components/UI/Paginations';
+import { getAnnouncementsPaginate } from '../services/announcementServices';
 
-export const Events = () => {
-    const [events,setEvents]=useState([])
+export const Announcements = () => {
+    const [announcements,setAnnouncements]=useState([])
     const [loading, setLoading] = useState(false);
     const [paginate, setPaginate] = useState(false);
     const [pagination, setPagination] = useState({
@@ -15,18 +14,18 @@ export const Events = () => {
         total: 0,
     });
     
-    const getEvents_FUNCTION = async (page) => {
+    const getAnnouncements_FUNCTION = async (page) => {
         setLoading(true);
         try {
-            const response = await getEventsPaginate(localStorage.getItem("token"), page);
+            const response = await getAnnouncementsPaginate(localStorage.getItem("token"), page);
             setPaginate(true);
             setPagination({
-                currentPage: response.data.events.current_page,
-                lastPage: response.data.events.last_page,
-                total: response.data.events.total,
+                currentPage: response.data.announcements.current_page,
+                lastPage: response.data.announcements.last_page,
+                total: response.data.announcements.total,
             });
-            if (response.data && response.data.events.data) {
-                setEvents(response.data.events.data);
+            if (response.data && response.data.announcements.data) {
+                setAnnouncements(response.data.announcements.data);
             }
         } catch (error) {
             console.error("Error fetching classes:", error);
@@ -36,42 +35,38 @@ export const Events = () => {
     };
     const nextData = async () => {
         if (pagination.lastPage <= pagination.currentPage) return;
-        await getEvents_FUNCTION(pagination.currentPage + 1);
+        await getAnnouncements_FUNCTION(pagination.currentPage + 1);
         };
     
         const prevData = async () => {
         if (pagination.currentPage === 1) return;
-        await getEvents_FUNCTION(pagination.currentPage - 1);
+        await getAnnouncements_FUNCTION(pagination.currentPage - 1);
         };
     useEffect(() => {
-        getEvents_FUNCTION(1)
+        getAnnouncements_FUNCTION(1)
     }, []);
 return (
         <>
         <div className="ml-6 mt-6 w-[85%]">
-        <h1 className="text-3xl font-semibold mb-6">Events</h1>
+        <h1 className="text-3xl font-semibold mb-6">Announcements</h1>
             {loading &&
             <LinearProgress />
             }
-            {!loading && events.length > 0 ? (
+            {!loading && announcements.length > 0 ? (
                 <div className="flex flex-col gap-4">
-                    {events.map((event) => (
+                    {announcements.map((announcement) => (
                         <div
-                        key={event.id}
+                        key={announcement.id}
                         className="border p-4 rounded-md shadow-sm "
                         > 
                             <div className="flex justify-start items-center gap-10">
-                            <img 
-                                src={`${event.event_picture}`} 
-                                className="w-25 h-25 object-cover rounded-md"
-                            />
                             <div>
-                                <p className="text-3xl" >{event.title}</p>
-                                <p className="text-xl mb-4" >{event.message}</p>
+                                <p className="text-3xl" >{announcement.title}</p>
+                                <p className="text-xl mb-4" >{announcement.message}</p>
                             </div>
                             </div>
                             <div className="flex justify-between items-center">
-                            <span className="text-sm text-gray-400">{moment(event.created_at).fromNow()}</span> 
+                            <span className="text-sm text-gray-400">{moment(announcement.created_at).fromNow()} by {announcement.admin.full_name}</span> 
                             </div>
                         </div>
                     ))}

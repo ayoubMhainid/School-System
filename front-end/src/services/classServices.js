@@ -56,3 +56,21 @@ export const getClassesByTeacher = async (token,id) =>{
     });
     return response;
 }
+
+export const getClassesByTeacher_2 = async (token) =>{
+    const response = await axios.get(`${apiUrl}/class/getClassesByTeacher_2`,{
+        headers : {
+            Authorization : `Bearer ${token}`
+        }
+    });
+    return response;
+}
+
+export const getClassesAndStudentsByTeacher = async (token) => {
+    const response = await axios.get(`${apiUrl}/class/getClassesAndStudentsByTeacher`,{
+        headers : {
+            Authorization : `Bearer ${token}`
+        }
+    });
+    return response;
+}

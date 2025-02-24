@@ -1,4 +1,3 @@
-import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { Login } from "./pages/auth/Login";
 import { Layout } from "./layouts/Layout";
@@ -10,13 +9,18 @@ import { PersisLogin } from "./pages/auth/PersisLogin";
 import { ManageSubjects } from "./pages/admin/MannageSubjects";
 import Profile from "./pages/admin/Profile";
 import { ManageClasses } from "./pages/admin/ManageClasses";
-import {ManageTeacher} from "./pages/admin/ManageTeacher"
-import  {ManageAnnouncement}  from "./pages/admin/ManageAnnouncement";	
+import { ManageTeacher } from "./pages/admin/ManageTeacher";
+import { ManageAnnouncement } from "./pages/admin/ManageAnnouncement";
 import { ManageEvents } from "./pages/admin/ManageEvents";
 import { Notifications } from "./shared/Notifications";
-import { Event } from "./shared/Event";
+import { ManageClasse } from "./pages/teacher/ManageClasse";
+import { ManageSubject } from "./pages/teacher/ManageSubject";
+import { Events } from "./shared/Event";
+import { Profile as ProfilePage } from "./shared/Profile";
+import { ManageAttendance } from "./pages/teacher/ManageAttendance";
+import { Announcements } from "./shared/Announcements";
+import { SecretKeys } from "./pages/admin/SecretKeys";
 import { Admins } from "./shared/Admins";
-
 function App() {
   return (
     <Routes>
@@ -30,14 +34,19 @@ function App() {
           <Route path="/admin/Subjects" element={<ManageSubjects />} />
           <Route path="/admin/teachers" element={<ManageTeacher />} />
           <Route path="/admin/team" element={<ManageTeam />} />
-          <Route path="/admin/subjects" element={<ManageSubjects />} />
           <Route path="/user/:id" element={<Profile />} />
           <Route path="/admin/classes" element={<ManageClasses />} />
           <Route path="/admin/announcement" element={<ManageAnnouncement />} />
-          <Route path="/admin/events" element={<ManageEvents/>} />
+          <Route path="/admin/events" element={<ManageEvents />} />
           <Route path="/user/notifications" element={<Notifications />} />
-          <Route path="/user/events" element={<Event />} />
-          <Route path="/user/admins" element={<Admins />} />
+          <Route path="/teacher/classes" element={<ManageClasse />} />
+          <Route path="/teacher/subjects" element={<ManageSubject />} />
+          <Route path="/teacher/attendance" element={<ManageAttendance />} />
+          <Route path="/user/events" element={<Events />} />
+          <Route path="/user/announcements" element={<Announcements />} />
+          <Route path="/user/profile" element={<ProfilePage />} />
+          <Route path="/admin/keys" element={<SecretKeys />} />
+          <Route path="/admin/admins" element={<Admins />} />
           
         </Route>
       </Route>

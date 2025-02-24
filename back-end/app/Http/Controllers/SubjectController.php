@@ -27,25 +27,24 @@ class SubjectController extends Controller
         return response()->json($subjects);
     }
 
-    public function getSubjectsByTeacher($id){
+    public function getSubjectsByTeacher(){
         try{
-            $teacher = Teacher::find($id);
-            if(!$teacher){
-                return response()->json(['message' => 'Teacher not found'], 404);
-            }
             $user = JWTAuth::parseToken()->authenticate();
-            if($user->role !== 'admin'){
-            return response()->json(['message' => 'Unauthorized'], 401);
+            $teacher = Teacher::where("user_id", $user->id)->first();
+            if (!$teacher) {
+                return response()->json([
+                    "message" => "Teacher not found"
+                ], 404);
             }
             $subjects = Subject::join("classes","subjects.class_id","=","classes.id")
-                                ->where("subjects.teacher_id", $id)
+                                ->where("subjects.teacher_id", $teacher->id)
                                 ->select("subjects.id","classes.class_name","subjects.name")
                                 ->get();
             if(!$subjects){
                 return response()->json(['message' =>"No subjects found for this teacher"],404);
             }
             return response([
-                "Subjects" => $subjects
+                "subjects" => $subjects
             ]);
         }catch(Exception $e){
             return response()->json(['message' => $e->getMessage()], 500);

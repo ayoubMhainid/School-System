@@ -59,6 +59,47 @@ class AnnouncementController extends Controller
             ], 500);
         }
     }
+    public function getAnnouncementsPaginate()
+    {
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+        
+            $students_ann = Announcement::with("admin")->where("receiver", "students")
+                ->latest()
+                ->paginate(3);
+
+            $teachers_ann = Announcement::with("admin")->where("receiver", "teachers")
+                ->latest()
+                ->paginate(3);
+            if ($students_ann || $teachers_ann) {
+                if ($user->role === 'student') {
+                    return response()->json([
+                        "announcements" => $students_ann,
+                    ]);
+                }
+
+                if ($user->role === 'teacher') {
+                    return response()->json([
+                        "announcements" => $teachers_ann
+                    ]);
+                }
+
+                return response()->json([
+                    "message" => "Unauthorized!"
+                ]);
+            } else {
+                return response()->json([
+                    'message' => 'No announcement available'
+                ], 404);
+            }
+        } catch (Exception $ex) {
+            return response()->json([
+                "message" => $ex->getMessage(),
+            ], 500);
+        }
+    }
+    
+
     public function createAnnouncement(Request $request)
 {
     try {

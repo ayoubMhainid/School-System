@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Admin;
+use App\Models\Secret;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -16,7 +18,16 @@ class AdminController extends Controller
         try{
             $user = JWTAuth::parseToken()->authenticate();
 
-            $admins = Admin::where('id','!=',$user->id)
+            if($user->role !== 'admin'){
+                $admins = Admin::with("user")
+                                ->paginate(15);
+
+                return response()->json([
+                    "admins" => $admins,
+                ]);
+            }
+
+            $admins = Admin::where('user_id','!=',$user->id)
                             ->with('user')
                             ->paginate(15);
 
@@ -73,39 +84,40 @@ class AdminController extends Controller
         }
     }
 
-    public function updateAdmin(Request $request, $id)
+    public function updateAdmin(Request $request)
     {
         try {
-            $validatedData = $request->validate([
+            $user = JWTAuth::parseToken()->authenticate();
+            $admin = Admin::where('user_id',$user->id)->first();
+
+            $request->validate([
                 'full_name' => 'sometimes|string',
-                'phone' => 'sometimes|string|unique:admins,phone,' . $id,
-                'email' => 'sometimes|email|unique:users,email',
-                'password' => 'sometimes|string|min:6'
+                'phone' => 'sometimes|string|unique:admins,phone,' . $admin->id,
+                'username' => [
+                    Rule::unique('admins', 'username')->ignore($admin->id),
+                ],
+                'secretKey' => 'required'
             ]);
 
-            $admin = Admin::find($id);
-            if (!$admin) {
-                return response()->json(['error' => 'Admin not found'], 404);
+            $secretKey = Secret::where("secretKey",$request->secretKey)
+                                ->where("expires_at",">",now())
+                                ->first();
+
+            if(!$secretKey){
+                return response()->json([
+                    'message' => "Invalid secret Key"
+                ],404);
             }
 
-            $user = User::find($admin->user_id);
-            if (!$user) {
-                return response()->json(['error' => 'User not found'], 404);
-            }
+            $admin->full_name = $request->full_name;
+            $admin->phone = $request->phone;
+            $admin->username = $request->username;
 
-            if (isset($validatedData['email'])) {
-                $user->email = $validatedData['email'];
-            }
-            if (isset($validatedData['password'])) {
-                $user->password = Hash::make($validatedData['password']);
-            }
-            $user->save();
+            $admin->save();
 
-            $admin->update($request->except(['profile_picture', 'email', 'password']));
-
-            return response()->json(['message' => 'Admin updated successfully', 'admin' => $admin], 200);
-        } catch (ValidationException $e) {
-            return response()->json(['error' => 'Validation Error', 'message' => $e->errors()], 422);
+            return response()->json([
+                'message' => "Admin data updated successfully"
+            ]);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Internal Server Error', 'message' => $e->getMessage()], 500);
         }

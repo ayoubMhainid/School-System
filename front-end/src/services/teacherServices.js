@@ -36,7 +36,7 @@ export const searchTeachersByUsername = async (token, username) => {
 
 export const getTeachersByClass = async (token, class_id) => {
   const response = await axios.get(
-    `${apiUrl}/teacher/searchTeachersByUsername/${class_id}`,
+    `${apiUrl}/teacher/getTeachersByClass/${class_id}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -57,3 +57,13 @@ export const deleteTeacher = async (token, teacher_id) => {
   );
   return response;
 };
+
+
+export const updateTeacherData = async (token,data) =>{
+  const response = await axios.put(`${apiUrl}/teacher/updateTeacher`,data,{
+    headers : {
+      Authorization : `Bearer ${token}`
+    }
+  });
+  return response;
+}

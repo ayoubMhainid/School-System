@@ -17,10 +17,26 @@ class AttendanceFactory extends Factory
      */
     public function definition(): array
     {
+        $timeSlots = [
+            '8:30-10:30' => 2,
+            '10:30-12:30' => 2,
+            '14:30-16:30' => 2,
+            '16:30-18:30' => 2,
+            '8:30-12:30' => 4,
+            '14:30-18:30' => 4,
+            '8:30-18:30' => 8,
+        ];
+
+        $selectedTime = fake()->randomElement(array_keys($timeSlots));
+        $status = fake()->randomElement(["absent", "late"]);
+
         return [
             'user_id' => User::inRandomOrder()->value('id'),
-            'date' => fake()->dateTimeBetween('2024-10-01', '2025-06-31')->format('Y-m-d'),
-            'status' => fake()->randomElement(["absent","late"]),
+            'time' => $selectedTime,
+            'nbHours' => $status === "absent" ? $timeSlots[$selectedTime] : fake()->numberBetween(1, $timeSlots[$selectedTime]),
+            'date' => fake()->date('Y-m-d'),
+            'status' => $status,
         ];
     }
+
 }

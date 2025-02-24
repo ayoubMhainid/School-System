@@ -15,6 +15,8 @@ import {
   BuildingLibraryIcon,
   IdentificationIcon,
   PencilSquareIcon,
+  KeyIcon,
+  BriefcaseIcon,
 } from "@heroicons/react/24/outline";
 
 export const dataSideBar = [
@@ -74,6 +76,12 @@ export const dataSideBar = [
   },
   {
     ROLE: "admin",
+    SVG: <KeyIcon strokeWidth="1" className="w-6 h-6" />,
+    TEXT: "Secret Keys",
+    LINK: "/admin/keys",
+  },
+  {
+    ROLE: "admin",
     SVG: <UserGroupIcon strokeWidth="1" className="w-6 h-6" />,
     TEXT: "Team",
     LINK: "/admin/team",
@@ -82,7 +90,7 @@ export const dataSideBar = [
     ROLE: "admin",
     SVG: <IdentificationIcon strokeWidth="1" className="w-6 h-6" />,
     TEXT: "Profile",
-    LINK: "/admin/profile",
+    LINK: "/user/profile",
   },
 
   {
@@ -117,6 +125,12 @@ export const dataSideBar = [
   },
   {
     ROLE: "teacher",
+    SVG: <UsersIcon strokeWidth="1" className="w-6 h-6" />,
+    TEXT: "Attendance",
+    LINK: "/teacher/attendance",
+  },
+  {
+    ROLE: "teacher",
     SVG: <MegaphoneIcon strokeWidth="1" className="w-6 h-6" />,
     TEXT: "Announcements",
     LINK: "/user/announcements",
@@ -135,9 +149,15 @@ export const dataSideBar = [
   },
   {
     ROLE: "teacher",
+    SVG: <UserGroupIcon strokeWidth="1" className="w-6 h-6" />,
+    TEXT: "Admins",
+    LINK: "/user/admins",
+  },
+  {
+    ROLE: "teacher",
     SVG: <IdentificationIcon strokeWidth="1" className="w-6 h-6" />,
     TEXT: "Profile",
-    LINK: "/teacher/profile",
+    LINK: "/user/profile",
   },
 
   {
@@ -184,8 +204,20 @@ export const dataSideBar = [
   },
   {
     ROLE: "student",
+    SVG: <BriefcaseIcon strokeWidth="1" className="w-6 h-6" />,
+    TEXT: "My teachers",
+    LINK: "/student/teachers",
+  },
+  {
+    ROLE: "student",
+    SVG: <UserGroupIcon strokeWidth="1" className="w-6 h-6" />,
+    TEXT: "Admins",
+    LINK: "/user/admins",
+  },
+  {
+    ROLE: "student",
     SVG: <IdentificationIcon strokeWidth="1" className="w-6 h-6" />,
     TEXT: "Profile",
-    LINK: "/student/profile",
+    LINK: "/user/profile",
   },
 ];

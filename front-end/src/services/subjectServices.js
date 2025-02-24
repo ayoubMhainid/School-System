@@ -23,6 +23,16 @@ export const getallSubject = async (token) => {
   );
   return response;
 };
+
+export const getSubjectsByTeacher = async (token) =>{
+  const response = await axios.get(`${apiUrl}/subject/getSubjectsByTeacher`,{
+      headers : {
+          Authorization : `Bearer ${token}`
+      }
+  });
+  return response;
+}
+
 export const deleteSubject = async (token,id) =>{
   const response = await axios.delete(`${apiUrl}/subject/deleteSubject/${id}`,{
       headers : {

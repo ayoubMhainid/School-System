@@ -10,9 +10,9 @@ import { Pagination } from "../UI/Paginations";
 import { Update } from "../Modals/Update";
 import { Delete } from "../Modals/Delete";
 import { Link, useNavigate } from "react-router-dom";
+import moment from "moment";
 
 export const Table = ({
-  newViewFuction,
   heads,
   data,
   viewButton,
@@ -31,8 +31,6 @@ export const Table = ({
     toUpdateOrDelete: toUpdateOrDelete,
   });
   const navigate = useNavigate();
-  
-  
 
   const nextData = async () => {
     if (pagination.lastPage <= pagination.currentPage) {
@@ -72,18 +70,22 @@ export const Table = ({
                   {keys &&
                     keys.map((key, colIndex) => (
                       <td key={colIndex} className="py-1 text-center">
-                        {key
+                        {
+                          key === 'expires_at' ? moment(dataVar['expires_at']).diff(moment(), 'days') + " Days" :
+                          key
                           .split(".")
-                          .reduce((obj, prop) => obj?.[prop], dataVar)}
+                          .reduce((obj, prop) => obj?.[prop], dataVar)
+                        }
+                        
                       </td>
                     ))}
-                    {(viewButton || updateButton || deleteButton) && (
+                  {(viewButton || updateButton || deleteButton || attendanceButton) && (
                     <td className="flex space-x-2 justify-center">
                       {viewButton && (
                         <ButtonSvg
                           svg={<EyeIcon className="w-5 h-5 text-white" />}
                           color={"green"}
-                          onclick={() => navigate(`/user/${dataVar.user?.id}`)} 
+                          onclick={() => navigate(`/user/${dataVar.user?.id}`)}
                         />
                       )}
                       {updateButton && (
@@ -118,13 +120,7 @@ export const Table = ({
                         <ButtonSvg
                           svg={<MinusCircleIcon className="w-5 h-5 text-white" />}
                           color={"pink"}
-                          onclick={() =>
-                            setModal({
-                              type: "attendance",
-                              data: dataVar,
-                              toUpdateOrDelete: toUpdateOrDelete,
-                            })
-                          }
+                          onclick={() => attendanceButton(dataVar)}
                         />
                       )}
                     </td>
@@ -144,15 +140,8 @@ export const Table = ({
         />
       )}
       {modal.type === "update" && <Update modal={modal} setModal={setModal} />}
-      {modal.type === "view" && navigate('/user/{}')}
-      {modal.type === "delete" && (
-        <Delete
-          setNewData={newViewFuction}
-          listData={data}
-          modal={modal}
-          setModal={setModal}
-        />
-      )}
+      {modal.type === "view" && navigate("/user/{}")}
+      {modal.type === "delete" && <Delete modal={modal} setModal={setModal} />}
     </div>
   );
 };
