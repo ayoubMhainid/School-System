@@ -434,7 +434,7 @@ export const Add = ({ setOpen, toAdd }) => {
                 <Label text="Message" /> <br></br>
                 <textarea
                   className={
-                    "border border-gray-600 resize-none outline-none text-black px-3 py-1 text-md bg-inherit rounded-sm outline-none w-[100%]"
+                    "border border-gray-600 resize-none text-black px-3 py-1 text-md bg-inherit rounded-sm outline-none w-[100%]"
                   }
                   name="message"
                   value={dataUser.message}
@@ -457,7 +457,7 @@ export const Add = ({ setOpen, toAdd }) => {
                 <Label text="Message" /> <br></br>
                 <textarea
                   className={
-                    "border border-gray-600 resize-none outline-none text-black px-3 py-1 text-md bg-inherit rounded-sm outline-none w-[100%]"
+                    "border border-gray-600 resize-none text-black px-3 py-1 text-md bg-inherit rounded-sm outline-none w-[100%]"
                   }
                   name="message"
                   onChange={handleChange}

@@ -17,12 +17,9 @@ import { ManageClasse } from "./pages/teacher/ManageClasse";
 import { ManageSubject } from "./pages/teacher/ManageSubject";
 import { Events } from "./shared/Event";
 import { Profile as ProfilePage } from "./shared/Profile";
-<<<<<<< HEAD
 import { ManageAttendance } from "./pages/teacher/ManageAttendance";
-=======
 import { Announcements } from "./shared/Announcements";
 import { SecretKeys } from "./pages/admin/SecretKeys";
->>>>>>> 143180940a2cc20ee9cdca93c5869d79f63a8ee4
 function App() {
   return (
     <Routes>

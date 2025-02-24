@@ -78,7 +78,7 @@ export const ManageAttendance = () => {
           <h1 className="text-3xl font-semibold">Manage Attendance</h1>
           <br></br>
         </div>
-        <div className="mt-4 px-2">
+        <div className="mt-2 px-2">
           {errorMessage && (
             <span className="text-red-300 text-xl font-semibold">
               {errorMessage}
@@ -86,7 +86,7 @@ export const ManageAttendance = () => {
           )}
           {loading && <TableSkeleton />}
           <select
-            className="border border-gray-600 text-black px-3 py-1 text-md bg-white rounded-sm outline-none w-[30%]"
+            className="border border-gray-600 px-3 py-1 text-md bg-black rounded-sm outline-none w-[30%] mb-2"
             onChange={(e) => getStudentsByClass_FUNCTION(e.target.value)}
           >
             <option value="">Select class</option>

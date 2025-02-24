@@ -32,20 +32,24 @@ public function store(Request $request)
 {
     try{
         $validated = $request->validate([
-            'user_id' => 'required|exists:users,id', 
+            'user_id' => 'required|exists:users,id',
             'time' => 'required|string',
             'status' => 'required|in:absent,late',
+            'date' => 'required|date',
+            'nbHours' => 'required'
         ]);
-    
+
         $attendance = Attendance::create([
             'user_id' => $validated['user_id'],
             'time' => $validated['time'],
             'status' => $validated['status'],
+            'date' => $validated['date'],
+            'nbHours' => $validated['nbHours']
         ]);
-    
-        // Return success response
+
         return response()->json([
-            'attendance' => $attendance
+            'attendance' => $attendance,
+            'message' => "New record created successfully!"
         ], 200);
     }catch (Exception $e){
         return response()->json([
@@ -76,7 +80,7 @@ public function delete($id)
             'message' => $e->getMessage()
         ], 500);
     }
-    
+
 }
 
 }

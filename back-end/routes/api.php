@@ -127,16 +127,14 @@ Route::prefix("subject")->group(function () {
     Route::put("/updateSubject", [SubjectController::class, "updateSubject"])->middleware(CheckRole::class . ":admin");
 });
 
-<<<<<<< HEAD
 Route::prefix('attendance')->group(function () {
     Route::get('/getAttendance', [AttendanceController::class, 'getAttendance']);
-    Route::post('/createAttendance', [AttendanceController::class, 'store']); 
+    Route::post('/createAttendance', [AttendanceController::class, 'store']);
     Route::delete('/deleteAttendance/{id}', [AttendanceController::class, 'delete']);
-=======
+});
 
 Route::prefix("secret")->middleware(CheckRole::class . ":admin")->group(function () {
     Route::get("/getSecrets", [SecretController::class, 'getSecrets']);
     Route::post("/createSecret", [SecretController::class, 'createSecretKey']);
     Route::delete("/deleteSecret/{id}", [SecretController::class, 'deleteSecret']);
->>>>>>> 143180940a2cc20ee9cdca93c5869d79f63a8ee4
 });

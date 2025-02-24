@@ -9,11 +9,8 @@ import { deleteClass } from "../../services/classServices";
 import { deleteEvent } from "../../services/eventServices";
 import { deleteNotification } from "../../services/notificationServices";
 import { deleteTeacher } from "../../services/teacherServices";
-<<<<<<< HEAD
 import { deleteAttendance } from "../../services/attendanceServices";
-=======
 import { deleteSecret } from "../../services/secretsServices";
->>>>>>> 143180940a2cc20ee9cdca93c5869d79f63a8ee4
 
 export const Delete = ({ modal, setModal }) => {
   const [loading, setLoading] = useState(false);
@@ -214,13 +211,10 @@ export const Delete = ({ modal, setModal }) => {
       deleteNotification_FUNCTION();
     } else if (modal.toUpdateOrDelete === "Teacher") {
       deleteTeacher_FUNCTION();
-<<<<<<< HEAD
     }else if (modal.toUpdateOrDelete === "Attendance") {
       deleteAttendance_FUNCTION();
-=======
     }else if(modal.toUpdateOrDelete === 'Secret'){
       deleteSecretKey_FUNCTION();
->>>>>>> 143180940a2cc20ee9cdca93c5869d79f63a8ee4
     }
   };
 

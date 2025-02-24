@@ -4,6 +4,7 @@ import { Button } from "../UI/Button";
 import { addAttendance } from "../../services/attendanceServices";
 import { useAppContext } from "../../context/AppContext";
 import { Notification } from "../UI/Notification";
+import { Label } from "../UI/Label";
 
 const CreateAttendance = ({ onSubmit, student }) => {
   const [loading, setLoading] = useState(false);
@@ -11,7 +12,9 @@ const CreateAttendance = ({ onSubmit, student }) => {
   const [attendance, setAttendance] = useState({
     user_id: student?.id || "",
     time: "",
+    date: null,
     status: "absent",
+    nbHours : 0
   });
 
   const { user } = useAppContext();
@@ -29,9 +32,8 @@ const CreateAttendance = ({ onSubmit, student }) => {
     setNotification(null)
     try {
       const response = await addAttendance(localStorage.getItem("token"), data);
-      console.log("Response from API:", response.data.attendance);
       if (response.status === 200) {
-        alert("Attendance created successfully");
+        setNotification({type:"success",message:response.data.message})
         onSubmit(response.data.attendance);
         setAttendance(response.data.attendance);
         setNotification({ type: "success", message: response.data.message });
@@ -45,12 +47,6 @@ const CreateAttendance = ({ onSubmit, student }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    if (!attendance.time) {
-      alert("Please select a time.");
-      return;
-    }
-
     CreateAttendance_FUNCTION(attendance);
   };
 
@@ -61,64 +57,88 @@ const CreateAttendance = ({ onSubmit, student }) => {
           <div className="text-center"></div>
           <h2 className="text-xl font-semibold mb-4">Create Attendance</h2>
 
-          {/* Read-only User ID */}
-          <div className="mb-4">
-            <label className="block text-gray-600 text-sm font-medium">
-              User ID
-            </label>
+          <div className="mb-2">
+            <Label text={'User id'} />
             <Input
               type="text"
               name="user_id"
               value={attendance.user_id}
               readOnly
-              className="border-gray-400 bg-gray-200 cursor-not-allowed w-full text-black"
+              text={'black'}
             />
           </div>
 
-          {/* Attendance Time */}
-          <div className="border-b border-gray-200 mb-4">
-            <label className="block text-gray-600 text-sm font-medium">
-              Time
-            </label>
+          <div className="mb-2">
+            <Label text={'Date'} />
+            <Input
+              type="date"
+              name="date"
+              value={attendance.date}
+              onChange={handleChange}
+              text={'black'}
+            />
+          </div>
+
+          <div className="mb-2">
+            <Label text={'Nb hours'} />
+            <select
+              name="nbHours"
+              value={attendance.nbHours}
+              onChange={handleChange}
+              className="w-full bg-white text-black px-3 py-1 border border-black rounded-sm"
+            >
+              <option value="">Select number of hours</option>
+              <option value={1}>1</option>
+              <option value={2}>2</option>
+              <option value={3}>3</option>
+              <option value={4}>4</option>
+              <option value={5}>5</option>
+              <option value={6}>6</option>
+              <option value={7}>7</option>
+              <option value={8}>8</option>
+            </select>
+          </div>
+
+          <div className="border-b border-gray-200 mb-2">
+            <Label text={'Time'} />
             <select
               name="time"
               value={attendance.time}
               onChange={handleChange}
-              className="w-full bg-black text-white"
+              className="w-full bg-white text-black px-3 py-1 border border-black rounded-sm"
             >
               <option value="">Select time</option>
-              <option value="8:00-10:00">8:00-10:00</option>
-              <option value="10:00-12:00">10:00-12:00</option>
-              <option value="14:00-16:00">14:00-16:00</option>
-              <option value="16:00-18:00">16:00-18:00</option>
-              <option value="8:00-12:00">8:00-12:00</option>
-              <option value="14:00-18:00">14:00-18:00</option>
+              <option value="8:30-10:30">8:30-10:30</option>
+              <option value="10:30-12:30">10:30-12:30</option>
+              <option value="14:30-16:30">14:30-16:30</option>
+              <option value="16:30-18:30">16:30-18:30</option>
+              <option value="8:30-12:30">8:30-12:30</option>
+              <option value="14:30-18:30">14:30-18:30</option>
+              <option value="8:30-18:30">8:30-18:30</option>
             </select>
           </div>
 
-          {/* Attendance Status */}
           <>
-            <label className="block text-gray-600 text-sm font-medium">
-              Status
-            </label>
+            <Label text={'Status'} />
             <select
+              required
               name="status"
               value={attendance.status}
               onChange={handleChange}
-              className="w-full bg-black text-white"
+              className="w-full bg-white text-black px-3 py-1 border border-black rounded-sm"
             >
               <option value="absent">Absent</option>
               <option value="late">Late</option>
             </select>
           </>
 
-          {/* Action Buttons */}
           <div className="flex justify-end gap-4 mt-6">
             <Button
               type="button"
               text="Cancel"
               onClick={() => onSubmit(null)}
-              bg="bg-blue-600"
+              bg="bg-gray-200"
+              color="gray-900"
             />
             <Button
               type="submit"
