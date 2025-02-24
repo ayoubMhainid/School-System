@@ -46,7 +46,7 @@ function App() {
           <Route path="/user/announcements" element={<Announcements />} />
           <Route path="/user/profile" element={<ProfilePage />} />
           <Route path="/admin/keys" element={<SecretKeys />} />
-          <Route path="/admin/admins" element={<Admins />} />
+          <Route path="/user/admins" element={<Admins />} />
           
         </Route>
       </Route>
