@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { getAdmins } from '../services/adminServices';
 import { LinearProgress } from '@mui/material';
 import { Table } from '../components/Tables/Table';
+import { Pagination } from '../components/UI/Paginations';
 
 export const Admins = () => {
     const [admins , setAdmins] = useState([]);
@@ -51,18 +52,24 @@ export const Admins = () => {
             
         }
         {!loading && Admins &&
-            <Table
-                heads={["Full name", "Username", "phone"]}
-                data={admins}
-                viewButton={true}
-                updateButton={false}
-                deleteButton={false}
-                keys={["full_name", "username", "phone"]}
-                pagination={pagination}
-                paginate={paginate}
-                getData={getAdmins}
-                toUpdateOrDelete={"User"}
-            />
+            <div>
+                <Table
+                    heads={["Full name", "Username", "phone"]}
+                    data={admins}
+                    viewButton={true}
+                    updateButton={false}
+                    deleteButton={false}
+                    keys={["full_name", "username", "phone"]}
+                    pagination={pagination}
+                    paginate={paginate}
+                    getData={getAdmins}
+                    toUpdateOrDelete={"User"}
+                />
+                <Pagination currentPage={pagination.currentPage} lastPage={pagination.lastPage} previus={prevData} next={nextData} total={pagination.total}/>
+            </div>
+            
+                                    
+                               
         }
 
     
