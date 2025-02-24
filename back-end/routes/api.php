@@ -5,6 +5,7 @@ use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClassController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\StudentController;
 use App\Http\Middleware\CheckRole;
@@ -139,4 +140,9 @@ Route::prefix("secret")->middleware(CheckRole::class . ":admin")->group(function
     Route::get("/getSecrets", [SecretController::class, 'getSecrets']);
     Route::post("/createSecret", [SecretController::class, 'createSecretKey']);
     Route::delete("/deleteSecret/{id}", [SecretController::class, 'deleteSecret']);
+});
+
+
+Route::prefix('dashboard')->group(function() {
+    Route::get("/getAdmindashboardData", [DashboardController::class, 'getAdminDashboardData'])->middleware(CheckRole::class . ':admin');
 });
