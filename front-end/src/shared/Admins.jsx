@@ -65,10 +65,7 @@ export const Admins = () => {
                     getData={getAdmins}
                     toUpdateOrDelete={"User"}
                 />
-                <div>
-                    <Pagination currentPage={pagination.currentPage} lastPage={pagination.lastPage} previus={prevData} next={nextData} total={pagination.total}/>
-                    
-                </div>
+                <Pagination currentPage={pagination.currentPage} lastPage={pagination.lastPage} previus={prevData} next={nextData} total={pagination.total}/>
             </div>
             
                                     
