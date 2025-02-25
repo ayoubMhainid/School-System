@@ -1,7 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import { Login } from "./pages/auth/Login";
 import { Layout } from "./layouts/Layout";
-import { Home } from "./shared/Home";
 import { Dashboard } from "./pages/admin/Dashboard";
 import { ManageStudents } from "./pages/admin/ManageStudents";
 import { ManageTeam } from "./pages/admin/ManageTeam";
@@ -23,6 +22,7 @@ import { ManageExam } from "./pages/teacher/ManageExam";
 import { SecretKeys } from "./pages/admin/SecretKeys";
 import { Teachers } from "./pages/student/Teachers";
 import { Admins } from "./shared/Admins";
+import { Home } from "./pages/student/Home";
 function App() {
   return (
     <Routes>
@@ -30,7 +30,6 @@ function App() {
 
       <Route element={<PersisLogin />}>
         <Route element={<Layout />}>
-          <Route path="/home" element={<Home />} />
           <Route path="/admin/dashboard" element={<Dashboard />} />
           <Route path="/admin/students" element={<ManageStudents />} />
           <Route path="/admin/Subjects" element={<ManageSubjects />} />
@@ -51,6 +50,8 @@ function App() {
           <Route path="/admin/keys" element={<SecretKeys />} />
           <Route path="/student/teachers" element={<Teachers />}  />
           <Route path="/user/admins" element={<Admins />} />
+
+          <Route path="/student/home" element={<Home />} />
         </Route>
       </Route>
     </Routes>
