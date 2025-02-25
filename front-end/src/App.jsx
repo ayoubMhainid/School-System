@@ -21,6 +21,7 @@ import { ManageAttendance } from "./pages/teacher/ManageAttendance";
 import { Announcements } from "./shared/Announcements";
 import { ManageExam } from "./pages/teacher/ManageExam";
 import { SecretKeys } from "./pages/admin/SecretKeys";
+import { Teachers } from "./pages/student/Teachers";
 import { Admins } from "./shared/Admins";
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
           <Route path="/user/announcements" element={<Announcements />} />
           <Route path="/user/profile" element={<ProfilePage />} />
           <Route path="/admin/keys" element={<SecretKeys />} />
+          <Route path="/student/teachers" element={<Teachers />}  />
           <Route path="/user/admins" element={<Admins />} />
         </Route>
       </Route>

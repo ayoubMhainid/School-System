@@ -24,6 +24,7 @@ export const Table = ({
   paginate,
   getData,
   toUpdateOrDelete,
+  studentTeachers
 }) => {
   const [modal, setModal] = useState({
     type: "",
@@ -93,7 +94,7 @@ export const Table = ({
                         <ButtonSvg
                           svg={<EyeIcon className="w-5 h-5 text-white" />}
                           color={"green"}
-                          onclick={() => navigate(`/user/${dataVar.user?.id}`)}
+                          onclick={() => navigate(`${studentTeachers ? `/user/${dataVar.teacher.user.id}`:`/user/${dataVar.user?.id}`}`)}
                         />
                       )}
                       {updateButton && (
