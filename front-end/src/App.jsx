@@ -20,6 +20,7 @@ import { Profile as ProfilePage } from "./shared/Profile";
 import { ManageAttendance } from "./pages/teacher/ManageAttendance";
 import { Announcements } from "./shared/Announcements";
 import { SecretKeys } from "./pages/admin/SecretKeys";
+import { Teachers } from "./pages/student/Teachers";
 function App() {
   return (
     <Routes>
@@ -45,6 +46,7 @@ function App() {
           <Route path="/user/announcements" element={<Announcements />} />
           <Route path="/user/profile" element={<ProfilePage />} />
           <Route path="/admin/keys" element={<SecretKeys />} />
+          <Route path="/student/teachers" element={<Teachers />}  />
         </Route>
       </Route>
     </Routes>

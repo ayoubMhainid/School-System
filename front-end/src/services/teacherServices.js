@@ -22,6 +22,18 @@ export const getTeachers = async (token, page) => {
   return response;
 };
 
+export const getAllTeacherOfStudent = async (token,classId) => {
+  const response = await axios.get(
+    `${apiUrl}/teacher/getAllTeacherOfStudent/${classId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response;
+};
+
 export const searchTeachersByUsername = async (token, username) => {
   const response = await axios.get(
     `${apiUrl}/teacher/searchTeachersByUsername/${username}`,
