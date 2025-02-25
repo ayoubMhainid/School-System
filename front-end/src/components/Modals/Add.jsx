@@ -10,7 +10,7 @@ import { Button } from "../UI/Button";
 import { Input } from "../UI/Input";
 import { createStudent } from "../../services/studentServices";
 import { Notification } from "../UI/Notification";
-import { createTeacher } from "../../services/teacherServices";
+import { createTeacher, getAllTeachers } from "../../services/teacherServices";
 import { createAdmin } from "../../services/adminServices";
 import { Select } from "../UI/Select";
 import {
@@ -30,6 +30,7 @@ export const Add = ({ setOpen, toAdd }) => {
   const [dataExam, setDataExam] = useState({});
   const [dataSubject, setDataSubject] = useState({});
   const [classList, setClassList] = useState([]);
+  const [teacherList, setTeacherList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [notification, setNotification] = useState({});
   const [newSubject, setNewSubject] = useState({
@@ -37,7 +38,8 @@ export const Add = ({ setOpen, toAdd }) => {
     class_id: "",
     name: "",
   });
-
+  console.log(teacherList);
+  
   const [subject, setSubject] = useState([]);
   const [dataSelect, setDataSelect] = useState({
     classesByTeacher: [],
@@ -161,12 +163,19 @@ export const Add = ({ setOpen, toAdd }) => {
       setErrorMessage(null);
       try {
         let response;
+        let res;
         switch (toAdd) {
           case _student:
             response = await getClasses(user.token);
             setClassList(response.data.classes);
             break;
-
+          case _subject:
+            response = await getClasses(user.token);
+            setClassList(response.data.classes);
+            res = await getAllTeachers(user.token);
+            setTeacherList(res.data.teachers)
+            
+            break;
           case _exam:
             response = await getClassesByTeacherAuth(user.token);
             setDataSelect({
@@ -184,7 +193,7 @@ export const Add = ({ setOpen, toAdd }) => {
           : setNotification({ type: "error", message: "try later again" });
       }
     };
-    user.token && (toAdd === _student || toAdd === _exam) && viewclasses();
+    user.token && (toAdd === _student || toAdd === _exam || toAdd === _subject) && viewclasses();
   }, [user.token]);
 
   useEffect(() => {
@@ -354,10 +363,10 @@ export const Add = ({ setOpen, toAdd }) => {
                 >
                   <option>select class</option>
                   {toAdd === _subject
-                    ? subject.map((s) => {
+                    ? classList.map((s) => {
                         return (
-                          <option key={s.class.id} value={s.class.id}>
-                            {s.class.class_name}
+                          <option key={s.id} value={s.id}>
+                            {s.class_name}
                           </option>
                         );
                       })
@@ -380,10 +389,10 @@ export const Add = ({ setOpen, toAdd }) => {
                     {toAdd === _subject ? "select teacher" : "Select subject"}
                   </option>
                   {toAdd === _subject
-                    ? subject.map((s) => {
+                    ? teacherList.map((t) => {
                         return (
-                          <option value={s.teacher.id}>
-                            {s.teacher.full_name}
+                          <option value={t.id}>
+                            {t.full_name}
                           </option>
                         );
                       })

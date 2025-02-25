@@ -75,6 +75,7 @@ Route::prefix("student")->group(function () {
 
 Route::prefix("teacher")->group(function () {
     Route::get("/getTeachers", [TeacherController::class, "getTeachers"])->middleware(CheckRole::class . ":admin");
+    Route::get("/getAllTeachers", [TeacherController::class, "getAllTeachers"])->middleware(CheckRole::class . ":admin");
     Route::get("/getTeacher/{id}", [TeacherController::class, "getTeacher"])->middleware(CheckAuthentication::class);
     Route::get("/searchTeachersByUsername/{username}", [TeacherController::class, "searchTeachersByUsername"])->middleware(CheckAuthentication::class);
     Route::get("/getTeachersByClass/{id}", [TeacherController::class, "getTeachersByClass"])->middleware(CheckAuthentication::class);
