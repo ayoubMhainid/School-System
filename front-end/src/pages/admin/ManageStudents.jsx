@@ -13,8 +13,7 @@ import { Table as TableSkeleton } from "../../components/Skeletons/Table";
 import { getClasses } from "../../services/classServices";
 import { errors } from "../../constants/Errors";
 import { useAppContext } from "../../context/AppContext";
-import { Add } from "../../components/modals/Add";
-
+import { Add } from "../../components/Modals/Add";
 export const ManageStudents = () => {
   const [students, setStudents] = useState([]);
   const [username, setUsername] = useState("");
