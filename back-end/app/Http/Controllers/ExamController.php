@@ -61,6 +61,28 @@ class ExamController extends Controller
         }
     }
 
+    public function getExamsBySubject($subjectId){
+        try{
+            $exams = Exam::where('subject_id',$subjectId)
+                            ->latest()
+                            ->get();
+
+            if(!$exams){
+                return response()->json([
+                    "message" => "No exams in this subject",
+                ],404);
+            }
+
+            return response()->json([
+                "exams" => $exams
+            ]);
+        }catch(Exception $ex){
+            return response()->json([
+                'message' => $ex->getMessage(),
+            ],500);
+        }
+    }
+    
     public function getExams()
     {
         try {
