@@ -22,6 +22,7 @@ import { Announcements } from "./shared/Announcements";
 import { ManageExam } from "./pages/teacher/ManageExam";
 import { SecretKeys } from "./pages/admin/SecretKeys";
 import { Admins } from "./shared/Admins";
+import { ManageAttendances } from "./pages/admin/ManageAttendances";
 function App() {
   return (
     <Routes>
@@ -38,6 +39,7 @@ function App() {
           <Route path="/user/:id" element={<Profile />} />
           <Route path="/admin/classes" element={<ManageClasses />} />
           <Route path="/admin/announcement" element={<ManageAnnouncement />} />
+          <Route path="/admin/attencances" element={<ManageAttendances />} />
           <Route path="/admin/events" element={<ManageEvents />} />
           <Route path="/user/notifications" element={<Notifications />} />
           <Route path="/teacher/classes" element={<ManageClasse />} />
