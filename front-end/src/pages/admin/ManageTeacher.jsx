@@ -13,7 +13,6 @@ import {
   searchTeachersByUsername,
 } from "../../services/teacherServices";
 import { Add } from "../../components/Modals/Add";
-
 export const ManageTeacher = () => {
   const [openAddUser, setOpenAddUser] = useState(false);
   const [dataSearch, setDataSearch] = useState({});
@@ -197,16 +196,16 @@ export const ManageTeacher = () => {
           {loading && <TableSkeleton />}
           {teachers && teachers.length > 0 && !loading ? (
             <Table
-              heads={["Full name", "Username", "specialization"]}
+              heads={["Id","Full name", "Username", "specialization"]}
               data={teachers}
               viewButton={true}
               updateButton={true}
               deleteButton={true}
-              keys={["full_name", "username", "specialization"]}
+              keys={["id","full_name", "username", "specialization"]}
               pagination={pagination}
               paginate={paginate}
               getData={getTeachers_FUNCTION}
-              toUpdateOrDelete={"Teacher"}
+              toUpdateOrDelete={"User"}
             />
           ) : null}
         </div>

@@ -68,7 +68,7 @@ function Profile() {
                   <span className="text-blue-400">{userData.username}</span>
                   {userData?.user && (
                     <div>
-                      <span className="text-green-500 font-semibold">{userData.user.role}</span>
+                      <span className="text-green-500 font-semibold">{userData.user.role} | {userData.user.id}</span>
                     </div>
                   )}
                 </div>

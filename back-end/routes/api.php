@@ -6,6 +6,7 @@ use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\AttendanceStudentsController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClassController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\StudentController;
 use App\Http\Middleware\CheckRole;
@@ -32,7 +33,7 @@ Route::prefix("auth")->group(function () {
 
 
 Route::prefix("admin")->group(function () {
-    Route::get("/getAdmins", [AdminController::class, "getAdmins"])->middleware(CheckRole::class . ":admin");
+    Route::get("/getAdmins", [AdminController::class, "getAdmins"])->middleware(CheckAuthentication::class);
     Route::post("/createAdmin", [AdminController::class, "createAdmin"])->middleware(CheckRole::class . ":admin");
     Route::put("/updateAdminData", [AdminController::class, "updateAdmin"])->middleware(CheckRole::class . ":admin");
     Route::delete("/deleteAdmin/{id}", [AdminController::class, "deleteAdmin"])->middleware(CheckRole::class . ":admin");
@@ -93,6 +94,7 @@ Route::prefix("class")->group(function () {
     Route::post("/createClass", [ClassController::class, "createClass"])->middleware(CheckRole::class . ":admin");
     Route::put("/updateClass/{id}", [ClassController::class, "updateClass"])->middleware(CheckRole::class . ":admin");
     Route::delete("/deleteClass/{id}", [ClassController::class, "deleteClass"])->middleware(CheckRole::class . ":admin");
+    Route::get("/getClassesByTeacherAuth", [ClassController::class, "getClassesByTeacherAuth"])->middleware(CheckRole::class . ":teacher");
 });
 
 Route::prefix("exam")->group(function () {
@@ -126,6 +128,7 @@ Route::prefix("subject")->group(function () {
     Route::post("/createSubject", [SubjectController::class, "createSubject"])->middleware(CheckRole::class . ":admin");
     Route::delete("/deleteSubject/{id}", [SubjectController::class, "deleteSubject"])->middleware(CheckRole::class . ":admin");
     Route::put("/updateSubject", [SubjectController::class, "updateSubject"])->middleware(CheckRole::class . ":admin");
+    Route::get("/getSubjectsByteacherAndClass/{class_id}", [SubjectController::class, "getSubjectsByteacherAndClass"])->middleware(CheckRole::class . ":teacher");
 });
 
 Route::prefix('attendance')->group(function () {
@@ -145,4 +148,9 @@ Route::prefix("secret")->middleware(CheckRole::class . ":admin")->group(function
     Route::get("/getSecrets", [SecretController::class, 'getSecrets']);
     Route::post("/createSecret", [SecretController::class, 'createSecretKey']);
     Route::delete("/deleteSecret/{id}", [SecretController::class, 'deleteSecret']);
+});
+
+
+Route::prefix('dashboard')->group(function() {
+    Route::get("/getAdmindashboardData", [DashboardController::class, 'getAdminDashboardData'])->middleware(CheckRole::class . ':admin');
 });

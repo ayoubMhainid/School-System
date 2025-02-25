@@ -16,6 +16,7 @@ import {
   IdentificationIcon,
   PencilSquareIcon,
   KeyIcon,
+  BriefcaseIcon,
 } from "@heroicons/react/24/outline";
 
 export const dataSideBar = [
@@ -148,6 +149,12 @@ export const dataSideBar = [
   },
   {
     ROLE: "teacher",
+    SVG: <UserGroupIcon strokeWidth="1" className="w-6 h-6" />,
+    TEXT: "Admins",
+    LINK: "/user/admins",
+  },
+  {
+    ROLE: "teacher",
     SVG: <IdentificationIcon strokeWidth="1" className="w-6 h-6" />,
     TEXT: "Profile",
     LINK: "/user/profile",
@@ -194,6 +201,18 @@ export const dataSideBar = [
     SVG: <CalendarDaysIcon strokeWidth="1" className="w-6 h-6" />,
     TEXT: "Events",
     LINK: "/user/events",
+  },
+  {
+    ROLE: "student",
+    SVG: <BriefcaseIcon strokeWidth="1" className="w-6 h-6" />,
+    TEXT: "My teachers",
+    LINK: "/student/teachers",
+  },
+  {
+    ROLE: "student",
+    SVG: <UserGroupIcon strokeWidth="1" className="w-6 h-6" />,
+    TEXT: "Admins",
+    LINK: "/user/admins",
   },
   {
     ROLE: "student",

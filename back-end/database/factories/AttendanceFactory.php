@@ -31,10 +31,10 @@ class AttendanceFactory extends Factory
         $status = fake()->randomElement(["absent", "late"]);
 
         return [
-            'user_id' => User::inRandomOrder()->value('id'),
+            'user_id' => User::where('role','!=','admin')->inRandomOrder()->value('id'),
             'time' => $selectedTime,
             'nbHours' => $status === "absent" ? $timeSlots[$selectedTime] : fake()->numberBetween(1, $timeSlots[$selectedTime]),
-            'date' => fake()->date('Y-m-d'),
+            'date' => fake()->dateTimeBetween('2024-10-01')->format('Y-m-d'),
             'status' => $status,
         ];
     }

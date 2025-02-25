@@ -54,7 +54,11 @@ export const Table = ({
             <tr className="bg-gray-950">
               {heads && heads.length
                 ? heads.map((head) => {
-                    return <th className="py-2">{head}</th>;
+                    return (
+                      <th key={head} className="py-2">
+                        {head}
+                      </th>
+                    );
                   })
                 : null}
               {viewButton || updateButton || deleteButton ? (
@@ -70,16 +74,20 @@ export const Table = ({
                   {keys &&
                     keys.map((key, colIndex) => (
                       <td key={colIndex} className="py-1 text-center">
-                        {
-                          key === 'expires_at' ? moment(dataVar['expires_at']).diff(moment(), 'days') + " Days" :
-                          key
-                          .split(".")
-                          .reduce((obj, prop) => obj?.[prop], dataVar)
-                        }
-                        
+                        {key === "expires_at"
+                          ? moment(dataVar["expires_at"]).diff(
+                              moment(),
+                              "days"
+                            ) + " Days"
+                          : key
+                              .split(".")
+                              .reduce((obj, prop) => obj?.[prop], dataVar)}
                       </td>
                     ))}
-                  {(viewButton || updateButton || deleteButton || attendanceButton) && (
+                  {(viewButton ||
+                    updateButton ||
+                    deleteButton ||
+                    attendanceButton) && (
                     <td className="flex space-x-2 justify-center">
                       {viewButton && (
                         <ButtonSvg
@@ -118,7 +126,9 @@ export const Table = ({
                       )}
                       {attendanceButton && (
                         <ButtonSvg
-                          svg={<MinusCircleIcon className="w-5 h-5 text-white" />}
+                          svg={
+                            <MinusCircleIcon className="w-5 h-5 text-white" />
+                          }
                           color={"pink"}
                           onclick={() => attendanceButton(dataVar)}
                         />
