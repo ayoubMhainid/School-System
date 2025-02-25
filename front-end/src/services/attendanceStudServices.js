@@ -11,9 +11,17 @@ export const getAttendance = async (token) =>{
     return response
 }
 
+export const getAttendanceByClass = async (token, class_id) => {
+    const response = await axios.get(`${apiUrl}/attendanceStud/getAttendanceByClass/${class_id}`,{
+        headers :{	
+            Authorization : `Bearer ${token}`
+        }
+    })
+    return response
+}
 
 export const addAttendance = async (token,data) => {
-    const response = await axios.post(`${apiUrl}/attendance/createAttendance/`,data,{
+    const response = await axios.post(`${apiUrl}/attendanceStud/createAttendance/`,data,{
         headers :{
             Authorization : `Bearer ${token}`
         }

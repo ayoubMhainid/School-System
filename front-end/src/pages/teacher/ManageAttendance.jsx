@@ -6,13 +6,14 @@ import { useAppContext } from "../../context/AppContext";
 import { getStudentsByClass } from "../../services/studentServices";
 import { getClassesByTeacher_2 } from "../../services/classServices";
 import CreateAttendance from "../../components/Modals/CreateAttendance";
+import { getAttendanceByClass } from "../../services/attendanceStudServices";
 export const ManageAttendance = () => {
   const [loading, setLoading] = useState(false);
   const [loadingStudents, setLoadingStudents] = useState(false);
   const [classes, setClasses] = useState([]);
   const [students, setStudents] = useState([]);
+  const [studAtten,setStudAtten] = useState([]);
   const [errorMessage, setErrorMessage] = useState(null);
-  const [attendanceRecords, setAttendanceRecords] = useState([]);
   const { isMenuOpen } = useAppContext();
 
   const [openCreateAttendance, setOpenCreateAttendance] = useState(false);
@@ -56,9 +57,27 @@ export const ManageAttendance = () => {
     }
   };
 
+  const getStudentsAttendanceByClass_FUNCTION = async (class_id) => {
+    if (!class_id) return;
+    try{
+      setLoading(true);
+      const response = await getAttendanceByClass(localStorage.getItem("token"),class_id);
+      console.log(response.data);	
+      if(response.status === 200){
+        setStudAtten(response.data.attendance);
+      }
+    }catch(error){
+      console.error("Error fetching classes:", error);
+      setErrorMessage(errors.tryAgain);
+    }finally{
+      setLoading(false);
+    }
+  }
+
 
   useEffect(() => {
     getClassesByTeacher_FUNCTION();
+    getStudentsAttendanceByClass_FUNCTION();
   }, []);
 
   const handleOpenAttendanceModal = (student) => {
@@ -67,10 +86,18 @@ export const ManageAttendance = () => {
   };
   const handleCreateAttendance = (attendance) => {
     if (attendance) {
-      setAttendanceRecords((prev) => [...prev, attendance]);
+      const updatedRecords = [...studAtten, attendance];
+      setStudAtten(updatedRecords);
+      localStorage.setItem("studAtten", JSON.stringify(updatedRecords));
     }
     setOpenCreateAttendance(false);
   };
+  useEffect(() => {
+    const savedRecords = localStorage.getItem("studAtten");
+    if (savedRecords) {
+      setStudAtten(JSON.parse(savedRecords));
+    }
+  }, []);
   return (
     !isMenuOpen && (
       <div className={`ml-6 mt-6 w-[85%]`}>
@@ -97,7 +124,7 @@ export const ManageAttendance = () => {
             ))}
           </select>
 
-          {loadingStudents ? (
+          {loadingStudents? (
             <TableSkeleton />
           ) : (
             students.length > 0 && (
@@ -111,6 +138,21 @@ export const ManageAttendance = () => {
               />
             )
           )}
+
+          {loading ? (
+            <TableSkeleton />
+          ) : (
+            studAtten.length > 0 && (
+            <Table
+              heads={["User ID","Class ID","Date","NbHours", "Time", "Status"]}
+              data={studAtten}
+              viewButton={true}
+              deleteButton={true}
+              keys={["user_id","class_id","date","nbHours", "time", "status"]}
+              getData={getStudentsAttendanceByClass_FUNCTION}
+            />
+            )
+          )}
         </div>
         {openCreateAttendance && (
           <CreateAttendance
@@ -118,24 +160,6 @@ export const ManageAttendance = () => {
             onSubmit={handleCreateAttendance}
           />
         )}
-        <div className="mt-4 px-2">
-          {loading ? (
-            <TableSkeleton />
-          ) : (
-            attendanceRecords.length > 0 && (
-              <>
-                <h2 className="text-2xl font-semibold">Attendance Records</h2>
-                <Table
-                  heads={["User ID", "Time", "Status"]}
-                  viewButton={true}
-                  deleteButton={true}
-                  data={attendanceRecords}
-                  keys={["user_id", "time", "status"]}
-                />
-              </>
-            )
-          )}
-        </div>
       </div>
     )
   );

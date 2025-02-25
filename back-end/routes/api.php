@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\AttendanceStudentsController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\EventController;
@@ -131,6 +132,13 @@ Route::prefix('attendance')->group(function () {
     Route::get('/getAttendance', [AttendanceController::class, 'getAttendance']);
     Route::post('/createAttendance', [AttendanceController::class, 'store']);
     Route::delete('/deleteAttendance/{id}', [AttendanceController::class, 'delete']);
+});
+
+Route::prefix('attendanceStud')->group(function () {
+    Route::get('/getAttendance', [AttendanceStudentsController::class, 'getAttendance']);
+    Route::get('/getAttendanceByClass/{class_id}', [AttendanceStudentsController::class, 'getAttendanceByClass']);
+    Route::post('/createAttendance', [AttendanceStudentsController::class, 'store']);
+    Route::delete('/deleteAttendance/{id}', [AttendanceStudentsController::class, 'delete']);
 });
 
 Route::prefix("secret")->middleware(CheckRole::class . ":admin")->group(function () {

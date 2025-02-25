@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Attendance;
+use App\Models\AttendanceStudents;
 use Exception;
 use Illuminate\Http\Request;
 
-class AttendanceController extends Controller
+class AttendanceStudentsController extends Controller
 {
     public function getAttendance()
 {
     try{
-        $attendances = Attendance::all();
+        $attendances = AttendanceStudents::all();
 
     if (!$attendances) {
         return response()->json([
@@ -28,21 +28,40 @@ class AttendanceController extends Controller
 }
 }
 
+public function getAttendanceByClass($class_id){
+    try{
+        $attendances = AttendanceStudents::where('class_id', $class_id)->get();
 
+    if (!$attendances) {
+        return response()->json([
+            'message' => 'No attendance found'
+        ], 404);
+    }
+
+    return response()->json(['attendances' => $attendances]);
+    } catch (Exception $e){ {
+        return response()->json([
+            'message' => $e->getMessage()
+        ], 500);
+    }
+}
+}
 
 public function store(Request $request)
 {
     try{
         $validated = $request->validate([
             'user_id' => 'required|exists:users,id',
+            'class_id' => 'required|exists:classes,id',
             'time' => 'required|string',
             'status' => 'required|in:absent,late',
             'date' => 'required|date',
             'nbHours' => 'required'
         ]);
 
-        $attendance = Attendance::create([
+        $attendance = AttendanceStudents::create([
             'user_id' => $validated['user_id'],
+            'class_id' => $validated['class_id'],
             'time' => $validated['time'],
             'status' => $validated['status'],
             'date' => $validated['date'],
@@ -63,7 +82,7 @@ public function store(Request $request)
 public function delete($id)
 {
     try{
-        $attendance = Attendance::findorFail($id);
+        $attendance = AttendanceStudents::findorFail($id);
 
     if (!$attendance) {
         return response()->json([
@@ -84,5 +103,4 @@ public function delete($id)
     }
 
 }
-
 }
