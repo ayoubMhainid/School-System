@@ -14,7 +14,6 @@ import { getClasses } from "../../services/classServices";
 import { errors } from "../../constants/Errors";
 import { useAppContext } from "../../context/AppContext";
 import { Add } from "../../components/Modals/Add";
-
 export const ManageStudents = () => {
   const [students, setStudents] = useState([]);
   const [username, setUsername] = useState("");
@@ -39,7 +38,6 @@ export const ManageStudents = () => {
     setErrorMessage(null);
     setLoading(true);
     const response = await getStudents(localStorage.getItem("token"), page);
-    console.log(response);
     setLoading(false);
     setPaginate(true);
 

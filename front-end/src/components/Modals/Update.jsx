@@ -8,8 +8,16 @@ import { errors } from "../../constants/Errors";
 import { Notification } from "../UI/Notification";
 import { Select } from "../UI/Select";
 import { getTeachers } from "../../services/teacherServices";
-import { getClasses, updateClass } from "../../services/classServices";
-import { UpdateSubject } from "../../services/subjectServices";
+import {
+  getClasses,
+  getClassesByTeacherAuth,
+  updateClass,
+} from "../../services/classServices";
+import {
+  getSubjectsByteacherAndClass,
+  UpdateSubject,
+} from "../../services/subjectServices";
+import { updateExam } from "../../services/examServices";
 
 export const Update = ({ modal, setModal }) => {
   const [teacher, setTeacher] = useState([]);
@@ -25,6 +33,22 @@ export const Update = ({ modal, setModal }) => {
     id: modal?.data?.user?.id,
     email: "",
     password: "",
+  });
+
+  const [classExam, setClassExam] = useState([]);
+  const [subjectExam, setSubjectExam] = useState([]);
+  const [selectData, setExamData] = useState({
+    subjectName: modal?.data?.subject?.name,
+    subjectId: modal?.data?.subject?.id,
+    className: modal?.data?.class?.class_name,
+    classId: modal?.data?.class?.id,
+  });
+  const [examData, setExamDataUpdate] = useState({
+    // id: modal?.data?.id,
+    exam_name: modal?.data?.exam_name,
+    class_id: modal?.data?.class?.id,
+    subject_id: modal?.data?.subject?.id,
+    date: modal?.data?.date,
   });
 
   const [subjectData, setSubjectData] = useState({
@@ -63,10 +87,59 @@ export const Update = ({ modal, setModal }) => {
       setTeacher(response.data.teachers.data);
     }
   };
+
+  useEffect(() => {
+    const viewclasses = async () => {
+      setNotification(null);
+      try {
+        const response = await getClassesByTeacherAuth(
+          localStorage.getItem("token")
+        );
+        response.data.classes.length
+          ? setClassExam(response.data.classes)
+          : setNotification({ type: "error", message: errors.tryAgain });
+      } catch (error) {
+        error.response
+          ? setNotification({ type: "error", message: error.response.message })
+          : setNotification({ type: "error", message: "try later again" });
+      }
+    };
+    modal.toUpdateOrDelete === "Exam" && viewclasses();
+  }, []);
+
+  useEffect(() => {
+    const viewSubjectByTeacher = async () => {
+      setNotification(null);
+      try {
+        const response = await getSubjectsByteacherAndClass(
+          localStorage.getItem("token"),
+          examData.class_id
+        );
+        response.data.subjects.length
+          ? setSubjectExam(response.data.subjects)
+          : setNotification({ type: "error", message: errors.tryAgain });
+      } catch (error) {
+        error.response
+          ? setNotification({ type: "error", message: error.response.message })
+          : setNotification({ type: "error", message: "try later again" });
+      }
+    };
+
+    examData.class_id &&
+      examData.class_id !== "change class" &&
+      viewSubjectByTeacher();
+  }, [examData.class_id]);
+
   useEffect(() => {
     getClasse();
     getTeacher();
   }, []);
+
+  const handleChangeExam = (e) => {
+    const { name, value } = e.target;
+    setExamDataUpdate({ ...examData, [name]: value });
+  };
+
   const handleChangeSubject = (e) => {
     const { name, value } = e.target;
     setSubjectData((prevData) => ({
@@ -143,9 +216,28 @@ export const Update = ({ modal, setModal }) => {
               }, 3000))
             : setNotification({ type: "error", message: errors.tryAgain })
           : setNotification({ type: "error", message: errors.notFound });
+      } else if (modal.toUpdateOrDelete === "Exam") {
+        const response = await updateExam(
+          localStorage.getItem("token"),
+          modal.data.id,
+          examData
+        );
+        setLoading(false);
+        response.status === 200
+          ? response.data.message
+            ? (setNotification({
+                type: "success",
+                message: response.data.message,
+              }),
+              setTimeout(() => {
+                setModal({ type: "" });
+              }, 3000))
+            : setNotification({ type: "error", message: errors.tryAgain })
+          : setNotification({ type: "error", message: errors.notFound });
       }
     } catch (error) {
       setLoading(false);
+      console.log(error.response);
       error.response
         ? setNotification({
             type: "error",
@@ -167,6 +259,65 @@ export const Update = ({ modal, setModal }) => {
           </p>
         </div>
         <form className="mt-6" onSubmit={update_FUNCTION}>
+          {modal.toUpdateOrDelete === "Exam" && (
+            <>
+              <Label text="Content exam" />
+              <textarea
+                name="exam_name"
+                value={examData.exam_name}
+                onChange={handleChangeExam}
+                placeholder={!examData.exam_name && "exam name"}
+                maxLength="255"
+                className="border border-gray-600 text-black px-3 py-1 text-md bg-inherit rounded-sm outline-none w-[100%]"
+              />
+              <Label text={"Class"} />
+              <select
+                className="w-[100%] border border-black py-1"
+                name="class_id"
+                onChange={handleChangeExam}
+              >
+                <option value={selectData.className && selectData.classId}>
+                  {selectData.className ? selectData.className : "Change class"}
+                </option>
+
+                {classExam.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.class_name}
+                  </option>
+                ))}
+              </select>
+              <Label text="Subject" />
+              <select
+                className="w-[100%] border border-black py-1"
+                name="subject_id"
+                onChange={handleChangeExam}
+              >
+                <option value={selectData.subjectName && selectData.subjectId}>
+                  {selectData.subjectName
+                    ? selectData.subjectName
+                    : "Change subject"}
+                </option>
+                {subjectExam.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
+              {/* {errorMessage && (
+                <span className="text-red-500 block">{errorMessage}</span>
+              )} */}
+              <Label text={"Date"} />
+              <Input
+                type="date"
+                name="date"
+                value={examData.date}
+                onChange={handleChangeExam}
+                border="black"
+                text="black"
+              />
+            </>
+          )}
+
           {modal.toUpdateOrDelete === "User" && (
             <>
               <Label text={"Email"} />
@@ -196,7 +347,7 @@ export const Update = ({ modal, setModal }) => {
               <Label text={"Subject name"} />
               <Input
                 type="text"
-                name="subject_name"
+                name={"subject_name"}
                 onChange={handleChangeSubject}
                 placholder={subjectData.subjectName}
                 border="black"

@@ -38,6 +38,6 @@ class DatabaseSeeder extends Seeder
         Exam::factory(20)->create();
         Mark::factory(20)->create();
         Notification::factory(20)->create();
-        Attendance::factory(20)->create();
+        Attendance::factory(50)->create();
     }
 }

@@ -185,4 +185,29 @@ class ClassController extends Controller
             ], 500);
         }
     }
+
+    public function getClassesByTeacherAuth()
+    { {
+            try {
+                $user = JWTAuth::parseToken()->authenticate();
+                $teacher = Teacher::where("user_id", $user->id)->first();
+                if (!$teacher) {
+                    return response()->json([
+                        "message" => "Teacher not found"
+                    ], 404);
+                }
+                $classes = Classe::where("teacher_id", $teacher->id)
+                    ->with("teacher")
+                    ->latest()
+                    ->get();
+                return response()->json([
+                    "classes" => $classes
+                ]);
+            } catch (Exception $ex) {
+                return response()->json([
+                    "message" => $ex->getMessage(),
+                ], 500);
+            }
+        }
+    }
 }
