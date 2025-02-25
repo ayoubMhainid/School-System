@@ -36,14 +36,16 @@ class TeacherController extends Controller
         }
     }
 
-    public function getAllTeacherOfStudent($classId)
+    public function getAllTeacherOfStudent()
     {
         try{
-            $teachers = Subject::where("class_id",$classId)
-                                ->with("teacher","class")
-                                ->get();
+            $user = JWTAuth::parsetoken()->authenticate();
+            $student = Student::where('user_id',$user->id)->first();
+            $subjects = Subject::where("class_id",$student->class_id)
+                                ->with("teacher.user","class")
+                                ->paginate(10);
             return response()->json([
-                "teachers" => $teachers
+                "subjects" => $subjects
             ]);
         }catch(Exception $e){
             return response()->json([

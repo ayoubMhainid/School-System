@@ -20,19 +20,21 @@ export const Teachers = () => {
   const getTeachers = async () => {
     setLoading(true);
     const response = await getAllTeacherOfStudent(localStorage.getItem("token"));
+    console.log(response.data)
     setPaginate(true);
     setLoading(false);
     setPagination({
-      currentPage: response.data.current_page,
-      lastPage: response.data.last_page,
-      total: response.data.total,
+      currentPage: response.data.subjects.current_page,
+      lastPage: response.data.subjects.last_page,
+      total: response.data.subjects.total,
     });
     if (response.data) {
-      setTeacher(response.data.teachers);
+      setTeacher(response.data.subjects.data);
     }
   };
   useEffect(() => {
     getTeachers(1);
+    console.log(teacher)
   }, []);
   return (
     <div className={`ml-6 mt-6 w-[81%]`}>
@@ -46,14 +48,15 @@ export const Teachers = () => {
           <Table
             heads={["teacher name", "class name", "name"]}
             data={teacher}
-            viewButton={false}
-            updateButton={true}
-            deleteButton={true}
+            viewButton={true}
+            updateButton={false}
+            deleteButton={false}
             keys={["teacher.full_name", "class.class_name", "name"]}
             pagination={pagination}
             paginate={paginate}
             getData={getTeachers}
             toUpdateOrDelete={"Subject"}
+            studentTeachers
           />
         ) : null}
       </div>
