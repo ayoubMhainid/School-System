@@ -53,12 +53,12 @@ export const Dashboard = () => {
           <h1 className="text-xl font-semibold">Welcome, <span className="text-3xl text-blue-500 font-semibold">{adminName ? adminName : "Bijjo"}</span></h1>
         </div>
         <div className="sm:flex block flex-wrap mt-5 justify-between gap-2 px-2">
-          <State bg={'indigo'} svg={<AcademicCapIcon className="h-16 w-16" />} text={'Students'} count={counts.students} />
-          <State bg={'indigo'} svg={<BriefcaseIcon className="h-16 w-16" />} text={'Teachers'} count={counts.teachers} />
-          <State bg={'indigo'} svg={<WrenchScrewdriverIcon className="h-16 w-16" />} text={'Admins'} count={counts.admins} />
-          <State bg={'indigo'} svg={<CalendarDaysIcon className="h-16 w-16" />} text={'Events'} count={counts.events} />
-          <State bg={'indigo'} svg={<Square2StackIcon className="h-16 w-16" />} text={'Classes'} count={counts.classes} />
-          <State bg={'indigo'} svg={<DocumentDuplicateIcon className="h-16 w-16" />} text={'Subjects'} count={counts.subjects} />
+          <State svg={<AcademicCapIcon className="h-16 w-16" />} text={'Students'} count={counts.students} />
+          <State svg={<BriefcaseIcon className="h-16 w-16" />} text={'Teachers'} count={counts.teachers} />
+          <State svg={<WrenchScrewdriverIcon className="h-16 w-16" />} text={'Admins'} count={counts.admins} />
+          <State svg={<CalendarDaysIcon className="h-16 w-16" />} text={'Events'} count={counts.events} />
+          <State svg={<Square2StackIcon className="h-16 w-16" />} text={'Classes'} count={counts.classes} />
+          <State svg={<DocumentDuplicateIcon className="h-16 w-16" />} text={'Subjects'} count={counts.subjects} />
         </div>
 
 

@@ -33,7 +33,7 @@ export const SecretKeys = () => {
       setLoading(false);
       setPaginate(true);
 
-      response.data.secrets.length === 0 && setErrorMessage(errors.notFound)
+      response.data.secrets.data.length === 0 && setErrorMessage(errors.notFound)
       setPagination({
         currentPage: response.data.secrets.current_page,
         lastPage: response.data.secrets.last_page,

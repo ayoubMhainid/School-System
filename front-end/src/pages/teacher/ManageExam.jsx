@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button } from "../../components/UI/Button";
-import { Add } from "../../components/modals/Add";
+import { Add } from "../../components/Modals/Add";
 import { getExams } from "../../services/examServices";
 import { useAppContext } from "../../context/AppContext";
 import { errors } from "../../constants/Errors";
