@@ -15,7 +15,7 @@ import { ManageEvents } from "./pages/admin/ManageEvents";
 import { Notifications } from "./shared/Notifications";
 import { ManageClasse } from "./pages/teacher/ManageClasse";
 import { ManageSubject } from "./pages/teacher/ManageSubject";
-import { Events } from "./shared/Event";
+import { Event } from "./shared/Event";
 import { Profile as ProfilePage } from "./shared/Profile";
 import { ManageAttendance } from "./pages/teacher/ManageAttendance";
 import { Announcements } from "./shared/Announcements";
@@ -46,7 +46,7 @@ function App() {
           <Route path="/teacher/subjects" element={<ManageSubject />} />
           <Route path="/teacher/exams" element={<ManageExam />} />
           <Route path="/teacher/attendance" element={<ManageAttendance />} />
-          <Route path="/user/events" element={<Events />} />
+          <Route path="/user/events" element={<Event />} />
           <Route path="/user/announcements" element={<Announcements />} />
           <Route path="/user/profile" element={<ProfilePage />} />
           <Route path="/admin/keys" element={<SecretKeys />} />
