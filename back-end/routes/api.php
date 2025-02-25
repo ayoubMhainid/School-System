@@ -138,10 +138,10 @@ Route::prefix('attendance')->group(function () {
 });
 
 Route::prefix('attendanceStud')->group(function () {
-    Route::get('/getAttendance', [AttendanceStudentsController::class, 'getAttendance']);
-    Route::get('/getAttendanceByClass/{class_id}', [AttendanceStudentsController::class, 'getAttendanceByClass']);
-    Route::post('/createAttendance', [AttendanceStudentsController::class, 'store']);
-    Route::delete('/deleteAttendance/{id}', [AttendanceStudentsController::class, 'delete']);
+    Route::get('/getAttendance', [AttendanceStudentsController::class, 'getAttendance'])->middleware(CheckRole::class . ":teacher");
+    Route::get('/getAttendanceByClass/{class_id}', [AttendanceStudentsController::class, 'getAttendanceByClass'])->middleware(CheckRole::class . ":teacher");
+    Route::post('/createAttendance', [AttendanceStudentsController::class, 'store'])->middleware(CheckRole::class . ":teacher");
+    Route::delete('/deleteAttendance/{id}', [AttendanceStudentsController::class, 'delete'])->middleware(CheckRole::class . ":teacher");
 });
 
 Route::prefix("secret")->middleware(CheckRole::class . ":admin")->group(function () {

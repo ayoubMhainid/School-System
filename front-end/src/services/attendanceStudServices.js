@@ -3,7 +3,7 @@ import axios from "axios";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export const getAttendance = async (token) =>{
-    const response = await axios.get(`${apiUrl}/attendance/getAttendance`,{
+    const response = await axios.get(`${apiUrl}/attendanceStud/getAttendance`,{
         headers :{
             Authorization : `Bearer ${token}`
         }
@@ -30,7 +30,7 @@ export const addAttendance = async (token,data) => {
 }
 
 export const deleteAttendance = async (token,id) => {
-    const response = await axios.delete(`${apiUrl}/attendance/deleteAttendance/${id}`,{
+    const response = await axios.delete(`${apiUrl}/attendanceStud/deleteAttendance/${id}`,{
         headers :{
             Authorization : `Bearer ${token}`
         }

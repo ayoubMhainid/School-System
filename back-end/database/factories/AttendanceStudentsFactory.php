@@ -2,8 +2,10 @@
 
 namespace Database\Factories;
 
+use App\Models\AttendanceStudents;
 use App\Models\User;
 use App\Models\Classe;
+use App\Models\Student;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -15,6 +17,7 @@ class AttendanceStudentsFactory extends Factory
      * Define the model's default state.
      *
      * @return array<string, mixed>
+     * 
      */
     public function definition(): array
     {
@@ -32,11 +35,11 @@ class AttendanceStudentsFactory extends Factory
         $status = fake()->randomElement(["absent", "late"]);
 
         return [
-            'user_id' => User::inRandomOrder()->value('id'),
+            'student_id' => Student::inRandomOrder()->value('id'),
             'class_id' => Classe::inRandomOrder()->value('id'),
             'time' => $selectedTime,
             'nbHours' => $status === "absent" ? $timeSlots[$selectedTime] : fake()->numberBetween(1, $timeSlots[$selectedTime]),
-            'date' => fake()->date('Y-m-d'),
+            'date' => fake()->dateTimeBetween('2024-10-01')->format('Y-m-d'),
             'status' => $status,
         ];
     }

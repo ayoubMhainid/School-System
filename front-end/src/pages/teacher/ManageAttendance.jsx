@@ -12,7 +12,7 @@ export const ManageAttendance = () => {
   const [loadingStudents, setLoadingStudents] = useState(false);
   const [classes, setClasses] = useState([]);
   const [students, setStudents] = useState([]);
-  const [studAtten,setStudAtten] = useState([]);
+  const [studAtten, setStudAtten] = useState([]);
   const [errorMessage, setErrorMessage] = useState(null);
   const { isMenuOpen } = useAppContext();
 
@@ -59,25 +59,26 @@ export const ManageAttendance = () => {
 
   const getStudentsAttendanceByClass_FUNCTION = async (class_id) => {
     if (!class_id) return;
-    try{
-      setLoading(true);
-      const response = await getAttendanceByClass(localStorage.getItem("token"),class_id);
-      console.log(response.data);	
-      if(response.status === 200){
-        setStudAtten(response.data.attendance);
+    try {
+      setLoadingStudents(true);
+      const response = await getAttendanceByClass(
+        localStorage.getItem("token"),
+        class_id
+      );
+      console.log(response.data);
+      if (response.status === 200) {
+        setStudAtten(response.data.attendances);
       }
-    }catch(error){
+    } catch (error) {
       console.error("Error fetching classes:", error);
       setErrorMessage(errors.tryAgain);
-    }finally{
+    } finally {
       setLoading(false);
     }
-  }
-
+  };
 
   useEffect(() => {
     getClassesByTeacher_FUNCTION();
-    getStudentsAttendanceByClass_FUNCTION();
   }, []);
 
   const handleOpenAttendanceModal = (student) => {
@@ -92,12 +93,12 @@ export const ManageAttendance = () => {
     }
     setOpenCreateAttendance(false);
   };
-  useEffect(() => {
-    const savedRecords = localStorage.getItem("studAtten");
-    if (savedRecords) {
-      setStudAtten(JSON.parse(savedRecords));
-    }
-  }, []);
+  // useEffect(() => {
+  //   const savedRecords = localStorage.getItem("studAtten");
+  //   if (savedRecords) {
+  //     setStudAtten(JSON.parse(savedRecords));
+  //   }
+  // }, []);
   return (
     !isMenuOpen && (
       <div className={`ml-6 mt-6 w-[85%]`}>
@@ -114,7 +115,10 @@ export const ManageAttendance = () => {
           {loading && <TableSkeleton />}
           <select
             className="border border-gray-600 px-3 py-1 text-md bg-black rounded-sm outline-none w-[30%] mb-2"
-            onChange={(e) => getStudentsByClass_FUNCTION(e.target.value)}
+            onChange={(e) => {
+              getStudentsByClass_FUNCTION(e.target.value);
+              getStudentsAttendanceByClass_FUNCTION(e.target.value);
+            }}
           >
             <option value="">Select class</option>
             {classes.map((item) => (
@@ -124,34 +128,55 @@ export const ManageAttendance = () => {
             ))}
           </select>
 
-          {loadingStudents? (
+          {loadingStudents ? (
             <TableSkeleton />
           ) : (
-            students.length > 0 && (
-              <Table
-                heads={["Full name", "Username", "Phone"]}
-                data={students}
-                viewButton={true}
-                attendanceButton={handleOpenAttendanceModal}
-                keys={["full_name", "username", "phone"]}
-                getData={getStudentsByClass_FUNCTION}
-              />
-            )
+            <>
+              <h3 className="text-3xl font-semibold">Students</h3>
+              {students.length > 0 && (
+                <Table
+                  heads={["Full name", "Username", "Phone"]}
+                  data={students}
+                  viewButton={true}
+                  attendanceButton={handleOpenAttendanceModal}
+                  keys={["full_name", "username", "phone"]}
+                  getData={getStudentsByClass_FUNCTION}
+                />
+              )}
+            </>
           )}
 
           {loading ? (
             <TableSkeleton />
           ) : (
-            studAtten.length > 0 && (
-            <Table
-              heads={["User ID","Class ID","Date","NbHours", "Time", "Status"]}
-              data={studAtten}
-              viewButton={true}
-              deleteButton={true}
-              keys={["user_id","class_id","date","nbHours", "time", "status"]}
-              getData={getStudentsAttendanceByClass_FUNCTION}
-            />
-            )
+            <>
+              <h3 className="text-3xl font-semibold">Attendance Students</h3>
+              {studAtten.length > 0 && (
+                <Table
+                  heads={[
+                    "User ID",
+                    "Class ID",
+                    "Date",
+                    "NbHours",
+                    "Time",
+                    "Status",
+                  ]}
+                  data={studAtten}
+                  viewButton={true}
+                  deleteButton={true}
+                  keys={[
+                    "user_id",
+                    "class_id",
+                    "date",
+                    "nbHours",
+                    "time",
+                    "status",
+                  ]}
+                  getData={getStudentsAttendanceByClass_FUNCTION}
+                  toUpdateOrDelete={"Attendance"}
+                />
+              )}
+            </>
           )}
         </div>
         {openCreateAttendance && (
