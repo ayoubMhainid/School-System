@@ -4,9 +4,9 @@ import { getSubjects } from "../../services/subjectServices";
 import { Table } from "../../components/Tables/Table";
 import { Table as TableSkeleton } from "../../components/Skeletons/Table";
 import { Button } from "../../components/UI/Button";
-import { getClasses } from "../../services/classServices";
-import { getTeachers } from "../../services/teacherServices";
 import { Add } from "../../components/Modals/Add";
+import { getClasses } from "../../services/classServices";
+
 
 export const ManageSubjects = () => {
   const [subject, setSubject] = useState([]);

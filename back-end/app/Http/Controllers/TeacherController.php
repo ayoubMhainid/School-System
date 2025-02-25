@@ -35,6 +35,21 @@ class TeacherController extends Controller
             ], 500);
         }
     }
+    public function getAllTeachers()
+    {
+        try {
+            $teachers = Teacher::latest()
+                ->with("user")
+                ->get();
+            return response()->json([
+                "teachers" => $teachers
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                "message" => $e->getMessage()
+            ], 500);
+        }
+    }
 
     public function getAllTeacherOfStudent()
     {
