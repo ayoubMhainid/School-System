@@ -23,6 +23,7 @@ import { SecretKeys } from "./pages/admin/SecretKeys";
 import { Teachers } from "./pages/student/Teachers";
 import { Admins } from "./shared/Admins";
 import { Home } from "./pages/student/Home";
+import { Exams } from "./pages/student/Exams";
 function App() {
   return (
     <Routes>
@@ -52,6 +53,7 @@ function App() {
           <Route path="/user/admins" element={<Admins />} />
 
           <Route path="/student/home" element={<Home />} />
+          <Route path="/student/exams" element={<Exams /> } />
         </Route>
       </Route>
     </Routes>

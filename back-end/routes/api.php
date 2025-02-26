@@ -103,6 +103,7 @@ Route::prefix("exam")->group(function () {
     Route::delete("/deleteExam/{id} ", [ExamController::class, "deleteExam"])->middleware(CheckRole::class . ":teacher");
     Route::put("/updateExam/{id} ", [ExamController::class, "updateExam"])->middleware(CheckRole::class . ":teacher");
     Route::get("/getExams ", [ExamController::class, "getExams"]);
+    Route::get("/getExamsOfStudent",[ExamController::class,"getExamsOfStudent"])->middleware(CheckRole::class . ":student");
     Route::get("/getExamById/{id} ", [ExamController::class, "getExamById"]);
 });
 
