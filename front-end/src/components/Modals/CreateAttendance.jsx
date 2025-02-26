@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Input } from "../UI/Input";
 import { Button } from "../UI/Button";
-import { addAttendance } from "../../services/attendanceServices";
+import { addAttendance } from "../../services/attendanceStudServices";
 import { useAppContext } from "../../context/AppContext";
 import { Notification } from "../UI/Notification";
 import { Label } from "../UI/Label";
@@ -10,7 +10,8 @@ const CreateAttendance = ({ onSubmit, student }) => {
   const [loading, setLoading] = useState(false);
   const [notification, setNotification] = useState({});
   const [attendance, setAttendance] = useState({
-    user_id: student?.id || "",
+    student_id: student?.id || "",
+    class_id: student?.class_id || "",
     time: "",
     date: null,
     status: "absent",
@@ -20,7 +21,7 @@ const CreateAttendance = ({ onSubmit, student }) => {
   const { user } = useAppContext();
 
   useEffect(() => {
-    setAttendance((prev) => ({ ...prev, user_id: student?.id || "" }));
+    setAttendance((prev) => ({ ...prev, student_id: student?.id || "",class_id: student.class_id || ""}));
   }, [student]);
 
   const handleChange = (e) => {
@@ -58,11 +59,22 @@ const CreateAttendance = ({ onSubmit, student }) => {
           <h2 className="text-xl font-semibold mb-4">Create Attendance</h2>
 
           <div className="mb-2">
-            <Label text={'User id'} />
+            <Label text={'Student id'} />
             <Input
               type="text"
-              name="user_id"
-              value={attendance.user_id}
+              name="student_id"
+              value={attendance.student_id}
+              readOnly
+              text={'black'}
+            />
+          </div>
+
+          <div className="mb-2">
+            <Label text={'Class id'} />
+            <Input
+              type="text"
+              name="class_id"
+              value={attendance.class_id}
               readOnly
               text={'black'}
             />

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\AttendanceStudentsController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\DashboardController;
@@ -143,6 +144,14 @@ Route::prefix('attendance')->group(function () {
     Route::get('/getAttendance', [AttendanceController::class, 'getAttendance']);
     Route::post('/createAttendance', [AttendanceController::class, 'store']);
     Route::delete('/deleteAttendance/{id}', [AttendanceController::class, 'delete']);
+});
+
+Route::prefix('attendanceStud')->group(function () {
+    Route::get('/getAttendance', [AttendanceStudentsController::class, 'getAttendance'])->middleware(CheckRole::class . ":teacher");
+    Route::get('/getAttendanceByClass/{class_id}', [AttendanceStudentsController::class, 'getAttendanceByClass'])->middleware(CheckRole::class . ":teacher");
+    Route::post('/createAttendance', [AttendanceStudentsController::class, 'store'])->middleware(CheckRole::class . ":teacher");
+    Route::get("/getNbHoursOfAbsentStudents/{class_id}", [AttendanceStudentsController::class, 'getNbHoursOfAbsentStudents'])->middleware(CheckRole::class . ":teacher");
+    Route::delete('/deleteAttendance/{id}', [AttendanceStudentsController::class, 'delete'])->middleware(CheckRole::class . ":teacher");
 });
 
 Route::prefix("secret")->middleware(CheckRole::class . ":admin")->group(function () {

@@ -125,7 +125,7 @@ export const dataSideBar = [
   },
   {
     ROLE: "teacher",
-    SVG: <UsersIcon strokeWidth="1" className="w-6 h-6" />,
+    SVG: <DocumentTextIcon strokeWidth="1" className="w-6 h-6" />,
     TEXT: "Attendance",
     LINK: "/teacher/attendance",
   },
