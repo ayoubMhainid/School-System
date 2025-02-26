@@ -338,9 +338,9 @@ export const Add = ({ setOpen, toAdd }) => {
                   <textarea
                     name="exam_name"
                     onChange={handleChangeExam}
-                    placholder="Bio"
+                    placeholder="Description"
                     maxLength="255"
-                    className="border border-gray-600 text-black px-3 py-1 text-md bg-inherit rounded-sm outline-none w-[100%]"
+                    className="border border-gray-600 resize-none text-black px-3 py-1 text-md bg-inherit rounded-sm outline-none w-[100%]"
                   />
                 ) : (
                   <Input
