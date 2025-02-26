@@ -3,6 +3,7 @@ import { ButtonSvg } from "../UI/ButtonSvg";
 import {
   EyeIcon,
   MinusCircleIcon,
+  PaperClipIcon,
   PencilSquareIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline";
@@ -11,6 +12,7 @@ import { Update } from "../Modals/Update";
 import { Delete } from "../Modals/Delete";
 import { Link, useNavigate } from "react-router-dom";
 import moment from "moment";
+import Grade from "../Modals/Grade";
 
 export const Table = ({
   heads,
@@ -19,11 +21,14 @@ export const Table = ({
   updateButton,
   deleteButton,
   attendanceButton,
+  gradeButton,
   keys,
   pagination,
   paginate,
   getData,
   toUpdateOrDelete,
+  selectedExam,
+  studentTeachers
 }) => {
   const [modal, setModal] = useState({
     type: "",
@@ -61,7 +66,7 @@ export const Table = ({
                     );
                   })
                 : null}
-              {viewButton || updateButton || deleteButton ? (
+              {viewButton || updateButton || deleteButton || attendanceButton || gradeButton ? (
                 <th>Actions</th>
               ) : null}
             </tr>
@@ -87,13 +92,14 @@ export const Table = ({
                   {(viewButton ||
                     updateButton ||
                     deleteButton ||
-                    attendanceButton) && (
+                    attendanceButton ||
+                    gradeButton) && (
                     <td className="flex space-x-2 justify-center">
                       {viewButton && (
                         <ButtonSvg
                           svg={<EyeIcon className="w-5 h-5 text-white" />}
                           color={"green"}
-                          onclick={() => navigate(`/user/${dataVar.user?.id}`)}
+                          onclick={() => navigate(`${studentTeachers ? `/user/${dataVar.teacher.user.id}`:`/user/${dataVar.user?.id}`}`)}
                         />
                       )}
                       {updateButton && (
@@ -133,6 +139,21 @@ export const Table = ({
                           onclick={() => attendanceButton(dataVar)}
                         />
                       )}
+                      {gradeButton && (
+                        <ButtonSvg
+                          svg={
+                            <PaperClipIcon className="w-5 h-5 text-white" />
+                          }
+                          color={"orange"}
+                          onclick={() =>
+                            setModal({
+                              type: "grade",
+                              data: dataVar,
+                              toUpdateOrDelete: toUpdateOrDelete,
+                            })
+                          }
+                        />
+                      )}
                     </td>
                   )}
                 </tr>
@@ -152,6 +173,7 @@ export const Table = ({
       {modal.type === "update" && <Update modal={modal} setModal={setModal} />}
       {modal.type === "view" && navigate("/user/{}")}
       {modal.type === "delete" && <Delete modal={modal} setModal={setModal} />}
+      {modal.type === "grade" && <Grade modal={modal} setModal={setModal} selectedExam={selectedExam}/>}
     </div>
   );
 };

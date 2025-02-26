@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Exam;
 use App\Models\Subject;
 use App\Models\Teacher;
 use Exception;

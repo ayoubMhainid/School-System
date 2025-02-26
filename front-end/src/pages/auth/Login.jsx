@@ -30,9 +30,14 @@ export const Login = () => {
       setLoading(false);
       localStorage.setItem("token", response.data.token);
       setUser(response.data);
-      response.data.role == "admin"
-        ? navigate("/admin/dashboard")
-        : navigate("/home");
+      
+      if(response.data.role === 'admin'){
+        navigate("/admin/dashboard")
+      } else if(response.data.role === 'teacher'){
+        navigate("/teacher/home")
+      }else if(response.data.role === 'student'){
+        navigate("/student/home")
+      }
     } catch (error) {
       setLoading(false);
       if (error.response) {

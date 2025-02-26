@@ -9,6 +9,7 @@ use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Teacher;
+use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Exception;
@@ -50,6 +51,23 @@ class TeacherController extends Controller
         }
     }
 
+    public function getAllTeacherOfStudent()
+    {
+        try{
+            $user = JWTAuth::parsetoken()->authenticate();
+            $student = Student::where('user_id',$user->id)->first();
+            $subjects = Subject::where("class_id",$student->class_id)
+                                ->with("teacher.user","class")
+                                ->paginate(10);
+            return response()->json([
+                "subjects" => $subjects
+            ]);
+        }catch(Exception $e){
+            return response()->json([
+                "message" => $e->getMessage()
+            ],500);
+        }
+    }
 
 
     public function getTeacher($id)

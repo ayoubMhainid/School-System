@@ -97,7 +97,7 @@ export const dataSideBar = [
     ROLE: "teacher",
     SVG: <HomeIcon strokeWidth="1" className="w-6 h-6" />,
     TEXT: "Home",
-    LINK: "/home",
+    LINK: "/teacher/home",
   },
   {
     ROLE: "teacher",
@@ -164,7 +164,7 @@ export const dataSideBar = [
     ROLE: "student",
     SVG: <HomeIcon strokeWidth="1" className="w-6 h-6" />,
     TEXT: "Home",
-    LINK: "/home",
+    LINK: "/student/home",
   },
   {
     ROLE: "student",
