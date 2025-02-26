@@ -10,7 +10,7 @@ const CreateAttendance = ({ onSubmit, student }) => {
   const [loading, setLoading] = useState(false);
   const [notification, setNotification] = useState({});
   const [attendance, setAttendance] = useState({
-    user_id: student?.id || "",
+    student_id: student?.id || "",
     class_id: student?.class_id || "",
     time: "",
     date: null,
@@ -21,7 +21,7 @@ const CreateAttendance = ({ onSubmit, student }) => {
   const { user } = useAppContext();
 
   useEffect(() => {
-    setAttendance((prev) => ({ ...prev, user_id: student?.id || "",class_id: student.class_id || ""}));
+    setAttendance((prev) => ({ ...prev, student_id: student?.id || "",class_id: student.class_id || ""}));
   }, [student]);
 
   const handleChange = (e) => {
@@ -59,11 +59,11 @@ const CreateAttendance = ({ onSubmit, student }) => {
           <h2 className="text-xl font-semibold mb-4">Create Attendance</h2>
 
           <div className="mb-2">
-            <Label text={'User id'} />
+            <Label text={'Student id'} />
             <Input
               type="text"
-              name="user_id"
-              value={attendance.user_id}
+              name="student_id"
+              value={attendance.student_id}
               readOnly
               text={'black'}
             />

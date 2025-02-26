@@ -142,6 +142,7 @@ Route::prefix('attendanceStud')->group(function () {
     Route::get('/getAttendance', [AttendanceStudentsController::class, 'getAttendance'])->middleware(CheckRole::class . ":teacher");
     Route::get('/getAttendanceByClass/{class_id}', [AttendanceStudentsController::class, 'getAttendanceByClass'])->middleware(CheckRole::class . ":teacher");
     Route::post('/createAttendance', [AttendanceStudentsController::class, 'store'])->middleware(CheckRole::class . ":teacher");
+    Route::get("/getNbHoursOfAbsentStudents/{class_id}", [AttendanceStudentsController::class, 'getNbHoursOfAbsentStudents'])->middleware(CheckRole::class . ":teacher");
     Route::delete('/deleteAttendance/{id}', [AttendanceStudentsController::class, 'delete'])->middleware(CheckRole::class . ":teacher");
 });
 

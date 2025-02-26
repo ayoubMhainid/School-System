@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AttendanceStudents;
 use App\Models\Teacher;
 use Exception;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -33,7 +34,8 @@ class AttendanceStudentsController extends Controller
     public function getAttendanceByClass($class_id)
     {
         try {
-            $attendances = AttendanceStudents::where('class_id', $class_id)->get();
+            $attendances = AttendanceStudents::where('class_id', $class_id)
+            ->paginate(1);
 
             if (!$attendances) {
                 return response()->json([
@@ -81,6 +83,32 @@ class AttendanceStudentsController extends Controller
             return response()->json([
                 'attendance' => $attendance,
                 'message' => "New record created successfully!"
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function getNbHoursOfAbsentStudents($class_id)
+    {
+        try {
+            $absentHours = AttendanceStudents::where('class_id', $class_id)
+            ->selectRaw('
+            student_id,
+            YEAR(date) as year,
+            MONTH(date) as month,
+            sum(nbHours) as total_hours
+        ')
+        ->groupBy('student_id', DB::raw('YEAR(date)'), DB::raw('MONTH(date)'))
+        ->orderBy(DB::raw('YEAR(date)'), 'asc')
+        ->orderBy(DB::raw('MONTH(date)'), 'asc')
+        ->orderByDesc('total_hours')
+        ->get();
+
+            return response()->json([
+                'absent_hours' => $absentHours
             ], 200);
         } catch (Exception $e) {
             return response()->json([

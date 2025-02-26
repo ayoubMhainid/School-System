@@ -34,9 +34,20 @@ class AttendanceStudentsFactory extends Factory
         $selectedTime = fake()->randomElement(array_keys($timeSlots));
         $status = fake()->randomElement(["absent", "late"]);
 
+
+        $class = Classe::has('students')->inRandomOrder()->first();
+
+        // Ensure there is a class with students
+        if (!$class) {
+            return [];
+        }
+
+        // Get a student from that class
+        $student = $class->students()->inRandomOrder()->first();
+
         return [
-            'student_id' => Student::inRandomOrder()->value('id'),
-            'class_id' => Classe::inRandomOrder()->value('id'),
+            'student_id' => $student->id,
+            'class_id' => $class->id,
             'time' => $selectedTime,
             'nbHours' => $status === "absent" ? $timeSlots[$selectedTime] : fake()->numberBetween(1, $timeSlots[$selectedTime]),
             'date' => fake()->dateTimeBetween('2024-10-01')->format('Y-m-d'),
