@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ExamController;
+use App\Http\Controllers\MarkController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\SecretController;
 use App\Http\Controllers\SubjectController;
@@ -107,6 +108,10 @@ Route::prefix("exam")->group(function () {
     Route::get("/getExamById/{id} ", [ExamController::class, "getExamById"]);
 });
 
+Route::prefix("mark")->group(function () {
+    Route::get('/getMark/{studentId}/{examId}', [MarkController::class, 'getMark'])->middleware(CheckRole::class . ':teacher');
+    Route::post('/addMark', [MarkController::class, 'addMark'])->middleware(CheckRole::class . ':teacher');
+});
 
 Route::prefix("announcement")->group(function () {
     Route::get("/getAnnouncements", [AnnouncementController::class, "getAnnouncements"])->middleware(CheckAuthentication::class);
