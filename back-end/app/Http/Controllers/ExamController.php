@@ -98,7 +98,7 @@ class ExamController extends Controller
                 $student = Student::where('user_id', $user->id)->first();
                 $exams = Exam::where("class_id", $student->class_id)
                     ->with("subject")
-                    ->with("classes")
+                    ->with("class")
                     ->latest()
                     ->paginate(5);
 
@@ -133,6 +133,27 @@ class ExamController extends Controller
         }
     }
 
+    public function getExamsOfStudent(){
+        try{
+            $user = JWTAuth::parsetoken()->authenticate();
+
+            $student = Student::where("user_id",$user->id)->first();
+            $exams = Exam::where("class_id",$student->class_id)
+                            ->with("subject.teacher")
+                            ->with("class")
+                            ->latest()
+                            ->paginate(10);
+
+            return response()->json([
+                "exams"=> $exams
+            ]);
+
+        }catch(Exception $e){
+            return response()->json([
+                "message" => $e->getMessage()
+            ]);
+        }
+    }
     public function getExamById($id)
     {
         try {

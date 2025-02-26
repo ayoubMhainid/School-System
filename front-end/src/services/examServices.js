@@ -49,3 +49,12 @@ export const getExamsBySubject = async (token,subjectId) =>{
   });
   return response;
 }
+
+export const getExamsOfStudent = async (token,page) => {
+  const response = await axios.get(`${apiUrl}/exam/getExamsOfStudent?page=${page}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response;
+};
