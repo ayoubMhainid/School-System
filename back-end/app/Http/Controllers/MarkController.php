@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Mark;
+use App\Models\Student;
 use Exception;
 use Illuminate\Http\Request;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class MarkController extends Controller
 {
@@ -31,6 +33,34 @@ class MarkController extends Controller
         }catch(Exception $ex){
             return response()->json([
                 "message" => $ex->getMessage(),
+            ],500);
+        }
+    }
+
+    public function getMarks(){
+        try{
+            $user = JWTAuth::parseToken()->authenticate();
+            $student = Student::where('user_id',$user->id)
+                                ->first();
+
+            $marks = Mark::where('student_id',$student->id)
+                            ->with('exam')
+                            ->latest()
+                            ->paginate(10);
+
+            if(!$marks){
+                return response()->json([
+                    "message" => "No marks founded"
+                ],404);
+            }
+
+            return response()->json([
+                'marks' => $marks
+            ]);
+
+        }catch(Exception $ex){
+            return response()->json([
+                'message' => $ex->getMessage(),
             ],500);
         }
     }
