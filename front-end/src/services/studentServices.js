@@ -37,6 +37,15 @@ export const getStudentsByClass = async (token, class_id) => {
   return response;
 };
 
+export const filterStudentsByClass = async (token, class_id) =>{
+  const response = await axios.get(`${apiUrl}/student/filterStudentsByClass/${class_id}`,{
+    headers : {
+      Authorization : `Bearer ${token}`
+    }
+  });
+  return response;
+}
+
 export const filterStudentsByGender = async (token, gender) => {
   const response = await axios.get(
     `${apiUrl}/student/filterStudentsByGender/${gender}`,
