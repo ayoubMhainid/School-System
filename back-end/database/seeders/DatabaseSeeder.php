@@ -4,7 +4,12 @@ namespace Database\Seeders;
 
 use App\Models\Admin;
 use App\Models\Announcement;
+<<<<<<< HEAD
 use App\Models\AttendancesTeacher;
+=======
+use App\Models\Attendance;
+use App\Models\AttendanceStudents;
+>>>>>>> 14d31a1691143608f46a72ab919698f2b7490b98
 use App\Models\Classe;
 use App\Models\Event;
 use App\Models\Exam;
@@ -38,6 +43,11 @@ class DatabaseSeeder extends Seeder
         Exam::factory(20)->create();
         Mark::factory(20)->create();
         Notification::factory(20)->create();
+<<<<<<< HEAD
         AttendancesTeacher::factory(50)->create();
+=======
+        Attendance::factory(50)->create();
+        AttendanceStudents::factory(50)->create();
+>>>>>>> 14d31a1691143608f46a72ab919698f2b7490b98
     }
 }

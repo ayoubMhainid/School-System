@@ -9,7 +9,7 @@ import { deleteClass } from "../../services/classServices";
 import { deleteEvent } from "../../services/eventServices";
 import { deleteNotification } from "../../services/notificationServices";
 import { deleteTeacher } from "../../services/teacherServices";
-import { deleteAttendance } from "../../services/attendanceServices";
+import { deleteAttendance } from "../../services/attendanceStudServices";
 import { deleteSecret } from "../../services/secretsServices";
 import { deleteExam } from "../../services/examServices";
 
