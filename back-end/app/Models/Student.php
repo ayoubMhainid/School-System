@@ -12,7 +12,7 @@ class Student extends Model
         'full_name',
         'date_of_birth',
         'gender',
-        'adress',
+        'address',
         'phone',
         'username',
         'class_id'];

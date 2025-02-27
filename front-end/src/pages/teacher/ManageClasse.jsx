@@ -15,6 +15,8 @@ export const ManageClasse = () => {
       const response = await getClassesAndStudentsByTeacher(
         localStorage.getItem("token")
       );
+      console.log(response);
+      
       if (response.status === 200) {
         setStudents(response.data.students);
       }

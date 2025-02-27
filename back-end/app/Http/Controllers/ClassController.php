@@ -126,8 +126,7 @@ class ClassController extends Controller
     public function getClassespaginate()
     {
         try {
-            $classes = Classe::with("teacher")
-                ->latest()
+            $classes = Classe::latest()
                 ->paginate(10);
             return response()->json([
                 "classes" => $classes
@@ -144,13 +143,11 @@ class ClassController extends Controller
             $request->validate([
                 "class_name" => "required|string|max:20",
                 "section" => "required|string|max:30",
-                "teacher_id" => "required|integer|exists:teachers,id"
             ]);
 
             Classe::create([
                 "class_name" => $request->class_name,
                 "section" => $request->section,
-                "teacher_id" => $request->teacher_id,
             ]);
 
             return response()->json([
@@ -190,7 +187,6 @@ class ClassController extends Controller
             $validation = $request->validate([
                 "class_name" => "required|string|max:20",
                 "section" => "required|string|max:30",
-                "teacher_id" => "required|integer"
             ]);
             $class = Classe::find($id);
             if (!$class) {
