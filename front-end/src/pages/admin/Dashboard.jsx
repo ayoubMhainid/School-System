@@ -13,6 +13,7 @@ export const Dashboard = () => {
   const [adminName,setAdminName] = useState('');
   const [counts,setCounts] = useState({});
   const [attendances,setAttendances] = useState([]);
+  const [studentsAttendances,setStduentsAttendances] = useState([]);
   const [events,setEvents] = useState([]);
   const [exams,setExams] = useState([]);
   const [errorMessage,setErrorMessage] = useState('');
@@ -33,7 +34,8 @@ export const Dashboard = () => {
         setCounts(response.data.counts)
         setEvents(response.data.upcomingEvents)
         setExams(response.data.upcomingExams)
-        setAttendances(response.data.attendances)
+        setAttendances(response.data.teacherAttendances)
+        setStduentsAttendances(response.data.studentAttendances)
         setAdminName(response.data.adminName.full_name)
       }
 
@@ -74,7 +76,7 @@ export const Dashboard = () => {
                         attendances && [{data: attendances.map((attendance) =>{
                           return attendance.absent_teachers
                         }),label:"Teachers"},
-                        {data: attendances.map((attendance) =>{
+                        {data: studentsAttendances.map((attendance) =>{
                           return attendance.absent_students
                         }),label:"Students",},
                         ]}

@@ -15,10 +15,10 @@ class Classe extends Model
         return $this->hasMany(Student::class,'class_id');
     }
 
-    public function teacher()
-    {
-        return $this->belongsTo(Teacher::class);
-    }
+    // public function teacher()
+    // {
+    //     return $this->belongsTo(Teacher::class);
+    // }
 
     public function subjects()
     {
