@@ -118,6 +118,7 @@ Route::prefix("exam")->group(function () {
 Route::prefix("mark")->group(function () {
     Route::get('/getMark/{studentId}/{examId}', [MarkController::class, 'getMark'])->middleware(CheckRole::class . ':teacher');
     Route::post('/addMark', [MarkController::class, 'addMark'])->middleware(CheckRole::class . ':teacher');
+    Route::get('/getMarks' , [MarkController::class, 'getMarks']);
 });
 
 Route::prefix("announcement")->group(function () {

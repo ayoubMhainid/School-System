@@ -11,6 +11,15 @@ export const getMark = async (token,studentId,examId) =>{
     return response;
 }
 
+export const getMarks = async (token,page) =>{
+    const response = await axios.get(`${apiUrl}/mark/getMarks?page=${page}`,{
+        headers : {
+            Authorization : `Bearer ${token}`
+        }
+    });
+    return response;
+}
+
 export const addMark = async (token,data) =>{
     const response = await axios.post(`${apiUrl}/mark/addMark`,data,{
         headers : {

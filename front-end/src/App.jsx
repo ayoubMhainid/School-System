@@ -26,6 +26,7 @@ import { Home } from "./pages/student/Home";
 import { Home as HomeTeacher } from "./pages/teacher/Home";
 import { GradeStudents } from "./pages/teacher/GradeStudents";
 import { Exams } from "./pages/student/Exams";
+import { Grades } from "./pages/student/Grades";
 import { Class } from "./pages/student/Class";
 
 function App() {
@@ -62,6 +63,7 @@ function App() {
           <Route path="/teacher/grades" element={<GradeStudents />} />
           
           <Route path="/student/exams" element={<Exams /> } />
+          <Route path="/student/grades" element={<Grades />} />
         </Route>
       </Route>
     </Routes>
