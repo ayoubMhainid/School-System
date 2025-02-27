@@ -77,12 +77,13 @@ export const Update = ({ modal, setModal }) => {
   const getClasse = async () => {
     const response = await getClasses(localStorage.getItem("token"));
     if (response.data.classes) {
-      setClasses(response.data.classes.data);
+      console.log(response);
+      
+      setClasses(response.data.classes);
     }
   };
   const getTeacher = async () => {
     const response = await getTeachers(localStorage.getItem("token"));
-    console.log(response);
     if (response.data) {
       setTeacher(response.data.teachers.data);
     }

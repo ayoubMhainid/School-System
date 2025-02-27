@@ -42,11 +42,10 @@ class ExamController extends Controller
                 "date" => $date
             ]);
 
-
             foreach ($students as $student) {
                 Notification::create([
-                    "sender_id" => $teacher->id,
-                    "receiver_id" => $student->id,
+                    "sender_id" => $teacher->user_id,
+                    "receiver_id" => $student->user_id,
                     "content" => "The $subject->name teacher announced an exam on $date",
                     'status' => "delivred",
                 ]);
@@ -77,7 +76,7 @@ class ExamController extends Controller
                 $student = Student::where('user_id', $user->id)->first();
                 $exams = Exam::where("class_id", $student->class_id)
                     ->with("subject")
-                    ->with("classes")
+                    ->with("class")
                     ->latest()
                     ->paginate(5);
 

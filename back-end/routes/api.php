@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnnouncementController;
-use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\AttendancesTeacherController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\DashboardController;
@@ -75,7 +75,9 @@ Route::prefix("student")->group(function () {
 
 Route::prefix("teacher")->group(function () {
     Route::get("/getTeachers", [TeacherController::class, "getTeachers"])->middleware(CheckRole::class . ":admin");
+    Route::get("/getAllTeachers", [TeacherController::class, "getAllTeachers"])->middleware(CheckRole::class . ":admin");
     Route::get("/getTeacher/{id}", [TeacherController::class, "getTeacher"])->middleware(CheckAuthentication::class);
+    Route::get("/getAllTeacherOfStudent", [TeacherController::class, "getAllTeacherOfStudent"])->middleware(CheckRole::class . ":student");
     Route::get("/searchTeachersByUsername/{username}", [TeacherController::class, "searchTeachersByUsername"])->middleware(CheckAuthentication::class);
     Route::get("/getTeachersByClass/{id}", [TeacherController::class, "getTeachersByClass"])->middleware(CheckAuthentication::class);
     Route::post("/createTeacher", [TeacherController::class, "createTeacher"])->middleware(CheckRole::class . ":admin");
@@ -130,10 +132,10 @@ Route::prefix("subject")->group(function () {
     Route::get("/getSubjectsByteacherAndClass/{class_id}", [SubjectController::class, "getSubjectsByteacherAndClass"])->middleware(CheckRole::class . ":teacher");
 });
 
-Route::prefix('attendance')->group(function () {
-    Route::get('/getAttendance', [AttendanceController::class, 'getAttendance']);
-    Route::post('/createAttendance', [AttendanceController::class, 'store']);
-    Route::delete('/deleteAttendance/{id}', [AttendanceController::class, 'delete']);
+Route::prefix('attendancesTeacher')->middleware(CheckRole::class . ":admin")->group(function () {
+    Route::get('/getAttendancesTeacher', [AttendancesTeacherController::class, 'getAttendancesTeacher']);
+    Route::post('/createAttendanceTeacher', [AttendancesTeacherController::class, 'createAttendanceTeacher']);
+    Route::delete('/deleteAttendanceTeacher/{id}', [AttendancesTeacherController::class, 'deleteAttendanceTeacher']);
 });
 
 Route::prefix("secret")->middleware(CheckRole::class . ":admin")->group(function () {
@@ -143,6 +145,6 @@ Route::prefix("secret")->middleware(CheckRole::class . ":admin")->group(function
 });
 
 
-Route::prefix('dashboard')->group(function() {
+Route::prefix('dashboard')->group(function () {
     Route::get("/getAdmindashboardData", [DashboardController::class, 'getAdminDashboardData'])->middleware(CheckRole::class . ':admin');
 });
