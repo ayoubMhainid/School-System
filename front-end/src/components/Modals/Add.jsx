@@ -10,7 +10,7 @@ import { Button } from "../UI/Button";
 import { Input } from "../UI/Input";
 import { createStudent } from "../../services/studentServices";
 import { Notification } from "../UI/Notification";
-import { createTeacher, getAllTeachers } from "../../services/teacherServices";
+import { createTeacher, getAllTeachers, getTeachersGet } from "../../services/teacherServices";
 import { createAdmin } from "../../services/adminServices";
 import { Select } from "../UI/Select";
 import {
@@ -26,6 +26,7 @@ import { errors } from "../../constants/Errors";
 import { createExam } from "../../services/examServices";
 
 export const Add = ({ setOpen, toAdd }) => {
+  const [teachers,setTeachers]= useState([])
   const [dataUser, setDataUser] = useState({});
   const [dataExam, setDataExam] = useState({});
   const [dataSubject, setDataSubject] = useState({});
@@ -84,6 +85,13 @@ export const Add = ({ setOpen, toAdd }) => {
     }
   };
 
+  const getTeachersGet_func = async ()=>{
+    const response = await getTeachersGet(localStorage.getItem("token"));
+    if (response.data.teachers){
+      setTeachers(response.data.teachers)
+    }
+  }
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -228,6 +236,7 @@ export const Add = ({ setOpen, toAdd }) => {
 
   useEffect(() => {
     toAdd == _subject && getSubject();
+    toAdd == _classe && getTeachersGet_func();
   }, []);
 
   return (
@@ -529,14 +538,19 @@ export const Add = ({ setOpen, toAdd }) => {
                 />
 
                 <Label text="Teacher id" />
-                <Input
-                  type="text"
+                <select
+                  className={
+                    "border border-gray-600  text-black px-3 py-1 text-md bg-inherit rounded-sm outline-none w-[100%]"
+                  }
                   name="teacher_id"
+                  value={dataUser.teacher_id}
                   onChange={handleChange}
-                  placholder="teacher id"
-                  border="black"
-                  text="black"
-                />
+                >
+                  <option value="">Select the teacher</option>
+                  {teachers.map(elem=>
+                      <option value={elem.id} >{elem.full_name}</option>
+                    )}
+                </select>
               </>
             )}
 
