@@ -17,8 +17,16 @@ class AttendancesTeacherController extends Controller
             // $attendances = AttendancesTeacher::paginate(5);
 
 
-            $attendance = AttendancesTeacher::select('user_id', DB::raw("SUM(nbHours) as total"))
-                ->groupBy("user_id")
+            $attendance = AttendancesTeacher::selectRaw('
+                    user_id,
+                    YEAR(date) as year,
+                    MONTH(date) as month,
+                    SUM(nbHours) as total_hours
+                    ')
+                // ->groupBy("user_id")
+                // select('user_id', DB::raw("SUM(nbHours) as total"))
+                ->groupBy('user_id', DB::raw('YEAR(date)'), DB::raw('MONTH(date)'))
+                ->orderBy(DB::raw('YEAR(date)'), 'asc')
                 ->with('user.teacher')
                 ->latest()
                 ->paginate(5);

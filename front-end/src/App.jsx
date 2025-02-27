@@ -16,17 +16,17 @@ import { ManageClasse } from "./pages/teacher/ManageClasse";
 import { ManageSubject } from "./pages/teacher/ManageSubject";
 import { Event } from "./shared/Event";
 import { Profile as ProfilePage } from "./shared/Profile";
-import { ManageAttendance } from "./pages/teacher/ManageAttendance";
 import { Announcements } from "./shared/Announcements";
 import { ManageExam } from "./pages/teacher/ManageExam";
 import { SecretKeys } from "./pages/admin/SecretKeys";
 import { Teachers } from "./pages/student/Teachers";
 import { Admins } from "./shared/Admins";
-import { ManageAttendances } from "./pages/admin/ManageAttendances";
 import { Home } from "./pages/student/Home";
 import { Home as HomeTeacher } from "./pages/teacher/Home";
 import { GradeStudents } from "./pages/teacher/GradeStudents";
 import { Exams } from "./pages/student/Exams";
+import { ManageAttendancesTeacher } from "./pages/admin/ManageAttendancesTeacher";
+import { ManageAttendance } from "./pages/teacher/ManageAttendance";
 
 function App() {
   return (
@@ -43,7 +43,10 @@ function App() {
           <Route path="/user/:id" element={<Profile />} />
           <Route path="/admin/classes" element={<ManageClasses />} />
           <Route path="/admin/announcement" element={<ManageAnnouncement />} />
-          <Route path="/admin/attencances" element={<ManageAttendances />} />
+          <Route
+            path="/admin/attencances"
+            element={<ManageAttendancesTeacher />}
+          />
           <Route path="/admin/events" element={<ManageEvents />} />
           <Route path="/user/notifications" element={<Notifications />} />
           <Route path="/teacher/classes" element={<ManageClasse />} />
@@ -60,8 +63,8 @@ function App() {
           <Route path="/student/home" element={<Home />} />
           <Route path="/teacher/home" element={<HomeTeacher />} />
           <Route path="/teacher/grades" element={<GradeStudents />} />
-          
-          <Route path="/student/exams" element={<Exams /> } />
+
+          <Route path="/student/exams" element={<Exams />} />
         </Route>
       </Route>
     </Routes>

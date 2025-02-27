@@ -6,7 +6,7 @@ import { useAppContext } from "../../context/AppContext";
 import { Notification } from "../UI/Notification";
 import { Label } from "../UI/Label";
 
-const CreateAttendance = ({ onSubmit, student }) => {
+const CreateAttendance = ({ onSubmit, student, setOpen }) => {
   const [loading, setLoading] = useState(false);
   const [notification, setNotification] = useState({});
   const [attendance, setAttendance] = useState({
@@ -15,13 +15,17 @@ const CreateAttendance = ({ onSubmit, student }) => {
     time: "",
     date: null,
     status: "absent",
-    nbHours : 0
+    nbHours: 0,
   });
 
   const { user } = useAppContext();
 
   useEffect(() => {
-    setAttendance((prev) => ({ ...prev, student_id: student?.id || "",class_id: student.class_id || ""}));
+    setAttendance((prev) => ({
+      ...prev,
+      student_id: student?.id || "",
+      class_id: student.class_id || "",
+    }));
   }, [student]);
 
   const handleChange = (e) => {
@@ -30,13 +34,13 @@ const CreateAttendance = ({ onSubmit, student }) => {
 
   const CreateAttendance_FUNCTION = async (data) => {
     setLoading(true);
-    setNotification(null)
+    setNotification(null);
     try {
       const response = await addAttendance(localStorage.getItem("token"), data);
       if (response.status === 200) {
-        setNotification({type:"success",message:response.data.message})
-        onSubmit(response.data.attendance);
-        setAttendance(response.data.attendance);
+        setNotification({ type: "success", message: response.data.message });
+        onSubmit(response.data.attendances.data);
+        setAttendance(response.data.attendances);
         setNotification({ type: "success", message: response.data.message });
       }
     } catch (error) {
@@ -59,40 +63,40 @@ const CreateAttendance = ({ onSubmit, student }) => {
           <h2 className="text-xl font-semibold mb-4">Create Attendance</h2>
 
           <div className="mb-2">
-            <Label text={'Student id'} />
+            <Label text={"Student id"} />
             <Input
               type="text"
               name="student_id"
               value={attendance.student_id}
               readOnly
-              text={'black'}
+              text={"black"}
             />
           </div>
 
           <div className="mb-2">
-            <Label text={'Class id'} />
+            <Label text={"Class id"} />
             <Input
               type="text"
               name="class_id"
               value={attendance.class_id}
               readOnly
-              text={'black'}
+              text={"black"}
             />
           </div>
 
           <div className="mb-2">
-            <Label text={'Date'} />
+            <Label text={"Date"} />
             <Input
               type="date"
               name="date"
               value={attendance.date}
               onChange={handleChange}
-              text={'black'}
+              text={"black"}
             />
           </div>
 
           <div className="mb-2">
-            <Label text={'Nb hours'} />
+            <Label text={"Nb hours"} />
             <select
               name="nbHours"
               value={attendance.nbHours}
@@ -112,7 +116,7 @@ const CreateAttendance = ({ onSubmit, student }) => {
           </div>
 
           <div className="border-b border-gray-200 mb-2">
-            <Label text={'Time'} />
+            <Label text={"Time"} />
             <select
               name="time"
               value={attendance.time}
@@ -131,7 +135,7 @@ const CreateAttendance = ({ onSubmit, student }) => {
           </div>
 
           <>
-            <Label text={'Status'} />
+            <Label text={"Status"} />
             <select
               required
               name="status"
@@ -148,7 +152,7 @@ const CreateAttendance = ({ onSubmit, student }) => {
             <Button
               type="button"
               text="Cancel"
-              onClick={() => onSubmit(null)}
+              onClick={() => setOpen(false)}
               bg="bg-gray-200"
               color="gray-900"
             />
