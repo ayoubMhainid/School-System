@@ -6,6 +6,7 @@ export const ButtonSvg = ({svg,color,onclick}) => {
                         ${color === 'blue' && 'bg-blue-500 hover:bg-blue-700'}
                         ${color === 'green' && 'bg-green-500 hover:bg-green-700'}
                          ${color === 'pink' && 'bg-pink-500 hover:bg-pink-700'}
+                         ${color === 'orange' && 'bg-orange-500 hover:bg-orange-700'}
     `}
     onClick={onclick}
     >

@@ -34,4 +34,8 @@ class Student extends Model
     public function getProfilePictureAttribute(){
         return asset("storage/users/studentImage.png");
     }
+
+    public function attendanceStudents(){
+        return $this->hasMany(AttendanceStudents::class);
+    }
 }

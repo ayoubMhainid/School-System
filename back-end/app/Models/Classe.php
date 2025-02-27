@@ -12,7 +12,7 @@ class Classe extends Model
 
     public function students()
     {
-        return $this->hasMany(Student::class);
+        return $this->hasMany(Student::class,'class_id');
     }
 
     public function teacher()
@@ -23,5 +23,10 @@ class Classe extends Model
     public function subjects()
     {
         return $this->hasMany(Subject::class);
+    }
+
+    public function attendanceStudents()
+    {
+        return $this->hasMany(AttendanceStudents::class);
     }
 }

@@ -40,3 +40,21 @@ export const deleteExam = async (token, exam_id) => {
   });
   return response;
 };
+
+export const getExamsBySubject = async (token,subjectId) =>{
+  const response = await axios.get(`${apiUrl}/exam/getExamsBySubject/${subjectId}`, {
+    headers : {
+      Authorization : `Bearer ${token}`
+    }
+  });
+  return response;
+}
+
+export const getExamsOfStudent = async (token,page) => {
+  const response = await axios.get(`${apiUrl}/exam/getExamsOfStudent?page=${page}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response;
+};
