@@ -9,12 +9,16 @@ import {
 import { Table } from "../../components/Tables/Table";
 import { Table as TableSkeleton } from "../../components/Skeletons/Table";
 import CreateAttendance from "../../components/Modals/CreateAttendance";
+import { getAttendance } from "../../services/attendanceServices";
 
 export const ManageAttendancesTeacher = () => {
   const { isMenuOpen, user } = useAppContext();
   const [teacherList, setTeacherList] = useState([]);
+  const [teacherListAttendance, setTeacherListAttendance] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessageAttendance, setErrorMessageAttendance] = useState("");
   const [loading, setLoading] = useState(false);
+  const [loadingAttendance, setLoadingAttendance] = useState(false);
   const [paginate, setPaginate] = useState(false);
   const [pagination, setPagination] = useState({
     currentPage: 0,
@@ -22,7 +26,7 @@ export const ManageAttendancesTeacher = () => {
     total: 0,
   });
   const [usernameSearch, setUsernameSearch] = useState("");
-  const [teacherAttendance, setAeacherAttendance] = useState({});
+  const [teacherAttendance, setTeacherAttendance] = useState({});
   const [openCreateAttendance, setOpenCreateAttendance] = useState(false);
 
   const viewTeachers = async (page) => {
@@ -88,18 +92,46 @@ export const ManageAttendancesTeacher = () => {
   }, [usernameSearch]);
 
   const creationAttendance = (teacherData) => {
-    console.log("this creation attendance");
-    setAeacherAttendance(teacherData);
+    setTeacherAttendance(teacherData);
     setOpenCreateAttendance(true);
   };
+
+  const viewAttendance = async (page) => {
+    setErrorMessageAttendance(null);
+    setLoadingAttendance(true);
+    try {
+      const response = await getAttendance(user.token, page);
+      setLoadingAttendance(false);
+      const _respense = response.data.attendanceTeacher;
+      _respense.data.length
+        ? (setPaginate(true),
+          setPagination({
+            currentPage: _respense.current_page,
+            lastPage: _respense.last_page,
+            total: _respense.total,
+          }),
+          setTeacherListAttendance(_respense.data))
+        : setErrorMessageAttendance(errors.notFound);
+    } catch (error) {
+      error.response
+        ? setErrorMessageAttendance(error.response.data.message)
+        : setErrorMessageAttendance(errors.tryAgain);
+    }
+  };
+  useEffect(() => {
+    user.token && viewAttendance(1);
+  }, [user.token]);
 
   return (
     !isMenuOpen && (
       <div className="ml-6 mt-6 w-[85%]">
-        <h1 className="w-[100%] px-2 pb-2 text-3xl font-semibold">
+        <h1 className="w-[100%] px-2 pb-4 text-3xl font-semibold">
           Manage Attendance
         </h1>
         <div className="px-2 w-[80%] lg:w-[50%]">
+          <h6 className="w-[100%] px-2 pb-2 text-2xl font-semibold">
+            Teachers
+          </h6>
           <Input
             type={"text"}
             placholder={"Search by username"}
@@ -122,7 +154,32 @@ export const ManageAttendancesTeacher = () => {
                   pagination={pagination}
                   paginate={paginate}
                   getData={viewTeachers}
-                  // toUpdateOrDelete={"User"}
+                />
+              )
+            ) : (
+              <TableSkeleton />
+            )
+          ) : (
+            <span className="text-red-300 text-xl font-semibold">
+              {errorMessage}
+            </span>
+          )}
+        </div>
+        <h6 className="w-[100%] px-2 pt-4 text-2xl font-semibold">
+          Attendance teachers
+        </h6>
+        <div className="mt-4 px-2">
+          {!errorMessageAttendance ? (
+            !loadingAttendance ? (
+              teacherListAttendance &&
+              teacherListAttendance.length && (
+                <Table
+                  heads={["Full name", "Date", "Total hours"]}
+                  data={teacherListAttendance}
+                  keys={["user.teacher.full_name", "year", "total_hours"]}
+                  pagination={pagination}
+                  paginate={paginate}
+                  getData={viewAttendance}
                 />
               )
             ) : (
@@ -136,6 +193,7 @@ export const ManageAttendancesTeacher = () => {
         </div>
         {openCreateAttendance && (
           <CreateAttendance
+            role="admin"
             student={teacherAttendance}
             setOpen={setOpenCreateAttendance}
           />

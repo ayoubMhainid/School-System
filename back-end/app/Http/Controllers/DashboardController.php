@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Admin;
 use App\Models\Attendance;
+use App\Models\AttendancesTeacher;
 use App\Models\Classe;
 use App\Models\Event;
 use App\Models\Exam;
@@ -17,12 +18,13 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class DashboardController extends Controller
 {
-    public function getAdminDashboardData(){
-        try{
+    public function getAdminDashboardData()
+    {
+        try {
             $user = JWTAuth::parseToken()->authenticate();
-            $adminName = Admin::where("user_id",$user->id)
-                                ->select("full_name")
-                                ->first();
+            $adminName = Admin::where("user_id", $user->id)
+                ->select("full_name")
+                ->first();
 
             $counts = [
                 'teachers' => Teacher::count(),
@@ -31,31 +33,31 @@ class DashboardController extends Controller
                 'classes' => Classe::count(),
                 'admins' => Admin::count(),
                 'events' => Event::count(),
-                'maleStudents' => Student::where('gender','male')
-                                            ->count(),
+                'maleStudents' => Student::where('gender', 'male')
+                    ->count(),
             ];
 
             $upcomingEvents = Event::latest()
-                                    ->with('admin')
-                                    ->take(6)
-                                    ->get();
-            $upcomingExams = Exam::where('date','<',now()->toDateString())
-                                    ->with('class')
-                                    ->with('subject')
-                                    ->get();
+                ->with('admin')
+                ->take(6)
+                ->get();
+            $upcomingExams = Exam::where('date', '<', now()->toDateString())
+                ->with('class')
+                ->with('subject')
+                ->get();
 
             $sixMonthsAgo = Carbon::now()->subMonths(6);
-            $absentCounts = Attendance::selectRaw('
+            $absentCounts = AttendancesTeacher::selectRaw('
                                     YEAR(date) as year,
                                     MONTH(date) as month,
                                     sum(case when status = "absent" and user_id in (select user_id from teachers) then 1 else 0 end) as absent_teachers,
                                     sum(case when status = "absent" and user_id in (select user_id from students) then 1 else 0 end) as absent_students
                                 ')
-                                ->groupBy('year', 'month')
-                                ->orderBy('year', 'asc')
-                                ->orderBy('month', 'asc')
-                                ->where('date', '>=', $sixMonthsAgo)
-                                ->get();
+                ->groupBy('year', 'month')
+                ->orderBy('year', 'asc')
+                ->orderBy('month', 'asc')
+                ->where('date', '>=', $sixMonthsAgo)
+                ->get();
 
             return response()->json([
                 'attendances' => $absentCounts,
@@ -65,11 +67,10 @@ class DashboardController extends Controller
                 'upcomingEvents' => $upcomingEvents,
                 'upcomingExams' => $upcomingExams
             ]);
-
-        }catch(Exception $ex){
+        } catch (Exception $ex) {
             return response()->json([
                 "message" => $ex->getMessage(),
-            ],500);
+            ], 500);
         }
     }
 }

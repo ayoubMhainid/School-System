@@ -14,8 +14,6 @@ class AttendancesTeacherController extends Controller
     public function getAttendancesTeacher()
     {
         try {
-            // $attendances = AttendancesTeacher::paginate(5);
-
 
             $attendance = AttendancesTeacher::selectRaw('
                     user_id,
@@ -23,8 +21,6 @@ class AttendancesTeacherController extends Controller
                     MONTH(date) as month,
                     SUM(nbHours) as total_hours
                     ')
-                // ->groupBy("user_id")
-                // select('user_id', DB::raw("SUM(nbHours) as total"))
                 ->groupBy('user_id', DB::raw('YEAR(date)'), DB::raw('MONTH(date)'))
                 ->orderBy(DB::raw('YEAR(date)'), 'asc')
                 ->with('user.teacher')
@@ -89,7 +85,6 @@ class AttendancesTeacherController extends Controller
                 ], 404);
             }
 
-            // Delete the attendance record
             $attendance->delete();
 
             return response()->json([

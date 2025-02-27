@@ -132,7 +132,6 @@ export const ManageAttendance = () => {
       setStudAtten(updatedRecords);
       localStorage.setItem("studAtten", JSON.stringify(updatedRecords));
     }
-    // setOpenCreateAttendance(false);
   };
   return (
     !isMenuOpen && (
@@ -245,6 +244,7 @@ export const ManageAttendance = () => {
         </div>
         {openCreateAttendance && (
           <CreateAttendance
+            role="teacher"
             student={selectedStudent}
             onSubmit={handleCreateAttendance}
             setOpen={setOpenCreateAttendance}
