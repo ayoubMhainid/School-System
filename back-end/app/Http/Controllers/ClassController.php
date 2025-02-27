@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Classe;
+use App\Models\Student;
 use App\Models\Teacher;
 use Exception;
 use Illuminate\Http\Request;
@@ -20,6 +21,29 @@ class ClassController extends Controller
             return response()->json([
                 "classes" => $classes
             ]);
+        } catch (Exception $ex) {
+            return response()->json([
+                "message" => $ex->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function getClassByStudent(){
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+            $student = Student::where("user_id", $user->id)->first();
+            if (!$student) {
+                return response()->json([
+                    "message" => "Student not found"
+                ], 404);
+            }
+            $classe = Classe::where("id", $student->class_id)
+                ->latest()
+                ->get();
+            
+            return response()->json([
+                "classe" => $classe
+            ], 200);
         } catch (Exception $ex) {
             return response()->json([
                 "message" => $ex->getMessage(),

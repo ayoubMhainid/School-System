@@ -67,7 +67,7 @@ Route::prefix("student")->group(function () {
     Route::get("/getStudents", [StudentController::class, "getStudents"])->middleware(CheckAuthentication::class);
     Route::get("/getStudent/{id}", [StudentController::class, "getStudent"])->middleware(CheckAuthentication::class);
     Route::get("/searchStudentsByUsername/{username}", [StudentController::class, "searchStudentsByUsername"])->middleware(CheckRole::class . ':admin');
-    Route::get("/filterStudentsByClass/{class_id}", [StudentController::class, "filterStudentsByClass"])->middleware(CheckRole::class . ':teacher');
+    Route::get("/filterStudentsByClass/{class_id}", [StudentController::class, "filterStudentsByClass"]);
     Route::get("/filterStudentsByGender/{gender}", [StudentController::class, "filterStudentsByGender"])->middleware(CheckRole::class . ':admin');
     Route::post("/createStudent", [StudentController::class, "createStudent"])->middleware(CheckRole::class . ':admin');
     Route::put("/updateStudentData", [StudentController::class, "updateStudent"])->middleware(CheckAuthentication::class);
@@ -91,6 +91,7 @@ Route::prefix("teacher")->group(function () {
 
 Route::prefix("class")->group(function () {
     Route::get("/getClasses", [ClassController::class, "getClasses"])->middleware(CheckAuthentication::class);
+    Route::get("/getClassByStudent", [ClassController::class, "getClassByStudent"])->middleware(CheckAuthentication::class);
     Route::get("/getClassesByTeacher/{id}", [ClassController::class, "getClassesByTeacher"])->middleware(CheckAuthentication::class);
     Route::get("/getClassesByTeacher_2", [ClassController::class, "getClassesByTeacher_2"])->middleware(CheckRole::class . ":teacher");
     Route::get("/getClassesAndStudentsByTeacher", [ClassController::class, "getClassesAndStudentsByTeacher"])->middleware(CheckAuthentication::class);
