@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { getClasses } from "../../services/classServices";
 import { Table } from "../../components/Tables/Table";
 import { Button } from "../../components/UI/Button";
 import { Table as TableSkeleton } from "../../components/Skeletons/Table";
