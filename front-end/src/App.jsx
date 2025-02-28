@@ -33,6 +33,7 @@ function App() {
   return (
     <Routes>
       <Route path="/sign_in" element={<Login />} />
+      <Route path="/student/home" element={<Home />} />
 
       <Route element={<PersisLogin />}>
         <Route element={<Layout />}>
@@ -61,7 +62,6 @@ function App() {
           <Route path="/student/class" element={<Class />} />
           <Route path="/teacher/home" element={<HomeTeacher />} />
           <Route path="/teacher/grades" element={<GradeStudents />} />
-          
           <Route path="/student/exams" element={<Exams /> } />
           <Route path="/student/grades" element={<Grades />} />
         </Route>
