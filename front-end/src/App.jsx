@@ -59,7 +59,6 @@ function App() {
           <Route path="/student/home" element={<Home />} />
           <Route path="/teacher/home" element={<HomeTeacher />} />
           <Route path="/teacher/grades" element={<GradeStudents />} />
-          
           <Route path="/student/exams" element={<Exams /> } />
         </Route>
       </Route>
