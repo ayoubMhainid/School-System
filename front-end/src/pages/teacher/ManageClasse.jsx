@@ -50,7 +50,7 @@ export const ManageClasse = () => {
               heads={["Class name", "Section", "Students Count"]}
               data={students}
               viewButton={true}
-              keys={["class_name", "section", "student_count"]}
+              keys={["class_name", "section", "students_count"]}
               getData={getClassesAndStudentsByTeacher_FUNCTION}
               toUpdateOrDelete={"User"}
             />

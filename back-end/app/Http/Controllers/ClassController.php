@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Classe;
 use App\Models\Student;
+use App\Models\Subject;
 use App\Models\Teacher;
 use Exception;
 use Illuminate\Http\Request;
@@ -83,10 +84,9 @@ class ClassController extends Controller
                     "message" => "Teacher not found"
                 ], 404);
             }
-            $classes = Classe::where("teacher_id", $teacher->id)
-                ->with("teacher")
-                ->latest()
-                ->get();
+            $classes = Classe::whereHas("subjects", function ($query) use ($teacher) {
+                $query->where("teacher_id", $teacher->id);
+            })->latest()->get();
             return response()->json([
                 "classes" => $classes
             ]);
@@ -107,11 +107,11 @@ class ClassController extends Controller
                     "message" => "Teacher not found"
                 ], 404);
             }
-            $studentCount = DB::table("students")
-                ->join("classes", "students.class_id", "=", "classes.id")
-                ->where("classes.teacher_id", $teacher->id)
-                ->select('classes.id', 'classes.class_name', 'classes.section', DB::raw('COUNT(students.id) as student_count'))
-                ->groupBy('classes.id', 'classes.class_name', 'classes.section')
+            $studentCount = Classe::whereHas("subjects", function ($query) use ($teacher) {
+                    $query->where("teacher_id", $teacher->id);
+                })
+                ->withCount("students")
+                ->latest()
                 ->get();
 
             return response()->json([
