@@ -10,6 +10,14 @@ export const getClasses = async (token) => {
   });
   return response;
 };
+export const getClassByStudent = async (token) =>{
+  const response = await axios.get(`${apiUrl}/class/getClassByStudent`,{
+    headers : {
+      Authorization : `Bearer ${token}`
+    }
+  });
+  return response;
+}
 export const getClassespaginate = async (token,page) => {
   const response = await axios.get(`${apiUrl}/class/getClassespaginate?page=${page}`, {
     headers: {
