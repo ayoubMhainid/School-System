@@ -36,6 +36,7 @@ function App() {
       <Route path="/teacher/home" element={<HomeTeacher />} />
       <Route path="/student/home" element={<Home />} />
 
+
       <Route element={<PersisLogin />}>
         <Route element={<Layout />}>
           <Route path="/admin/dashboard" element={<Dashboard />} />
