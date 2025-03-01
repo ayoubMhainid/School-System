@@ -10,7 +10,7 @@ import { Button } from "../UI/Button";
 import { Input } from "../UI/Input";
 import { createStudent } from "../../services/studentServices";
 import { Notification } from "../UI/Notification";
-import { createTeacher, getAllTeachers, getTeachersGet } from "../../services/teacherServices";
+import { createTeacher, getAllTeachers} from "../../services/teacherServices";
 import { createAdmin } from "../../services/adminServices";
 import { Select } from "../UI/Select";
 import {
@@ -26,7 +26,6 @@ import { errors } from "../../constants/Errors";
 import { createExam } from "../../services/examServices";
 
 export const Add = ({ setOpen, toAdd }) => {
-  const [teachers,setTeachers]= useState([])
   const [dataUser, setDataUser] = useState({});
   const [dataExam, setDataExam] = useState({});
   const [dataSubject, setDataSubject] = useState({});
@@ -84,13 +83,6 @@ export const Add = ({ setOpen, toAdd }) => {
       setSubject(response.data.data);
     }
   };
-
-  const getTeachersGet_func = async ()=>{
-    const response = await getTeachersGet(localStorage.getItem("token"));
-    if (response.data.teachers){
-      setTeachers(response.data.teachers)
-    }
-  }
   
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -236,7 +228,6 @@ export const Add = ({ setOpen, toAdd }) => {
 
   useEffect(() => {
     toAdd == _subject && getSubject();
-    toAdd == _classe && getTeachersGet_func();
   }, []);
 
   return (
@@ -536,21 +527,6 @@ export const Add = ({ setOpen, toAdd }) => {
                   border="black"
                   text="black"
                 />
-
-                <Label text="Teacher id" />
-                <select
-                  className={
-                    "border border-gray-600  text-black px-3 py-1 text-md bg-inherit rounded-sm outline-none w-[100%]"
-                  }
-                  name="teacher_id"
-                  value={dataUser.teacher_id}
-                  onChange={handleChange}
-                >
-                  <option value="">Select the teacher</option>
-                  {teachers.map(elem=>
-                      <option value={elem.id} >{elem.full_name}</option>
-                    )}
-                </select>
               </>
             )}
 

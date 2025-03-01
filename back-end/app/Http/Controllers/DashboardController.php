@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
-use App\Models\Attendance;
 use App\Models\AttendancesTeacher;
+use App\Models\AttendanceStudents;
 use App\Models\Classe;
 use App\Models\Event;
 use App\Models\Exam;
@@ -47,11 +47,11 @@ class DashboardController extends Controller
                 ->get();
 
             $sixMonthsAgo = Carbon::now()->subMonths(6);
-            $absentCounts = AttendancesTeacher::selectRaw('
+            // $teacherAttendances = Attendance::selectRaw('
+            $teacherAttendances = AttendancesTeacher::selectRaw('
                                     YEAR(date) as year,
                                     MONTH(date) as month,
-                                    sum(case when status = "absent" and user_id in (select user_id from teachers) then 1 else 0 end) as absent_teachers,
-                                    sum(case when status = "absent" and user_id in (select user_id from students) then 1 else 0 end) as absent_students
+                                    sum(case when status = "absent" and user_id in (select user_id from teachers) then 1 else 0 end) as absent_teachers
                                 ')
                 ->groupBy('year', 'month')
                 ->orderBy('year', 'asc')
@@ -59,8 +59,20 @@ class DashboardController extends Controller
                 ->where('date', '>=', $sixMonthsAgo)
                 ->get();
 
+            $studentAttendances = AttendanceStudents::selectRaw('
+                                YEAR(date) as year,
+                                MONTH(date) as month,
+                                sum(case when status = "absent" and student_id in (select user_id from students) then 1 else 0 end) as absent_students
+                            ')
+                ->groupBy('year', 'month')
+                ->orderBy('year', 'asc')
+                ->orderBy('month', 'asc')
+                ->where('date', '>=', $sixMonthsAgo)
+                ->get();
+
             return response()->json([
-                'attendances' => $absentCounts,
+                'teacherAttendances' => $teacherAttendances,
+                'studentAttendances' => $studentAttendances,
                 'counts' => $counts,
                 'famaleStudents' => $counts['students'] - $counts['maleStudents'],
                 'adminName' => $adminName,

@@ -18,7 +18,6 @@ class ClasseFactory extends Factory
     public function definition(): array
     {
         return [
-            'teacher_id' => Teacher::inRandomOrder()->value('id'),
             'class_name' => fake()->name(),
             'section'=> fake()->name(),
         ];

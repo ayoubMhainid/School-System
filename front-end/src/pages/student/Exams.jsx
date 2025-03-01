@@ -45,12 +45,12 @@ export const Exams = () => {
         {loading && <TableSkeleton />}
         {exams && exams.length && !loading ? (
           <Table
-            heads={["subject name", "exam name", "teacher name"]}
+            heads={["Subject", "Exam", "Teacher","Date"]}
             data={exams}
             viewButton={false}
             updateButton={false}
             deleteButton={false}
-            keys={["subject.name", "exam_name", "subject.teacher.full_name"]}
+            keys={["subject.name", "exam_name", "subject.teacher.full_name","date"]}
             pagination={pagination}
             paginate={paginate}
             getData={getExams_FUNCTION}

@@ -20,6 +20,7 @@ export const Dashboard = () => {
   const [adminName, setAdminName] = useState("");
   const [counts, setCounts] = useState({});
   const [attendances, setAttendances] = useState([]);
+  const [studentsAttendances, setStduentsAttendances] = useState([]);
   const [events, setEvents] = useState([]);
   const [exams, setExams] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
@@ -41,7 +42,8 @@ export const Dashboard = () => {
         setCounts(response.data.counts);
         setEvents(response.data.upcomingEvents);
         setExams(response.data.upcomingExams);
-        setAttendances(response.data.attendances);
+        setAttendances(response.data.teacherAttendances);
+        setStduentsAttendances(response.data.studentAttendances);
         setAdminName(response.data.adminName.full_name);
       }
     } catch (error) {
@@ -98,6 +100,7 @@ export const Dashboard = () => {
         </div>
 
         <div className="w-[100%] px-2 mt-2 flex gap-2">
+          {/* 
           <Box
             sx={{
               textAlign: "center",
@@ -122,6 +125,77 @@ export const Dashboard = () => {
                   },
                   {
                     data: attendances.map((attendance) => {
+                      return attendance.absent_students;
+                    }),
+                    label: "Students",
+                  },
+                ]
+              }
+              width={1050}
+              height={400}
+              title="Attendances records"
+              sx={{
+                backgroundColor: "white",
+                color: "black",
+                borderRadius: 2,
+                padding: 2,
+              }}
+            />
+          </Box>
+          <Box
+            sx={{
+              textAlign: "center",
+              backgroundColor: "white",
+              padding: 2,
+              borderRadius: 2,
+            }}
+          >
+            <Typography variant="h6" color="black" gutterBottom>
+              Total students by gender
+            </Typography>
+            <PieChart
+              className="bg-white text-black"
+              series={[
+                {
+                  data: [
+                    { id: 0, value: counts?.maleStudents, label: "Male" },
+                    { id: 1, value: totalFemaleStudents, label: "Female" },
+                  ],
+                },
+              ]}
+              sx={{
+                backgroundColor: "white", // Set background color to black
+                color: "black", // Set text color to white
+              }}
+              width={400}
+              height={400}
+            />
+          </Box>
+; */}
+          <Box
+            sx={{
+              textAlign: "center",
+              backgroundColor: "gray",
+              padding: 2,
+              borderRadius: 2,
+            }}
+          >
+            <Typography variant="h6" color="black" gutterBottom>
+              Attendances records
+            </Typography>
+            <BarChart
+              className="bg-black text-white"
+              xAxis={[{ scaleType: "band", data: months }]}
+              series={
+                attendances && [
+                  {
+                    data: attendances.map((attendance) => {
+                      return attendance.absent_teachers;
+                    }),
+                    label: "Teachers",
+                  },
+                  {
+                    data: studentsAttendances.map((attendance) => {
                       return attendance.absent_students;
                     }),
                     label: "Students",

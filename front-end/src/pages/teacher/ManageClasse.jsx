@@ -15,6 +15,8 @@ export const ManageClasse = () => {
       const response = await getClassesAndStudentsByTeacher(
         localStorage.getItem("token")
       );
+      console.log(response);
+      
       if (response.status === 200) {
         setStudents(response.data.students);
       }
@@ -48,7 +50,7 @@ export const ManageClasse = () => {
               heads={["Class name", "Section", "Students Count"]}
               data={students}
               viewButton={true}
-              keys={["class_name", "section", "student_count"]}
+              keys={["class_name", "section", "students_count"]}
               getData={getClassesAndStudentsByTeacher_FUNCTION}
               toUpdateOrDelete={"User"}
             />

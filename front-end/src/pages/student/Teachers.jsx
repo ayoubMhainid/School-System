@@ -46,7 +46,7 @@ export const Teachers = () => {
         {loading && <TableSkeleton />}
         {teacher && teacher.length && !loading ? (
           <Table
-            heads={["teacher name", "class name", "name"]}
+            heads={["Teacher name", "Class", "Subject name"]}
             data={teacher}
             viewButton={true}
             updateButton={false}

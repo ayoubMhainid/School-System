@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Classe;
+use App\Models\Student;
+use App\Models\Subject;
 use App\Models\Teacher;
 use Exception;
 use Illuminate\Http\Request;
@@ -26,6 +28,30 @@ class ClassController extends Controller
             ], 500);
         }
     }
+
+    public function getClassByStudent()
+    {
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+            $student = Student::where("user_id", $user->id)->first();
+            if (!$student) {
+                return response()->json([
+                    "message" => "Student not found"
+                ], 404);
+            }
+            $classe = Classe::where("id", $student->class_id)
+                ->latest()
+                ->get();
+
+            return response()->json([
+                "classe" => $classe
+            ], 200);
+        } catch (Exception $ex) {
+            return response()->json([
+                "message" => $ex->getMessage(),
+            ], 500);
+        }
+    }
     public function getClassesByTeacher($id)
     {
         try {
@@ -33,7 +59,8 @@ class ClassController extends Controller
             if (!$teacher) {
                 return response()->json([
                     "message" => "Teacher not found"
-                ], 404);}
+                ], 404);
+            }
             $classes = Classe::where("teacher_id", $teacher->id)
                 ->with("teacher")
                 ->latest()
@@ -59,10 +86,9 @@ class ClassController extends Controller
                     "message" => "Teacher not found"
                 ], 404);
             }
-            $classes = Classe::where("teacher_id", $teacher->id)
-                ->with("teacher")
-                ->latest()
-                ->get();
+            $classes = Classe::whereHas("subjects", function ($query) use ($teacher) {
+                $query->where("teacher_id", $teacher->id);
+            })->latest()->get();
             return response()->json([
                 "classes" => $classes
             ]);
@@ -83,11 +109,11 @@ class ClassController extends Controller
                     "message" => "Teacher not found"
                 ], 404);
             }
-            $studentCount = DB::table("students")
-                ->join("classes", "students.class_id", "=", "classes.id")
-                ->where("classes.teacher_id", $teacher->id)
-                ->select('classes.id', 'classes.class_name', 'classes.section', DB::raw('COUNT(students.id) as student_count'))
-                ->groupBy('classes.id', 'classes.class_name', 'classes.section')
+            $studentCount = Classe::whereHas("subjects", function ($query) use ($teacher) {
+                $query->where("teacher_id", $teacher->id);
+            })
+                ->withCount("students")
+                ->latest()
                 ->get();
 
             return response()->json([
@@ -102,8 +128,7 @@ class ClassController extends Controller
     public function getClassespaginate()
     {
         try {
-            $classes = Classe::with("teacher")
-                ->latest()
+            $classes = Classe::latest()
                 ->paginate(10);
             return response()->json([
                 "classes" => $classes
@@ -120,13 +145,11 @@ class ClassController extends Controller
             $request->validate([
                 "class_name" => "required|string|max:20",
                 "section" => "required|string|max:30",
-                "teacher_id" => "required|integer|exists:teachers,id"
             ]);
 
             Classe::create([
                 "class_name" => $request->class_name,
                 "section" => $request->section,
-                "teacher_id" => $request->teacher_id,
             ]);
 
             return response()->json([
@@ -166,7 +189,6 @@ class ClassController extends Controller
             $validation = $request->validate([
                 "class_name" => "required|string|max:20",
                 "section" => "required|string|max:30",
-                "teacher_id" => "required|integer"
             ]);
             $class = Classe::find($id);
             if (!$class) {
@@ -196,6 +218,7 @@ class ClassController extends Controller
                         "message" => "Teacher not found"
                     ], 404);
                 }
+                // $classes = Classe::whereHas("subjects")
                 $classes = Classe::where("teacher_id", $teacher->id)
                     ->with("teacher")
                     ->latest()
