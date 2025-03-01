@@ -8,8 +8,6 @@ import school from '../../../public/school.jpg'
 import contact from '../../../public/contact.png'
 import logo from '../../../public/logo.png'
 import { motion , useInView} from 'framer-motion'; 
-
-
 import { useAppContext } from '../../context/AppContext';
 import { Button } from '../../components/UI/Button';
 import { useNavigate } from 'react-router-dom';
