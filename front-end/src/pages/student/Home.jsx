@@ -6,6 +6,7 @@ import event from '../../../public/event.png'
 import teacher from '../../../public/teacher.png'
 import school from '../../../public/school.jpg'
 import contact from '../../../public/contact.png'
+import logo from '../../../public/logo.png'
 
 
 import { useAppContext } from '../../context/AppContext';
@@ -18,101 +19,101 @@ export const Home = () => {
   return (    
     
     <div className="rounded-md shadow-md w-full  bg-white">
-      <header className="bg-black text-white fixed top-0 left-0 w-full z-50 py-5 px-3">
+      <header className="bg-black text-white fixed top-0 left-0 w-full z-50 py-1 px-3">
           <div className="max-w-7xl mx-auto flex justify-between items-center">
-            <div className="text-2xl font-semibold">
-              <a href='#'  className="text-white hover:text-gray-300"> </a>
+            <div className="text-2xl font-semibold ">
+              <img src={logo} className='w-60' alt="" />
             </div>
-            <nav className="space-x-6">
-              <a  className="text-white hover:text-gray-300">Home</a>
-              <a  className="text-white hover:text-gray-300">Services</a>
-              <a  className="text-white hover:text-gray-300">About Us</a>
-              <a  className="text-white hover:text-gray-300">Contact</a>
-              
+            <nav className="space-x-6 hidden md:block">
+              <a href="#home" className="text-white hover:text-gray-300">Home</a>
+              <a href="#offering" className="text-white hover:text-gray-300">Services</a>
+              <a href="#us" className="text-white hover:text-gray-300">About Us</a>
+              <a href="#contact" className="text-white hover:text-gray-300">Contact</a>
             </nav>
           </div>
         </header>
-      <div className="w-[100%] h-screen flex flex-col lg:flex-row lg:justify-center py-25 px-3 lg:py-45 lg:px-50">
+      <div id='home' className="w-[100%] h-screen flex flex-col lg:flex-row lg:justify-center py-25 px-3 lg:py-45 lg:px-50">
         <div className='lg:w-[60%] w-[100%] '>
           <img className='lg:w-[95%] md:w-[100%]' src={student} alt="Student Image" />
         </div>
         <div className=" top-60 left-20 transform lg:w-[50%] text-black">
-          <h1 className=" text-2xl   text-gray-500 font-semibold mb-6 md:mb-6 lg:text-gray-500">Explore Our Services</h1>
-          <h1 className=" lg:text-5xl lg:w-[100%] w-[70%] text-2xl font-semibold mb-6">Welcome To Our Student-Centric</h1>
-          <h3 className=" w-[100%] text-xl text-gray-500   ">
+          <h1 className=" text-2xl   text-gray-500 font-semibold mb-6 md:mb-6 lg:text-gray-500 2xl:text-4xl">Explore Our Services</h1>
+          <h1 className=" lg:text-5xl lg:w-[100%] w-[70%] text-2xl font-semibold mb-6 2xl:text-7xl">Welcome To Our Student-Centric</h1>
+          <h3 className=" w-[100%] 2xl:text-3xl text-xl text-gray-500   ">
               At our student-centric platform, we offer a wide range of services tailored to meet the diverse needs of our students. From academic support and career guidance to extracurricular activities and community engagement, we strive to provide a holistic educational experience that           </h3>
-          <div className='border-2 py-1 md:w-[40%] rounded-3xl mt-8 text-xl hover:bg-gray-500 duration-200'>
+          <div className='border-2 py-1 md:w-[40%] 2xl:w-[60%] rounded-3xl mt-8 text-xl hover:bg-gray-500 duration-200'>
             <Button type={'submet'} text={'Your class'} color={'black'}  bg={'black'} onClick={()=>navigate('/student/class')}/>
           </div>
         </div>
       </div>
-      <div className='w-[100%]  py-30 lg:px-7 px-2 2xl:px-50'>
+      <div id='offering' className='w-[100%]  py-30 lg:px-7 px-2 2xl:px-20'>
         <h1 className='text-gray-500 text-xl text-center mb-8'>Our Offerings</h1>
         <h1 className='text-black text-5xl text-center font-semibold mb-20'>Our Mission</h1>
         <div className='flex flex-col md:flex-row md:justify-between md:space-x-15 md:px-10'>
           <div className='mb-10'>
             <img src={mark} className='w-[100%]' alt="" />
             <div className='text-black border-1 px-2 py-4 rounded-md'>
-              <h1 className='text-2xl mb-3'>See Your Marks & Exams</h1>
-              <h2 className='text-gray-600'>Track your academic progress with ease.</h2>
-              <h2 className='text-gray-600'>View detailed reports of your achievements.</h2>
-              <h2 className='text-gray-600'>Prepare for exams with helpful insights</h2>
-              <h2 className='text-gray-600'>Stay motivated to reach new heights</h2>
+              <h1 className='text-2xl mb-3 2xl:text-3xl'>See Your Marks & Exams</h1>
+              <h2 className='text-gray-600 2xl:text-xl'>Track your academic progress with ease.</h2>
+              <h2 className='text-gray-600  2xl:text-xl'>View detailed reports of your achievements.</h2>
+              <h2 className='text-gray-600  2xl:text-xl'>Prepare for exams with helpful insights</h2>
+              <h2 className='text-gray-600  2xl:text-xl'>Stay motivated to reach new heights</h2>
             </div>
           </div>
           <div className='mb-3'>
             <img src={teacher} className='w-[100%]' alt="" />
             <div className='text-black border-1 px-2 py-4 rounded-md'>
-              <h1 className='text-2xl mb-3'>See Teachers</h1>
-              <h2 className='text-gray-600'>Discover passionate educators dedicated to your growth.</h2>
-              <h2 className='text-gray-600'>Learn from experts who inspire and guide you.</h2>
-              <h2 className='text-gray-600'>Access resources curated by top professionals.</h2>
-              <h2 className='text-gray-600'>Unlock knowledge and reach your full potential.</h2>
+              <h1 className='text-2xl mb-3 2xl:text-3xl'>See Teachers</h1>
+              <h2 className='text-gray-600  2xl:text-xl'>Discover passionate educators dedicated to your growth.</h2>
+              <h2 className='text-gray-600  2xl:text-xl'>Learn from experts who inspire and guide you.</h2>
+              <h2 className='text-gray-600  2xl:text-xl'>Access resources curated by top professionals.</h2>
+              <h2 className='text-gray-600  2xl:text-xl'>Unlock knowledge and reach your full potential.</h2>
             </div>
           </div><div className='mb-3'>
             <img src={ann} className='w-[100%]' alt="" />
             <div className='text-black border-1 px-2 py-4 rounded-md'>
-              <h1 className='text-2xl mb-3'>Events & Announcements</h1>
-              <h2 className='text-gray-600'>Stay informed about exciting school events.</h2>
-              <h2 className='text-gray-600'>Never miss important updates and news.</h2>
-              <h2 className='text-gray-600'>Engage in activities that enhance your learning.</h2>
-              <h2 className='text-gray-600'>Be part of a vibrant and dynamic community.</h2>
+              <h1 className='text-2xl mb-3 2xl:text-3xl'>Events & Announcements</h1>
+              <h2 className='text-gray-600  2xl:text-xl'>Stay informed about exciting school events.</h2>
+              <h2 className='text-gray-600  2xl:text-xl'>Never miss important updates and news.</h2>
+              <h2 className='text-gray-600  2xl:text-xl'>Engage in activities that enhance your learning.</h2>
+              <h2 className='text-gray-600  2xl:text-xl'>Be part of a vibrant and dynamic community.</h2>
             </div>
           </div><div className='mb-3'>
             <img src={event} className='w-[100%]' alt="" />
             <div className='text-black border-1 px-2 py-4 rounded-md'>
-              <h1 className='text-2xl mb-3'>Notifications</h1>
-              <h2 className='text-gray-600'>Receive instant updates on what matters most.</h2>
-              <h2 className='text-gray-600'>Stay connected with teachers and classmates.</h2>
-              <h2 className='text-gray-600'>Get reminders for deadlines and events.</h2>
-              <h2 className='text-gray-600'>Never miss an important announcement again.</h2>
+              <h1 className='text-2xl mb-3 2xl:text-3xl'>Notifications</h1>
+              <h2 className='text-gray-600  2xl:text-xl'>Receive instant updates on what matters most.</h2>
+              <h2 className='text-gray-600  2xl:text-xl'>Stay connected with teachers and classmates.</h2>
+              <h2 className='text-gray-600  2xl:text-xl'>Get reminders for deadlines and events.</h2>
+              <h2 className='text-gray-600  2xl:text-xl'>Never miss an important announcement again.</h2>
             </div>
           </div>
         </div>
       </div>
-      <div className="w-[100%]  flex flex-col lg:flex-row  py-25 px-3 lg:py-45 lg:px-50 2xl:px-80">
-        <div className='lg:w-[55%] 2xl:w-[45%] w-[100%] '>
-          <img className='lg:w-[100%] md:w-[100%] rounded-2xl' src={school} alt="Student Image" />
+      <div id='us' className="w-full flex flex-col lg:flex-row items-center py-16 px-6 lg:px-20 2xl:px-40 gap-10">
+        <div  className="w-full lg:w-1/2">
+          <img className="w-full rounded-lg shadow-lg " src={school} alt="Student Image" />
         </div>
-        <div className="  transform lg:absolute lg:right-40 lg:w-[40%] 2xl:w-[30%] 2xl:right-170  2xl:mt-40 text-white bg-gray-900 px-10 py-10 lg:mt-17 rounded-2xl">
-          <h1 className=" lg:text-5xl lg:w-[100%] w-[70%] text-2xl font-semibold mb-6 2xl:text-7xl">About us</h1>
-          <h3 className=" w-[100%] text-xl text-gray-400  2xl:text-3xl ">
-            Our site offers a comprehensive platform for students to thrive academically. You can explore passionate teachers who inspire and guide you, while accessing resources curated by top professionals. Stay informed about exciting school events, updates, and important announcements to keep you engaged with a dynamic community. Easily track your academic progress, view detailed reports of your achievements, and prepare for exams with personalized insights. With real-time notifications, you’ll stay connected with teachers, classmates, and deadlines, ensuring you never miss out on anything important. Our goal is to empower you to unlock your full potential and succeed.
-          </h3>
+        <div className="lg:w-1/2 2xl:w-1/2 bg-gray-900 text-white p-8 lg:p-12 rounded-2xl shadow-lg">
+          <h1 className="text-3xl lg:text-5xl font-semibold 2xl:text-6xl mb-4">About Us</h1>
+          <p className="text-lg lg:text-xl 2xl:text-3xl leading-relaxed text-gray-300">
+            Our platform offers a space for students to thrive academically. Explore passionate teachers, access curated resources, and stay updated on school events. Track progress, view achievements, and receive real-time notifications to stay connected with teachers and classmates. Unlock your full potential with us!
+          </p>
         </div>
       </div>
+
       <div className='w-[100%] py-25 px-3 lg:py-45 lg:px-20'>
         <h1 className='text-gray-500 text-xl text-center mb-8'>Get in Touch</h1>
         <h1 className='text-black text-5xl text-center font-semibold mb-30'>Contact</h1>
 
         <div className=" flex flex-col lg:flex-row ">
           <div className=" top-60 left-20 transform lg:w-[50%] text-black lg:mt-30">
-            <h1 className=" text-xl   text-gray-500 font-semibold mb-6 md:mb-6 lg:text-gray-500">Join Our Community</h1>
-            <h1 className=" lg:text-5xl lg:w-[90%] w-[70%] text-2xl font-semibold mb-6">Unlock Your Educational Potential</h1>
-            <h3 className=" lg:w-[90%] text-xl text-gray-500   ">
+            <h1 className=" text-xl   text-gray-500 font-semibold mb-6 md:mb-6 lg:text-gray-500 2xl:text-4xl">Join Our Community</h1>
+            <h1 className=" lg:text-5xl lg:w-[90%] w-[70%] text-2xl font-semibold mb-6 2xl:text-7xl ">Unlock Your Educational Potential</h1>
+            <h3 className=" lg:w-[90%] text-xl 2xl:text-3xl text-gray-500   ">
             Embark on a transformative educational journey with us. Explore our dynamic programs, engage with our renowned faculty, and become part of a vibrant student community that empowers you to reach new heights of success                </h3>
-            <div className='border-2 py-1 md:w-[40%] rounded-3xl mt-8 text-xl hover:bg-gray-500 duration-200'>
-              <Button type={'submet'} text={'Enroll Today'} color={'black'}  bg={'black'} onClick={()=>navigate('/login')}/>
+            <div className='border-2 py-1 md:w-[40%] 2xl:w-[60%] rounded-3xl mt-8 text-xl hover:bg-gray-500 duration-200'>
+              <Button type={'submet'} text={'Enroll Today'} color={'black'}  bg={'black'} onClick={()=>navigate('/sign_in')}/>
             </div>
           </div>
           <div className='lg:w-[60%] w-[100%]'>
@@ -121,7 +122,7 @@ export const Home = () => {
         </div>
         
       </div>
-      <footer className="bg-black text-white py-15">
+      <footer id='contact' className="bg-black text-white py-15">
           <div className="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-center">
             <div className="flex flex-col items-center lg:items-start mb-8 lg:mb-0">
               <h3 className="text-2xl font-semibold mb-4">Contact Us</h3>
