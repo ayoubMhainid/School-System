@@ -7,6 +7,7 @@ import teacher from '../../../public/teacher.png'
 import school from '../../../public/school.jpg'
 import contact from '../../../public/contact.png'
 import logo from '../../../public/logo.png'
+import { motion , useInView} from 'framer-motion'; 
 
 
 import { useAppContext } from '../../context/AppContext';
@@ -32,21 +33,55 @@ export const Home = () => {
             </nav>
           </div>
         </header>
-      <div id='home' className="w-[100%] h-screen flex flex-col lg:flex-row lg:justify-center py-25 px-3 lg:py-45 lg:px-50">
-        <div className='lg:w-[60%] w-[100%] '>
-          <img className='lg:w-[95%] md:w-[100%]' src={student} alt="Student Image" />
-        </div>
-        <div className=" top-60 left-20 transform lg:w-[50%] text-black">
-          <h1 className=" text-2xl   text-gray-500 font-semibold mb-6 md:mb-6 lg:text-gray-500 2xl:text-4xl">Explore Our Services</h1>
-          <h1 className=" lg:text-5xl lg:w-[100%] w-[70%] text-2xl font-semibold mb-6 2xl:text-7xl">Welcome To Our Student-Centric</h1>
-          <h3 className=" w-[100%] 2xl:text-3xl text-xl text-gray-500   ">
-              At our student-centric platform, we offer a wide range of services tailored to meet the diverse needs of our students. From academic support and career guidance to extracurricular activities and community engagement, we strive to provide a holistic educational experience that           </h3>
-          <div className='border-2 py-1 md:w-[40%] 2xl:w-[60%] rounded-3xl mt-8 text-xl hover:bg-gray-500 duration-200'>
-            <Button type={'submet'} text={'Your class'} color={'black'}  bg={'black'} onClick={()=>navigate('/student/class')}/>
-          </div>
-        </div>
-      </div>
-      <div id='offering' className='w-[100%]  py-30 lg:px-7 px-2 2xl:px-20'>
+        <motion.div
+          id="home"
+          className="w-[100%] h-screen flex flex-col lg:flex-row lg:justify-center py-25 px-3 lg:py-45 lg:px-50"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 2.5 }}
+        >
+          <motion.div
+            className="lg:w-[60%] w-[100%]"
+            initial={{ x: -100, opacity: 0 }} 
+            animate={{ x: 0, opacity: 1 }}   
+            transition={{ duration: 2 }}
+          >
+            <img className="lg:w-[95%] md:w-[100%]" src={student} alt="Student Image" />
+          </motion.div>
+
+          
+          <motion.div
+            className="top-60 left-20 transform lg:w-[50%] text-black"
+            initial={{ x: 100, opacity: 0 }}  
+            animate={{ x: 0, opacity: 1 }}   
+            transition={{ duration: 2 }}
+          >
+            <h1 className="text-2xl text-gray-500 font-semibold mb-6 md:mb-6 lg:text-gray-500 2xl:text-4xl">
+              Explore Our Services
+            </h1>
+            <h1 className="lg:text-5xl lg:w-[100%] w-[70%] text-2xl font-semibold mb-6 2xl:text-7xl">
+              Welcome To Our Student-Centric
+            </h1>
+            <h3 className="w-[100%] 2xl:text-3xl text-xl text-gray-500">
+              At our student-centric platform, we offer a wide range of services tailored to meet the diverse needs of our students...
+            </h3>
+            <div className="border-2 py-1 md:w-[40%] 2xl:w-[60%] rounded-3xl mt-8 text-xl hover:bg-gray-500 duration-200">
+              <Button
+                type="submit"
+                text="Your class"
+                color="black"
+                bg="black"
+                onClick={() => navigate('/student/class')}
+              />
+            </div>
+          </motion.div>
+        </motion.div>
+
+      <motion.div id='offering' className='w-[100%]  py-30 lg:px-7 px-2 2xl:px-20'
+      initial={{ opacity: 0, y: 50 }} 
+      whileInView={{ opacity: 1, y: 0 }}   
+      transition={{ duration: 4.5 }}
+      viewport={{ once: true }}>
         <h1 className='text-gray-500 text-xl text-center mb-8'>Our Offerings</h1>
         <h1 className='text-black text-5xl text-center font-semibold mb-20'>Our Mission</h1>
         <div className='flex flex-col md:flex-row md:justify-between md:space-x-15 md:px-10'>
@@ -89,37 +124,81 @@ export const Home = () => {
             </div>
           </div>
         </div>
-      </div>
-      <div id='us' className="w-full flex flex-col lg:flex-row items-center py-16 px-6 lg:px-20 2xl:px-40 gap-10">
-        <div  className="w-full lg:w-1/2">
-          <img className="w-full rounded-lg shadow-lg " src={school} alt="Student Image" />
-        </div>
-        <div className="lg:w-1/2 2xl:w-1/2 bg-gray-900 text-white p-8 lg:p-12 rounded-2xl shadow-lg">
+      </motion.div>
+      <motion.div
+        id="us"
+        className="w-full flex flex-col lg:flex-row items-center py-16 px-6 lg:px-20 2xl:px-40 gap-10"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 4.5 }}
+        viewport={{ once: true }}
+      >
+        
+        <motion.div
+          className="w-full lg:w-1/2"
+          initial={{ x: -100, opacity: 0 }}  
+          whileInView={{ x: 0, opacity: 1 }} 
+          transition={{ duration: 2 }}
+        >
+          <img className="w-full rounded-lg shadow-lg" src={school} alt="Student Image" />
+        </motion.div>
+
+        <motion.div
+          className="lg:w-1/2 2xl:w-1/2 bg-gray-900 text-white p-8 lg:p-12 rounded-2xl shadow-lg"
+          initial={{ x: 100, opacity: 0 }}  
+          whileInView={{ x: 0, opacity: 1 }} 
+          transition={{ duration: 2 }}
+        >
           <h1 className="text-3xl lg:text-5xl font-semibold 2xl:text-6xl mb-4">About Us</h1>
           <p className="text-lg lg:text-xl 2xl:text-3xl leading-relaxed text-gray-300">
             Our platform offers a space for students to thrive academically. Explore passionate teachers, access curated resources, and stay updated on school events. Track progress, view achievements, and receive real-time notifications to stay connected with teachers and classmates. Unlock your full potential with us!
           </p>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
-      <div className='w-[100%] py-25 px-3 lg:py-45 lg:px-20'>
+
+      <div className='w-[100%] py-25 px-3 lg:py-45 lg:px-20'
+      >
         <h1 className='text-gray-500 text-xl text-center mb-8'>Get in Touch</h1>
         <h1 className='text-black text-5xl text-center font-semibold mb-30'>Contact</h1>
 
-        <div className=" flex flex-col lg:flex-row ">
-          <div className=" top-60 left-20 transform lg:w-[50%] text-black lg:mt-30">
-            <h1 className=" text-xl   text-gray-500 font-semibold mb-6 md:mb-6 lg:text-gray-500 2xl:text-4xl">Join Our Community</h1>
-            <h1 className=" lg:text-5xl lg:w-[90%] w-[70%] text-2xl font-semibold mb-6 2xl:text-7xl ">Unlock Your Educational Potential</h1>
-            <h3 className=" lg:w-[90%] text-xl 2xl:text-3xl text-gray-500   ">
-            Embark on a transformative educational journey with us. Explore our dynamic programs, engage with our renowned faculty, and become part of a vibrant student community that empowers you to reach new heights of success                </h3>
-            <div className='border-2 py-1 md:w-[40%] 2xl:w-[60%] rounded-3xl mt-8 text-xl hover:bg-gray-500 duration-200'>
-              <Button type={'submet'} text={'Enroll Today'} color={'black'}  bg={'black'} onClick={()=>navigate('/sign_in')}/>
+        <motion.div
+          className="flex flex-col lg:flex-row"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 4.5 }}
+          viewport={{ once: true }}
+        >
+          <motion.div
+            className="top-60 left-20 transform lg:w-[50%] text-black lg:mt-30"
+            initial={{ x: -100, opacity: 0 }} 
+            animate={{ x: 0, opacity: 1 }}    
+            transition={{ duration: 2 }}
+          >
+            <h1 className="text-xl text-gray-500 font-semibold mb-6 md:mb-6 lg:text-gray-500 2xl:text-4xl">
+              Join Our Community
+            </h1>
+            <h1 className="lg:text-5xl lg:w-[90%] w-[70%] text-2xl font-semibold mb-6 2xl:text-7xl">
+              Unlock Your Educational Potential
+            </h1>
+            <h3 className="lg:w-[90%] text-xl 2xl:text-3xl text-gray-500">
+              Embark on a transformative educational journey with us. Explore our dynamic programs, engage with our renowned faculty, and become part of a vibrant student community that empowers you to reach new heights of success.
+            </h3>
+            <div className="border-2 py-1 md:w-[40%] 2xl:w-[60%] rounded-3xl mt-8 text-xl hover:bg-gray-500 duration-200">
+              <Button type="submit" text="Enroll Today" color="black" bg="black" onClick={() => navigate('/sign_in')} />
             </div>
-          </div>
-          <div className='lg:w-[60%] w-[100%]'>
-            <img className='lg:w-[95%] md:w-[100%]' src={contact} alt="Student Image" />
-          </div>
-        </div>
+          </motion.div>
+
+          <motion.div
+            className="lg:w-[60%] w-[100%]"
+            initial={{ x: 200, opacity: 0 }} 
+            animate={{ x: 0, opacity: 1 }}   
+            transition={{ duration: 4 }}
+          >
+            <img className="lg:w-[95%] md:w-[100%]" src={contact} alt="Student Image" />
+          </motion.div>
+        </motion.div>
+
         
       </div>
       <footer id='contact' className="bg-black text-white py-15">
@@ -127,8 +206,8 @@ export const Home = () => {
             <div className="flex flex-col items-center lg:items-start mb-8 lg:mb-0">
               <h3 className="text-2xl font-semibold mb-4">Contact Us</h3>
               <p className="text-gray-300">Have questions or need support? Reach out to us!</p>
-              <p className="text-gray-300">Email: support@example.com</p>
-              <p className="text-gray-300">Phone: (123) 456-7890</p>
+              <p className="text-gray-300">Email: SchoolManagement@example.com</p>
+              <p className="text-gray-300">Phone: 06 82 71 85 35</p>
             </div>
             
             <div className="flex flex-col items-center lg:items-start mb-8 lg:mb-0">
@@ -143,17 +222,7 @@ export const Home = () => {
 
             <div className="flex flex-col items-center lg:items-start">
               <h3 className="text-2xl font-semibold mb-4">Follow Us</h3>
-              <div className="flex space-x-4">
-                <a href="#" className="text-gray-300 hover:text-white">
-                  <i className="fab fa-facebook-f"></i>
-                </a>
-                <a href="#" className="text-gray-300 hover:text-white">
-                  <i className="fab fa-twitter"></i>
-                </a>
-                <a href="#" className="text-gray-300 hover:text-white">
-                  <i className="fab fa-instagram"></i>
-                </a>
-              </div>
+              
             </div>
           </div>
           

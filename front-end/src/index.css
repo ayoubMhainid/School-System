@@ -13,3 +13,6 @@ body{
   .animate-[bg-move_3s_infinite_linear] {
     animation: bg-move 3s infinite linear;
   }
+html {
+  scroll-behavior: smooth;
+}
