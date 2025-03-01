@@ -1,9 +1,6 @@
 import React from 'react'
-import student from '../../../public/students.png'
-import mark from '../../../public/note.png'
 import ann from '../../../public/announcement.png'
 import event from '../../../public/event.png'
-import teacher from '../../../public/teacher.png'
 import school from '../../../public/school.jpg'
 import contact from '../../../public/contact.png'
 
@@ -18,17 +15,16 @@ export const Home = () => {
   return (    
     
     <div className="rounded-md shadow-md w-full  bg-white">
-      <header className="bg-black text-white fixed top-0 left-0 w-full z-50 py-5 px-3">
+      <header className="bg-black text-white fixed top-0 left-0 w-full z-50 py-1 px-3">
           <div className="max-w-7xl mx-auto flex justify-between items-center">
-            <div className="text-2xl font-semibold">
-              <a href='#'  className="text-white hover:text-gray-300"> </a>
+            <div className="text-2xl font-semibold ">
+              <img src={logo} className='w-60' alt="" />
             </div>
-            <nav className="space-x-6">
-              <a  className="text-white hover:text-gray-300">Home</a>
-              <a  className="text-white hover:text-gray-300">Services</a>
-              <a  className="text-white hover:text-gray-300">About Us</a>
-              <a  className="text-white hover:text-gray-300">Contact</a>
-              
+            <nav className="space-x-6 hidden md:block">
+              <a href="#home" className="text-white hover:text-gray-300">Home</a>
+              <a href="#offering" className="text-white hover:text-gray-300">Services</a>
+              <a href="#us" className="text-white hover:text-gray-300">About Us</a>
+              <a href="#contact" className="text-white hover:text-gray-300">Contact</a>
             </nav>
           </div>
         </header>
