@@ -62,12 +62,12 @@ export const ManageClasses = () => {
                 {loading && <TableSkeleton />}
                 {!loading && classe.length > 0 ? (
                     <Table
-                        heads={["class_name", "section", "teacher_id"]}
+                        heads={["class_name", "section"]}
                         data={classe}
                         viewButton={true}
                         updateButton={true}
                         deleteButton={true}
-                        keys={["class_name", "section", "teacher_id"]}
+                        keys={["class_name", "section"]}
                         pagination={pagination}
                         paginate={paginate}
                         getData={getClasses_FUNCTION}

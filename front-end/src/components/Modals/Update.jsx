@@ -407,23 +407,6 @@ export const Update = ({ modal, setModal }) => {
                 text="black"
               />
 
-              <Label text={`Teacher (${classData.teacher_name})`} />
-              <Select
-                width={"100%"}
-                bg={"white"}
-                border={"black"}
-                title={"change Teacher"}
-                options={teacher}
-                value={selectedTeacher}
-                onchange={(e) => {
-                  handleChangeClass({
-                    target: { name: "teacher_id", value: e.target.value },
-                  });
-                }}
-                ky={"full_name"}
-                valueToSelect="id"
-              />
-
               <Label text={"Section"} />
               <Input
                 type="text"
