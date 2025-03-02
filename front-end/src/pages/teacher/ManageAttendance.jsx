@@ -69,7 +69,6 @@ export const ManageAttendance = () => {
   };
 
   const getStudentsAttendanceByClass_FUNCTION = async (page) => {
-    // if (!class_id) return;
     try {
       setLoading(true);
       const response = await getAttendanceByClass(
