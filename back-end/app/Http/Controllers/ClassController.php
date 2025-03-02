@@ -218,9 +218,9 @@ class ClassController extends Controller
                         "message" => "Teacher not found"
                     ], 404);
                 }
-                // $classes = Classe::whereHas("subjects")
-                $classes = Classe::where("teacher_id", $teacher->id)
-                    ->with("teacher")
+                $classes = Classe::whereHas("subjects", function ($query) use ($teacher) {
+                    $query->where("teacher_id", $teacher->id);
+                })
                     ->latest()
                     ->get();
                 return response()->json([

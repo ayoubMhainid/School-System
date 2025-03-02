@@ -25,13 +25,10 @@ import { Home } from "./pages/student/Home";
 import { Home as HomeTeacher } from "./pages/teacher/Home";
 import { GradeStudents } from "./pages/teacher/GradeStudents";
 import { Exams } from "./pages/student/Exams";
-<<<<<<< HEAD
 import { ManageAttendancesTeacher } from "./pages/admin/ManageAttendancesTeacher";
 import { ManageAttendance } from "./pages/teacher/ManageAttendance";
-=======
 import { Grades } from "./pages/student/Grades";
 import { Class } from "./pages/student/Class";
->>>>>>> 960775a87c805514413e22a2a28f3d0a8a4040ed
 
 function App() {
   return (
@@ -39,7 +36,6 @@ function App() {
       <Route path="/sign_in" element={<Login />} />
       <Route path="/teacher/home" element={<HomeTeacher />} />
       <Route path="/student/home" element={<Home />} />
-
 
       <Route element={<PersisLogin />}>
         <Route element={<Layout />}>
@@ -71,13 +67,8 @@ function App() {
           <Route path="/student/home" element={<Home />} />
           <Route path="/student/class" element={<Class />} />
           <Route path="/teacher/grades" element={<GradeStudents />} />
-<<<<<<< HEAD
-
           <Route path="/student/exams" element={<Exams />} />
-=======
-          <Route path="/student/exams" element={<Exams /> } />
           <Route path="/student/grades" element={<Grades />} />
->>>>>>> 960775a87c805514413e22a2a28f3d0a8a4040ed
         </Route>
       </Route>
     </Routes>
