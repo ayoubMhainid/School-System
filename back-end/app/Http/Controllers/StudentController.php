@@ -141,7 +141,6 @@ class StudentController extends Controller
                 "password" => "required|min:6",
                 "class_id" => "required|exists:classes,id"
             ]);
-
             $user = User::create([
                 "email" => $request->email,
                 "password" => Hash::make($request->password),
@@ -200,14 +199,14 @@ class StudentController extends Controller
             ]);
 
 
-            $secretKey = Secret::where("secretKey",$request->secretKey)
-                                ->where("expires_at",">",now())
-                                ->first();
+            $secretKey = Secret::where("secretKey", $request->secretKey)
+                ->where("expires_at", ">", now())
+                ->first();
 
-            if(!$secretKey){
+            if (!$secretKey) {
                 return response()->json([
                     'message' => "Invalid secret Key"
-                ],404);
+                ], 404);
             }
 
             $student->full_name = $request->full_name;
@@ -226,7 +225,7 @@ class StudentController extends Controller
         } catch (Exception $ex) {
             return response()->json([
                 "message" => $ex->getMessage(),
-            ],500);
+            ], 500);
         }
     }
 

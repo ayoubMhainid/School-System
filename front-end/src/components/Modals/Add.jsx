@@ -10,7 +10,7 @@ import { Button } from "../UI/Button";
 import { Input } from "../UI/Input";
 import { createStudent } from "../../services/studentServices";
 import { Notification } from "../UI/Notification";
-import { createTeacher, getAllTeachers} from "../../services/teacherServices";
+import { createTeacher, getAllTeachers } from "../../services/teacherServices";
 import { createAdmin } from "../../services/adminServices";
 import { Select } from "../UI/Select";
 import {
@@ -38,8 +38,7 @@ export const Add = ({ setOpen, toAdd }) => {
     class_id: "",
     name: "",
   });
-  console.log(teacherList);
-  
+
   const [subject, setSubject] = useState([]);
   const [dataSelect, setDataSelect] = useState({
     classesByTeacher: [],
@@ -83,7 +82,7 @@ export const Add = ({ setOpen, toAdd }) => {
       setSubject(response.data.data);
     }
   };
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -173,8 +172,8 @@ export const Add = ({ setOpen, toAdd }) => {
             response = await getClasses(user.token);
             setClassList(response.data.classes);
             res = await getAllTeachers(user.token);
-            setTeacherList(res.data.teachers)
-            
+            setTeacherList(res.data.teachers);
+
             break;
           case _exam:
             response = await getClassesByTeacherAuth(user.token);
@@ -193,7 +192,9 @@ export const Add = ({ setOpen, toAdd }) => {
           : setNotification({ type: "error", message: "try later again" });
       }
     };
-    user.token && (toAdd === _student || toAdd === _exam || toAdd === _subject) && viewclasses();
+    user.token &&
+      (toAdd === _student || toAdd === _exam || toAdd === _subject) &&
+      viewclasses();
   }, [user.token]);
 
   useEffect(() => {
@@ -390,11 +391,7 @@ export const Add = ({ setOpen, toAdd }) => {
                   </option>
                   {toAdd === _subject
                     ? teacherList.map((t) => {
-                        return (
-                          <option value={t.id}>
-                            {t.full_name}
-                          </option>
-                        );
+                        return <option value={t.id}>{t.full_name}</option>;
                       })
                     : dataSelect.subjectsByteacher.map((item) => (
                         <option key={item.id} value={item.id}>

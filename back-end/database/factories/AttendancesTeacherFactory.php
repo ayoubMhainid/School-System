@@ -6,9 +6,9 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Attendance>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\AttendancesTeacher>
  */
-class AttendanceFactory extends Factory
+class AttendancesTeacherFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -31,12 +31,11 @@ class AttendanceFactory extends Factory
         $status = fake()->randomElement(["absent", "late"]);
 
         return [
-            'user_id' => User::where('role','!=','admin')->inRandomOrder()->value('id'),
+            'user_id' => User::where('role', 'teacher')->inRandomOrder()->value('id'),
             'time' => $selectedTime,
             'nbHours' => $status === "absent" ? $timeSlots[$selectedTime] : fake()->numberBetween(1, $timeSlots[$selectedTime]),
             'date' => fake()->dateTimeBetween('2024-10-01')->format('Y-m-d'),
             'status' => $status,
         ];
     }
-
 }

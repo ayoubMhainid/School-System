@@ -5,8 +5,9 @@ import { addAttendance } from "../../services/attendanceStudServices";
 import { useAppContext } from "../../context/AppContext";
 import { Notification } from "../UI/Notification";
 import { Label } from "../UI/Label";
+import { addAttendanceTeacher } from "../../services/attendanceServices";
 
-const CreateAttendance = ({ onSubmit, student }) => {
+const CreateAttendance = ({ onSubmit, student, setOpen, role }) => {
   const [loading, setLoading] = useState(false);
   const [notification, setNotification] = useState({});
   const [attendance, setAttendance] = useState({
@@ -15,13 +16,30 @@ const CreateAttendance = ({ onSubmit, student }) => {
     time: "",
     date: null,
     status: "absent",
-    nbHours : 0
+    nbHours: 0,
   });
+
+  const [teacherAttendance, setTeacherAttendance] = useState({
+    user_id: student?.user_id,
+    status: "absent",
+  });
+
+  const _teacher = "teacher";
+  const _admin = "admin";
 
   const { user } = useAppContext();
 
+  const handleChangeTeacher = (e) => {
+    const { name, value } = e.target;
+    setTeacherAttendance({ ...teacherAttendance, [name]: value });
+  };
+
   useEffect(() => {
-    setAttendance((prev) => ({ ...prev, student_id: student?.id || "",class_id: student.class_id || ""}));
+    setAttendance((prev) => ({
+      ...prev,
+      student_id: student?.id || "",
+      class_id: student.class_id || "",
+    }));
   }, [student]);
 
   const handleChange = (e) => {
@@ -30,13 +48,13 @@ const CreateAttendance = ({ onSubmit, student }) => {
 
   const CreateAttendance_FUNCTION = async (data) => {
     setLoading(true);
-    setNotification(null)
+    setNotification(null);
     try {
       const response = await addAttendance(localStorage.getItem("token"), data);
       if (response.status === 200) {
-        setNotification({type:"success",message:response.data.message})
-        onSubmit(response.data.attendance);
-        setAttendance(response.data.attendance);
+        setNotification({ type: "success", message: response.data.message });
+        onSubmit(response.data.attendances.data);
+        setAttendance(response.data.attendances);
         setNotification({ type: "success", message: response.data.message });
       }
     } catch (error) {
@@ -46,9 +64,33 @@ const CreateAttendance = ({ onSubmit, student }) => {
     }
   };
 
+  const createAttendanceTeacher_FUNCTION = async () => {
+    setNotification(null);
+    setLoading(true);
+    try {
+      const response = await addAttendanceTeacher(
+        localStorage.getItem("token"),
+        teacherAttendance
+      );
+      setLoading(false);
+      setNotification({ type: "success", message: response.data.message });
+    } catch (error) {
+      error.response
+        ? setNotification({
+            type: "error",
+            message: error.response.data.message,
+          })
+        : setNotification({ type: "error", message: "try later again" });
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    CreateAttendance_FUNCTION(attendance);
+    if (role === _teacher) {
+      CreateAttendance_FUNCTION(attendance);
+    } else if (role === _admin) {
+      createAttendanceTeacher_FUNCTION();
+    }
   };
 
   return (
@@ -59,44 +101,56 @@ const CreateAttendance = ({ onSubmit, student }) => {
           <h2 className="text-xl font-semibold mb-4">Create Attendance</h2>
 
           <div className="mb-2">
-            <Label text={'Student id'} />
+            <Label text={role === _teacher ? "Student id" : "User_id"} />
             <Input
               type="text"
-              name="student_id"
-              value={attendance.student_id}
+              name={role === _teacher ? "student_id" : "user_id"}
+              value={
+                role === _teacher
+                  ? attendance.student_id
+                  : teacherAttendance.user_id
+              }
               readOnly
-              text={'black'}
+              text={"black"}
             />
           </div>
 
-          <div className="mb-2">
-            <Label text={'Class id'} />
-            <Input
-              type="text"
-              name="class_id"
-              value={attendance.class_id}
-              readOnly
-              text={'black'}
-            />
-          </div>
+          {role === _teacher && (
+            <div className="mb-2">
+              <Label text={"Class id"} />
+              <Input
+                type="text"
+                name="class_id"
+                value={attendance.class_id}
+                readOnly
+                text={"black"}
+              />
+            </div>
+          )}
 
           <div className="mb-2">
-            <Label text={'Date'} />
+            <Label text={"Date"} />
             <Input
               type="date"
               name="date"
-              value={attendance.date}
-              onChange={handleChange}
-              text={'black'}
+              value={
+                role === _teacher ? attendance.date : teacherAttendance.date
+              }
+              onChange={role === _teacher ? handleChange : handleChangeTeacher}
+              text={"black"}
             />
           </div>
 
           <div className="mb-2">
-            <Label text={'Nb hours'} />
+            <Label text={"Nb hours"} />
             <select
               name="nbHours"
-              value={attendance.nbHours}
-              onChange={handleChange}
+              value={
+                role === _teacher
+                  ? attendance.nbHours
+                  : teacherAttendance.nbHours
+              }
+              onChange={role === _teacher ? handleChange : handleChangeTeacher}
               className="w-full bg-white text-black px-3 py-1 border border-black rounded-sm"
             >
               <option value="">Select number of hours</option>
@@ -112,11 +166,13 @@ const CreateAttendance = ({ onSubmit, student }) => {
           </div>
 
           <div className="border-b border-gray-200 mb-2">
-            <Label text={'Time'} />
+            <Label text={"Time"} />
             <select
               name="time"
-              value={attendance.time}
-              onChange={handleChange}
+              value={
+                role === _teacher ? attendance.time : teacherAttendance.time
+              }
+              onChange={role === _teacher ? handleChange : handleChangeTeacher}
               className="w-full bg-white text-black px-3 py-1 border border-black rounded-sm"
             >
               <option value="">Select time</option>
@@ -131,12 +187,14 @@ const CreateAttendance = ({ onSubmit, student }) => {
           </div>
 
           <>
-            <Label text={'Status'} />
+            <Label text={"Status"} />
             <select
               required
               name="status"
-              value={attendance.status}
-              onChange={handleChange}
+              value={
+                role === _teacher ? attendance.status : teacherAttendance.status
+              }
+              onChange={role === _teacher ? handleChange : handleChangeTeacher}
               className="w-full bg-white text-black px-3 py-1 border border-black rounded-sm"
             >
               <option value="absent">Absent</option>
@@ -148,7 +206,7 @@ const CreateAttendance = ({ onSubmit, student }) => {
             <Button
               type="button"
               text="Cancel"
-              onClick={() => onSubmit(null)}
+              onClick={() => setOpen(false)}
               bg="bg-gray-200"
               color="gray-900"
             />

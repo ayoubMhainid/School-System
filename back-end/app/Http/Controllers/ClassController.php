@@ -29,7 +29,8 @@ class ClassController extends Controller
         }
     }
 
-    public function getClassByStudent(){
+    public function getClassByStudent()
+    {
         try {
             $user = JWTAuth::parseToken()->authenticate();
             $student = Student::where("user_id", $user->id)->first();
@@ -41,7 +42,7 @@ class ClassController extends Controller
             $classe = Classe::where("id", $student->class_id)
                 ->latest()
                 ->get();
-            
+
             return response()->json([
                 "classe" => $classe
             ], 200);
@@ -58,7 +59,8 @@ class ClassController extends Controller
             if (!$teacher) {
                 return response()->json([
                     "message" => "Teacher not found"
-                ], 404);}
+                ], 404);
+            }
             $classes = Classe::where("teacher_id", $teacher->id)
                 ->with("teacher")
                 ->latest()
@@ -108,8 +110,8 @@ class ClassController extends Controller
                 ], 404);
             }
             $studentCount = Classe::whereHas("subjects", function ($query) use ($teacher) {
-                    $query->where("teacher_id", $teacher->id);
-                })
+                $query->where("teacher_id", $teacher->id);
+            })
                 ->withCount("students")
                 ->latest()
                 ->get();
@@ -216,8 +218,9 @@ class ClassController extends Controller
                         "message" => "Teacher not found"
                     ], 404);
                 }
-                $classes = Classe::where("teacher_id", $teacher->id)
-                    ->with("teacher")
+                $classes = Classe::whereHas("subjects", function ($query) use ($teacher) {
+                    $query->where("teacher_id", $teacher->id);
+                })
                     ->latest()
                     ->get();
                 return response()->json([

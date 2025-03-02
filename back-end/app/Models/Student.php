@@ -15,27 +15,33 @@ class Student extends Model
         'address',
         'phone',
         'username',
-        'class_id'];
+        'class_id'
+    ];
 
     use HasFactory;
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
-    public function class(){
+    public function class()
+    {
         return $this->belongsTo(Classe::class);
     }
 
-    public function marks(){
+    public function marks()
+    {
         return $this->hasMany(Mark::class);
     }
 
-    public function getProfilePictureAttribute(){
+    public function getProfilePictureAttribute()
+    {
         return asset("storage/users/studentImage.png");
     }
 
-    public function attendanceStudents(){
+    public function attendanceStudents()
+    {
         return $this->hasMany(AttendanceStudents::class);
     }
 }
