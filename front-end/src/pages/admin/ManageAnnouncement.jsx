@@ -57,7 +57,7 @@ export const ManageAnnouncement = () => {
 
   return (
     !isMenuOpen && (
-      <div className="ml-6 mt-6 w-[81%]">
+      <div className="ml-6 mt-6 md:w-[98%]">
         <div className="w-full px-2">
           <h1 className="text-3xl font-semibold">Manage Announcements</h1>
           <br />

@@ -46,16 +46,14 @@ export const Layout = () => {
       </div>
       {newdataSideBar && newdataSideBar.length > 0 && (
         <div
-          className={`z-40  bg-dark [#011a41]) font-[500] font-[Poppins,sans-serif] w-[80%] 2xl:w-[15%] md:w-[300px] h-screen  flex flex-col pl-1 ${
-            user !== "admin"
-          } absolute sm:translate-x-0 duration-500 ${
+          className={`z-40 bg-dark [#011a41]) font-[500] font-[Poppins,sans-serif] w-[80%] 2xl:w-[15%]) md:w-[250px] flex flex-col pl-1 absolute sm:translate-x-0 duration-500 ${
             !isMenuOpen && "-translate-x-full"
-          } sm:static`}
+          } sm:fixed sm:h-[100%] sm:justify-evenly`}
         >
           {newdataSideBar.map((item) => {
             return (
               <div
-                className="m-3"
+                className={user.role === "admin" ? "m-3" : "mx-3"}
                 key={item.TEXT}
                 onClick={() => {
                   navigate(item.LINK);
@@ -66,7 +64,9 @@ export const Layout = () => {
             );
           })}
           <div
-            className={`flex justify-baseline gap-1.5 items-center cursor-pointer hover:text-blue-400 duration-200 rounded-lg m-3`}
+            className={`flex justify-baseline gap-1.5 items-center cursor-pointer hover:text-blue-400 duration-200 rounded-lg ${
+              user.role === "admin" ? "m-3" : "mx-3"
+            }`}
           >
             {!loading ? (
               <div onClick={() => LOGOUT()} className="flex gap-2 items-center">
@@ -83,14 +83,20 @@ export const Layout = () => {
                 </div>
               </div>
             ) : (
-              <div className="flex justify-center items-center h-full w-full">
-                <CircularProgress size={"40px"} className="text-blue-700" />
+              <div className="flex) justify-cente)r items-center) h-full w-full">
+                <CircularProgress
+                  style={{ marginLeft: "18%" }}
+                  size={"20px"}
+                  className="text-blue-700"
+                />
               </div>
             )}
           </div>
         </div>
       )}
-      <Outlet />
+      <div className="sm:relative md:left-[240px] w-[83%]">
+        <Outlet />
+      </div>
     </div>
   );
 };

@@ -16,9 +16,9 @@ export const ManageSubject = () => {
       const response = await getSubjectsByTeacher(
         localStorage.getItem("token")
       );
-      if (response.status === 200) {
-        setSubjects(response.data.subjects);
-      }
+      response.status === 200 && response.data.subjects.length
+        ? setSubjects(response.data.subjects)
+        : setErrorMessage(errors.notFound);
     } catch (error) {
       console.error("Error fetching subjects:", error);
       setErrorMessage(errors.tryAgain);
@@ -32,7 +32,7 @@ export const ManageSubject = () => {
   }, []);
   return (
     !isMenuOpen && (
-      <div className={`ml-6 mt-6 w-[85%]`}>
+      <div className="ml-6 mt-6 md:w-[98%]">
         <div className="w-[100%] px-2">
           <h1 className="text-3xl font-semibold">Manage Subjects</h1>
           <br></br>

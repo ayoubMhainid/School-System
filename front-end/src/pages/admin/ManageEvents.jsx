@@ -65,7 +65,7 @@ export const ManageEvents = () => {
     !isMenuOpen && (
       <>
         {/* events List */}
-        <div className="ml-6 mt-6 w-[85%]">
+        <div className="ml-6 mt-6 md:w-[98%]">
           {loading ? <LinearProgress /> : null}
           {!loading && events.length > 0 ? (
             <div className="flex flex-col gap-4">

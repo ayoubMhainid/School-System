@@ -151,7 +151,7 @@ export const ManageTeacher = () => {
 
   return (
     !isMenuOpen && (
-      <div className="ml-6 mt-6 w-[85%]">
+      <div className="ml-6 mt-6 md:w-[98%]">
         <div className="w-[100%] px-2">
           <h1 className="text-3xl font-semibold">Manage teacher</h1>
           <br></br>
@@ -196,12 +196,12 @@ export const ManageTeacher = () => {
           {loading && <TableSkeleton />}
           {teachers && teachers.length > 0 && !loading ? (
             <Table
-              heads={["Id","Full name", "Username", "specialization"]}
+              heads={["Id", "Full name", "Username", "specialization"]}
               data={teachers}
               viewButton={true}
               updateButton={true}
               deleteButton={true}
-              keys={["id","full_name", "username", "specialization"]}
+              keys={["id", "full_name", "username", "specialization"]}
               pagination={pagination}
               paginate={paginate}
               getData={getTeachers_FUNCTION}
