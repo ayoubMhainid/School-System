@@ -124,7 +124,7 @@ export const ManageAttendancesTeacher = () => {
 
   return (
     !isMenuOpen && (
-      <div className="ml-6 mt-6 w-[85%]">
+      <div className="ml-6 mt-6 md:w-[98%]">
         <h1 className="w-[100%] px-2 pb-4 text-3xl font-semibold">
           Manage Attendance
         </h1>

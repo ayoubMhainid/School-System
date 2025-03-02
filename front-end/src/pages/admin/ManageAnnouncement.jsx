@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from "react";
-import {getAnnouncements,} from "../../services/announcementServices";
+import { getAnnouncements } from "../../services/announcementServices";
 import { errors } from "../../constants/Errors";
 import { Button } from "../../components/UI/Button";
 import { Add } from "../../components/Modals/Add";
 import { Announcement } from "../../components/App/Announcement";
 import { Table as TableSkeleton } from "../../components/Skeletons/Table";
+import { useAppContext } from "../../context/AppContext";
 export const ManageAnnouncement = () => {
   const [announcements, setAnnouncements] = useState([]);
   const [errorMessage, setErrorMessage] = useState(null);
-  const [loading,setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [pagination, setPagination] = useState({
     currentPage: 0,
     lastPage: 0,
     total: 0,
   });
+  const { isMenuOpen } = useAppContext();
 
   const nextData = async () => {
     if (pagination.lastPage <= pagination.currentPage) return;
@@ -35,7 +37,7 @@ export const ManageAnnouncement = () => {
       localStorage.getItem("token"),
       page
     );
-    
+
     if (response.status === 200) {
       setAnnouncements(response.data.announcements.data);
       setPagination({
@@ -54,53 +56,57 @@ export const ManageAnnouncement = () => {
   }, []);
 
   return (
-    <div className="ml-6 mt-6 w-[81%]">
-      <div className="w-full px-2">
-        <h1 className="text-3xl font-semibold">Manage Announcements</h1>
-        <br />
+    !isMenuOpen && (
+      <div className="ml-6 mt-6 md:w-[98%]">
+        <div className="w-full px-2">
+          <h1 className="text-3xl font-semibold">Manage Announcements</h1>
+          <br />
 
-        {/* Add Announcement Button */}
-        <div className="flex justify-start mb-4">
-          <Button
-            text="Add Announcement"
-            width="20%"
-            onClick={() => setOpenModalAddAnnouncement(true)}
-            disabled={loading}
-          />
-        </div>
+          {/* Add Announcement Button */}
+          <div className="flex justify-start mb-4">
+            <Button
+              text="Add Announcement"
+              width="20%"
+              onClick={() => setOpenModalAddAnnouncement(true)}
+              disabled={loading}
+            />
+          </div>
 
-        {/* Announcements List */}
-        <div className="p-4 rounded-md shadow-md">
-          {loading && <TableSkeleton/>}
-          {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+          {/* Announcements List */}
+          <div className="p-4 rounded-md shadow-md">
+            {loading && <TableSkeleton />}
+            {errorMessage && <p className="text-red-500">{errorMessage}</p>}
 
-          {!loading && announcements.length > 0 ? (
-            <div className="flex flex-col gap-4">
-              {announcements.map((announcement) => (
-                <Announcement key={announcement.id} announcement={announcement} />
-              ))}
-            </div>
-          ) : (
-            <p className="text-center text-gray-500">No announcements found.</p>
+            {!loading && announcements.length > 0 ? (
+              <div className="flex flex-col gap-4">
+                {announcements.map((announcement) => (
+                  <Announcement
+                    key={announcement.id}
+                    announcement={announcement}
+                  />
+                ))}
+              </div>
+            ) : (
+              <p className="text-center text-gray-500">
+                No announcements found.
+              </p>
+            )}
+          </div>
+
+          {/* Pagination Controls */}
+          <div className="flex justify-center items-center mt-6 gap-4">
+            <Button text="Previous" width="20%" onClick={prevData} />
+            <span className="text-lg font-medium">
+              Page {pagination.currentPage} of {pagination.lastPage}
+            </span>
+            <Button text="Next" width="20%" onClick={nextData} />
+          </div>
+
+          {openModalAddAnnouncement && (
+            <Add toAdd="announcement" setOpen={setOpenModalAddAnnouncement} />
           )}
         </div>
-
-        {/* Pagination Controls */}
-        <div className="flex justify-center items-center mt-6 gap-4">
-          <Button text="Previous" width="20%" onClick={prevData} />
-          <span className="text-lg font-medium">
-            Page {pagination.currentPage} of {pagination.lastPage}
-          </span>
-          <Button text="Next" width="20%" onClick={nextData} />
-        </div>
-
-        {openModalAddAnnouncement && (
-          <Add
-            toAdd="announcement"
-            setOpen={setOpenModalAddAnnouncement}
-          />
-        )}
       </div>
-    </div>
+    )
   );
 };

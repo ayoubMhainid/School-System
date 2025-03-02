@@ -31,6 +31,7 @@ export const ManageAttendance = () => {
   const [classSelected, setClassSelected] = useState(null);
 
   const getClassesByTeacher_FUNCTION = async () => {
+    setErrorMessage(null);
     try {
       setLoading(true);
       const response = await getClassesByTeacher_2(
@@ -49,6 +50,7 @@ export const ManageAttendance = () => {
   };
 
   const getStudentsByClass_FUNCTION = async (class_id) => {
+    setErrorMessage(null);
     if (!class_id) return;
     try {
       setLoadingStudents(true);
@@ -69,8 +71,8 @@ export const ManageAttendance = () => {
   };
 
   const getStudentsAttendanceByClass_FUNCTION = async (page) => {
-    // if (!class_id) return;
     try {
+      setErrorMessage(null);
       setLoading(true);
       const response = await getAttendanceByClass(
         localStorage.getItem("token"),
@@ -80,13 +82,14 @@ export const ManageAttendance = () => {
       setLoading(false);
       setPaginate(true);
       if (response.status === 200) {
-        console.log(response.data);
-        setPagination({
-          currentPage: response.data.attendances.current_page,
-          lastPage: response.data.attendances.last_page,
-          total: response.data.attendances.total,
-        });
-        setStudAtten(response.data.attendances.data);
+        response.data.attendances.data.length
+          ? (setPagination({
+              currentPage: response.data.attendances.current_page,
+              lastPage: response.data.attendances.last_page,
+              total: response.data.attendances.total,
+            }),
+            setStudAtten(response.data.attendances.data))
+          : setErrorMessage(errors.notFound);
       }
     } catch (error) {
       setLoading(false);
@@ -97,6 +100,7 @@ export const ManageAttendance = () => {
 
   const getNbHoursOfAbsentStudents_FUNCTION = async (class_id) => {
     try {
+      setErrorMessage(null);
       setLoading(true);
       const response = await getNbHoursOfAbsentStudents(
         localStorage.getItem("token"),
@@ -135,7 +139,7 @@ export const ManageAttendance = () => {
   };
   return (
     !isMenuOpen && (
-      <div className={`ml-6 mt-6 w-[85%]`}>
+      <div className="ml-6 mt-6 md:w-[98%]">
         <div className="w-[100%] px-2">
           <h1 className="text-3xl font-semibold">Manage Attendance</h1>
           <br></br>

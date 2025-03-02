@@ -9,53 +9,55 @@ import { Notification as NotificationComponent } from "../components/App/Notific
 import { Pagination } from "../components/UI/Paginations";
 
 export const Notifications = () => {
-    const { isMenuOpen } = useAppContext();
-    const [openMakeMessage,setOpenMakeMessage] = useState(false);
-    const [notifications,setNotifications] = useState([]);
-    const [errorMessage,setErrorMessage] = useState('');
-    const [loading,setLoading] = useState(false);
-    const [pagination, setPagination] = useState({
-        currentPage: 0,
-        lastPage: 0,
-        total: 0,
+  const { isMenuOpen } = useAppContext();
+  const [openMakeMessage, setOpenMakeMessage] = useState(false);
+  const [notifications, setNotifications] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [pagination, setPagination] = useState({
+    currentPage: 0,
+    lastPage: 0,
+    total: 0,
+  });
+
+  const getNotifications_FUNCTION = async (page) => {
+    setLoading(true);
+    const response = await getNotification(localStorage.getItem("token"), page);
+    setLoading(false);
+
+    setPagination({
+      currentPage: response.data.notifications.current_page,
+      lastPage: response.data.notifications.last_page,
+      total: response.data.notifications.total,
     });
 
-    const getNotifications_FUNCTION = async (page) =>{        
-        setLoading(true);
-        const response = await getNotification(localStorage.getItem('token'),page);
-        setLoading(false);
+    response.data.notifications.data
+      ? response.data.notifications.data.length
+        ? setNotifications(response.data.notifications.data)
+        : setErrorMessage(errors.notFound)
+      : setErrorMessage(errors.tryAgain);
+  };
 
-        setPagination({
-            currentPage:response.data.notifications.current_page,
-            lastPage:response.data.notifications.last_page,
-            total:response.data.notifications.total,
-        })        
-
-        response.data.notifications.data ? response.data.notifications.data.length ? 
-            setNotifications(response.data.notifications.data)
-            : setErrorMessage(errors.notFound) : setErrorMessage(errors.tryAgain);
+  const nextData = async () => {
+    if (pagination.lastPage <= pagination.currentPage) {
+      return;
     }
+    await getNotifications_FUNCTION(pagination.currentPage + 1);
+  };
 
-    const nextData = async () => {
-        if (pagination.lastPage <= pagination.currentPage) {
-          return;
-        }
-        await getNotifications_FUNCTION(pagination.currentPage + 1);
-    };
-    
-    const prevData = async () => {
-        if (pagination.currentPage == 1) {
-        return;
-        }
-        await getNotifications_FUNCTION(pagination.currentPage - 1);
-    };
-    
-    useEffect(() =>{
-        getNotifications_FUNCTION(1);
-    },[])
+  const prevData = async () => {
+    if (pagination.currentPage == 1) {
+      return;
+    }
+    await getNotifications_FUNCTION(pagination.currentPage - 1);
+  };
+
+  useEffect(() => {
+    getNotifications_FUNCTION(1);
+  }, []);
   return (
     !isMenuOpen && (
-      <div className={`ml-6 mt-6 w-[85%]`}>
+      <div className="ml-6 mt-6 md:w-[98%]">
         <div className="w-[100%] px-2">
           <h1 className="text-3xl font-semibold">Notifications</h1>
           <br></br>
@@ -79,20 +81,25 @@ export const Notifications = () => {
           )}
           {loading && <Notification />}
           <div className="flex flex-col gap-2">
-            {
-                notifications && notifications.length ?
-                    notifications.map((notification) =>{
-                        return <NotificationComponent notification={notification} />
-                    })
-                : null
-            }
+            {notifications && notifications.length
+              ? notifications.map((notification) => {
+                  return <NotificationComponent notification={notification} />;
+                })
+              : null}
           </div>
-          {
-            notifications && notifications.length ? <Pagination currentPage={pagination.currentPage} lastPage={pagination.lastPage}
-                        total={pagination.total} next={nextData} previus={prevData} /> : null
-          }
+          {notifications && notifications.length ? (
+            <Pagination
+              currentPage={pagination.currentPage}
+              lastPage={pagination.lastPage}
+              total={pagination.total}
+              next={nextData}
+              previus={prevData}
+            />
+          ) : null}
         </div>
-        {openMakeMessage && <Add toAdd="notification" setOpen={setOpenMakeMessage} />}
+        {openMakeMessage && (
+          <Add toAdd="notification" setOpen={setOpenMakeMessage} />
+        )}
       </div>
     )
   );

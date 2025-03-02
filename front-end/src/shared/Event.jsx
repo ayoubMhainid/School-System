@@ -50,7 +50,7 @@ export const Event = () => {
   }, []);
   return (
     <>
-      <div className="ml-6 mt-6 w-[85%]">
+      <div className="ml-6 mt-6 md:w-[98%]">
         <h1 className="text-3xl font-semibold mb-6">Events</h1>
         {loading && <LinearProgress />}
         {!loading && events.length > 0 ? (

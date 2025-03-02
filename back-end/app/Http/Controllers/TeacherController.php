@@ -67,19 +67,19 @@ class TeacherController extends Controller
 
     public function getAllTeacherOfStudent()
     {
-        try{
+        try {
             $user = JWTAuth::parsetoken()->authenticate();
-            $student = Student::where('user_id',$user->id)->first();
-            $subjects = Subject::where("class_id",$student->class_id)
-                                ->with("teacher.user","class")
-                                ->paginate(10);
+            $student = Student::where('user_id', $user->id)->first();
+            $subjects = Subject::where("class_id", $student->class_id)
+                ->with("teacher.user", "class")
+                ->paginate(10);
             return response()->json([
                 "subjects" => $subjects
             ]);
-        }catch(Exception $e){
+        } catch (Exception $e) {
             return response()->json([
                 "message" => $e->getMessage()
-            ],500);
+            ], 500);
         }
     }
 
@@ -127,9 +127,8 @@ class TeacherController extends Controller
             if (!$class) {
                 return response()->json(["message" => "Class not found"], 404);
             }
-
-            $teachers = Teacher::whereHas('classes', function ($query) use ($id) {
-                $query->where('id', $id);
+            $teachers = Teacher::whereHas('subjects', function ($query) use ($id) {
+                $query->where('class_id', $id);
             })->paginate(10);
             if (!$teachers) {
                 return response()->json(["message" => "No teacher with this class"], 404);
@@ -210,14 +209,14 @@ class TeacherController extends Controller
                 "secretKey" => "required"
             ]);
 
-            $secretKey = Secret::where("secretKey",$request->secretKey)
-                                ->where("expires_at",">",now())
-                                ->first();
+            $secretKey = Secret::where("secretKey", $request->secretKey)
+                ->where("expires_at", ">", now())
+                ->first();
 
-            if(!$secretKey){
+            if (!$secretKey) {
                 return response()->json([
                     'message' => "Invalid secret Key"
-                ],404);
+                ], 404);
             }
 
             $teacher->update($validation);

@@ -1,5 +1,3 @@
-import React from "react";
-
 export const SingleLink = ({ link, svg, text, ShowCss }) => {
   const currentPath = window.location.pathname;
 
@@ -9,7 +7,7 @@ export const SingleLink = ({ link, svg, text, ShowCss }) => {
         link === currentPath ? "text-blue-400" : null
       } flex gap-2 items-center cursor-pointer hover:text-blue-400 duration-200 rounded-lg ${
         ShowCss && "px-2"
-      } py-1`}
+      }`}
     >
       <div>{svg}</div>
       <div>

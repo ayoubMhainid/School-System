@@ -144,7 +144,7 @@ export const ManageStudents = () => {
 
   return (
     !isMenuOpen && (
-      <div className={`ml-6 mt-6 w-[85%]`}>
+      <div className="ml-6 mt-6 md:w-[98%]">
         <div className="w-[100%] px-2">
           <h1 className="text-3xl font-semibold">Manage students</h1>
           <br></br>
