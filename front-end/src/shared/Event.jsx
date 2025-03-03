@@ -56,7 +56,7 @@ export const Event = () => {
         {!loading && events.length > 0 ? (
           <div className="flex flex-col gap-4">
             {events.map((event) => (
-              <div key={event.id} className="border p-4 rounded-md shadow-sm ">
+              <div key={event.id} className="p-4 bg-gray-100 rounded-md shadow-sm ">
                 <div className="flex justify-start items-center gap-10">
                   <img
                     src={`${event.event_picture}`}

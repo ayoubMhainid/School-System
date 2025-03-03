@@ -62,7 +62,6 @@ export const ManageAnnouncement = () => {
           <h1 className="text-3xl font-semibold">Manage Announcements</h1>
           <br />
 
-          {/* Add Announcement Button */}
           <div className="flex justify-start mb-4">
             <Button
               text="Add Announcement"
@@ -72,8 +71,7 @@ export const ManageAnnouncement = () => {
             />
           </div>
 
-          {/* Announcements List */}
-          <div className="p-4 rounded-md shadow-md">
+          <div className="p-4 rounded-md shadow-lg">
             {loading && <TableSkeleton />}
             {errorMessage && <p className="text-red-500">{errorMessage}</p>}
 
@@ -93,7 +91,6 @@ export const ManageAnnouncement = () => {
             )}
           </div>
 
-          {/* Pagination Controls */}
           <div className="flex justify-center items-center mt-6 gap-4">
             <Button text="Previous" width="20%" onClick={prevData} />
             <span className="text-lg font-medium">

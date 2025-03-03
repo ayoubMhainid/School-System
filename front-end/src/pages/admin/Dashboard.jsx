@@ -57,7 +57,7 @@ export const Dashboard = () => {
 
   return (
     !isMenuOpen && (
-      <div className={`ml-6 mt-6 w-[85%]`}>
+      <div className={`ml-6 mt-6 w-[98%]`}>
         <div>
           <h1 className="text-xl font-semibold">
             Welcome,{" "}
@@ -100,82 +100,11 @@ export const Dashboard = () => {
         </div>
 
         <div className="w-[100%] px-2 mt-2 flex gap-2">
-          {/* 
-          <Box
-            sx={{
-              textAlign: "center",
-              backgroundColor: "gray",
-              padding: 2,
-              borderRadius: 2,
-            }}
-          >
-            <Typography variant="h6" color="black" gutterBottom>
-              Attendances records
-            </Typography>
-            <BarChart
-              className="bg-black text-white"
-              xAxis={[{ scaleType: "band", data: months }]}
-              series={
-                attendances && [
-                  {
-                    data: attendances.map((attendance) => {
-                      return attendance.absent_teachers;
-                    }),
-                    label: "Teachers",
-                  },
-                  {
-                    data: attendances.map((attendance) => {
-                      return attendance.absent_students;
-                    }),
-                    label: "Students",
-                  },
-                ]
-              }
-              width={1050}
-              height={400}
-              title="Attendances records"
-              sx={{
-                backgroundColor: "white",
-                color: "black",
-                borderRadius: 2,
-                padding: 2,
-              }}
-            />
-          </Box>
           <Box
             sx={{
               textAlign: "center",
               backgroundColor: "white",
-              padding: 2,
-              borderRadius: 2,
-            }}
-          >
-            <Typography variant="h6" color="black" gutterBottom>
-              Total students by gender
-            </Typography>
-            <PieChart
-              className="bg-white text-black"
-              series={[
-                {
-                  data: [
-                    { id: 0, value: counts?.maleStudents, label: "Male" },
-                    { id: 1, value: totalFemaleStudents, label: "Female" },
-                  ],
-                },
-              ]}
-              sx={{
-                backgroundColor: "white", // Set background color to black
-                color: "black", // Set text color to white
-              }}
-              width={400}
-              height={400}
-            />
-          </Box>
-; */}
-          <Box
-            sx={{
-              textAlign: "center",
-              backgroundColor: "gray",
+              border : 2,
               padding: 2,
               borderRadius: 2,
             }}
@@ -184,7 +113,7 @@ export const Dashboard = () => {
               Attendances records
             </Typography>
             <BarChart
-              className="bg-black text-white"
+              className="bg-gray-100"
               xAxis={[{ scaleType: "band", data: months }]}
               series={
                 attendances && [
@@ -202,7 +131,7 @@ export const Dashboard = () => {
                   },
                 ]
               }
-              width={1050}
+              width={1450}
               height={400}
               title="Attendances records"
               sx={{
@@ -217,6 +146,7 @@ export const Dashboard = () => {
             sx={{
               textAlign: "center",
               backgroundColor: "white",
+              border : 2,
               padding: 2,
               borderRadius: 2,
             }}
@@ -225,7 +155,6 @@ export const Dashboard = () => {
               Total students by gender
             </Typography>
             <PieChart
-              className="bg-white text-black"
               series={[
                 {
                   data: [
@@ -235,8 +164,8 @@ export const Dashboard = () => {
                 },
               ]}
               sx={{
-                backgroundColor: "white", // Set background color to black
-                color: "black", // Set text color to white
+                backgroundColor: "white",
+                color: "black",
               }}
               width={400}
               height={400}
@@ -251,7 +180,7 @@ export const Dashboard = () => {
               {events && events.length
                 ? events.map((event) => {
                     return (
-                      <div className="bg-gray-900 text-white px-3 py-2 mb-2 sm:mb-1 rounded-md w-[100%] sm:w-[32%] cursor-pointer hover:bg-gray-950 duration-200">
+                      <div className="bg-gray-200 text-black px-3 py-2 mb-2 sm:mb-1 rounded-md w-[100%] sm:w-[32%] cursor-pointer hover:bg-gray-300 duration-200">
                         <h1 className="text-xl font-semibold">
                           {event.title} -{" "}
                           <span className="text-gray-400 text-sm">
@@ -277,7 +206,7 @@ export const Dashboard = () => {
               {exams && exams.length
                 ? exams.map((exam) => {
                     return (
-                      <div className="bg-gray-900 text-white px-3 py-2 sm:mb-1 w-[100%] sm:w-[32%] rounded-md cursor-pointer hover:bg-gray-950 duration-200">
+                      <div className="bg-gray-200 text-black px-3 py-2 sm:mb-1 w-[100%] sm:w-[32%] rounded-md cursor-pointer hover:bg-gray-300 duration-200">
                         <h1 className="text-xl font-semibold">
                           {exam.exam_name} -{" "}
                           <span className="text-gray-400 text-sm">
@@ -293,6 +222,7 @@ export const Dashboard = () => {
             </div>
           </div>
         </div>
+        <br></br>
       </div>
     )
   );

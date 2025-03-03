@@ -53,10 +53,10 @@ export const Table = ({
 
   return (
     <div>
-      <table className="w-[100%] border-2 border-gray-400">
+      <table className="w-[100%] border-2 border-gray-400 shadow-md">
         <thead>
           {
-            <tr className="bg-gray-950">
+            <tr className="bg-gray-300">
               {heads && heads.length
                 ? heads.map((head) => {
                     return (
@@ -75,7 +75,7 @@ export const Table = ({
         <tbody>
           {data && data.length
             ? data.map((dataVar, rowIndex) => (
-                <tr key={rowIndex}>
+                <tr key={rowIndex} className="bg-gray-50">
                   {keys &&
                     keys.map((key, colIndex) => (
                       <td key={colIndex} className="py-1 text-center">

@@ -7,7 +7,7 @@ export const Notification = () => {
         
         {
             array.map(() =>{
-                return <div className='bg-gray-900 animate-pulse w-[100%] px-2 h-[100px] mb-2'>
+                return <div className='bg-gray-100 animate-pulse w-[100%] px-2 h-[100px] mb-2'>
                     
                     </div>
             })

@@ -161,7 +161,6 @@ export const ManageTeacher = () => {
                 type={"text"}
                 name="username"
                 placholder={"Search for student"}
-                border={"white"}
                 value={dataSearch.username}
                 onChange={handleCahnge}
               />

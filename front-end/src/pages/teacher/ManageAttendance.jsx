@@ -154,7 +154,7 @@ export const ManageAttendance = () => {
             <TableSkeleton />
           ) : (
             <select
-              className="border border-gray-600 px-3 py-1 text-md bg-black rounded-sm outline-none w-[30%] mb-2"
+              className="border bg-gray-100 border-gray-600 px-3 py-1 text-md rounded-sm outline-none w-[30%] mb-2"
               onChange={(e) => {
                 getStudentsByClass_FUNCTION(e.target.value);
                 getNbHoursOfAbsentStudents_FUNCTION(e.target.value);

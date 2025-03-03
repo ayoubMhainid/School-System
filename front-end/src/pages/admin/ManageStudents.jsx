@@ -153,7 +153,6 @@ export const ManageStudents = () => {
               <Input
                 type={"text"}
                 placholder={"Search for student"}
-                border={"white"}
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
               />

@@ -307,7 +307,6 @@ export const Delete = ({ modal, setModal }) => {
             text={"Delete"}
             loading={loading}
             bg={"bg-red-600 px-3"}
-            color={"white"}
             width={"25%"}
           />
         </form>

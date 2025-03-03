@@ -46,7 +46,7 @@ export const Layout = () => {
       </div>
       {newdataSideBar && newdataSideBar.length > 0 && (
         <div
-          className={`z-40 bg-dark [#011a41]) font-[500] font-[Poppins,sans-serif] w-[80%] 2xl:w-[15%]) md:w-[250px] flex flex-col pl-1 absolute sm:translate-x-0 duration-500 ${
+          className={`z-40 bg-dark [#011a41]) font-[500] bg-gray-200 shadow-lg font-[Poppins,sans-serif] w-[80%] 2xl:w-[14%] md:w-[250px] flex flex-col pl-1 absolute sm:translate-x-0 duration-500 ${
             !isMenuOpen && "-translate-x-full"
           } sm:fixed sm:h-[100%] sm:justify-evenly`}
         >
@@ -64,7 +64,7 @@ export const Layout = () => {
             );
           })}
           <div
-            className={`flex justify-baseline gap-1.5 items-center cursor-pointer hover:text-blue-400 duration-200 rounded-lg ${
+            className={`flex justify-baseline gap-1.5 items-center cursor-pointer hover:text-blue-500 duration-200 rounded-lg ${
               user.role === "admin" ? "m-3" : "mx-3"
             }`}
           >
@@ -94,7 +94,7 @@ export const Layout = () => {
           </div>
         </div>
       )}
-      <div className="sm:relative md:left-[240px] w-[83%]">
+      <div className="sm:relative md:left-[300px] w-[86%]">
         <Outlet />
       </div>
     </div>

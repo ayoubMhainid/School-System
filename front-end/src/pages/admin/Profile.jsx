@@ -77,8 +77,8 @@ function Profile() {
                 <span className="text-2xl font-semibold">
                   {userData.full_name}
                 </span>
-                <span className="text-gray-400">{userData.phone}</span>
-                <span className="text-blue-400">{userData.username}</span>
+                <span className="text-gray-500">{userData.phone}</span>
+                <span className="text-blue-500">{userData.username}</span>
                 {userData?.user && (
                   <div>
                     <span className="text-green-500 font-semibold">
@@ -95,14 +95,14 @@ function Profile() {
               {userData.gender && (
                 <div className="front-semibold text-xl">
                   Gender:{" "}
-                  <span className="text-gray-400">{userData.gender}</span>
+                  <span className="text-gray-500">{userData.gender}</span>
                 </div>
               )}
 
               {userData.date_of_birth && (
                 <div className="front-semibold text-xl">
                   Date of Birth:{" "}
-                  <span className="text-gray-400">
+                  <span className="text-gray-500">
                     {userData.date_of_birth}
                   </span>
                 </div>
@@ -111,7 +111,7 @@ function Profile() {
               {userData.specialization && (
                 <div className="front-semibold text-xl">
                   Specialization:{" "}
-                  <span className="text-gray-400">
+                  <span className="text-gray-500">
                     {userData.specialization}
                   </span>
                 </div>
@@ -122,7 +122,7 @@ function Profile() {
                   <span>Classes:</span>
                   <ul>
                     {classesByTeacher.map((c) => (
-                      <li key={c.id} className="text-gray-400">
+                      <li key={c.id} className="text-gray-500">
                         {c.class_name}
                       </li>
                     ))}
@@ -133,7 +133,7 @@ function Profile() {
               {classes && classes.length && userData.class_id && (
                 <div className="front-semibold text-xl">
                   Class:{" "}
-                  <span className="text-gray-400">
+                  <span className="text-gray-500">
                     {
                       classes.find((c) => c.id === userData.class_id)
                         ?.class_name
@@ -145,7 +145,7 @@ function Profile() {
               {userData.address && (
                 <div className="front-semibold text-xl">
                   Address:{" "}
-                  <span className="text-gray-400">{userData.address}</span>
+                  <span className="text-gray-500">{userData.address}</span>
                 </div>
               )}
             </div>

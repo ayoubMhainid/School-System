@@ -35,7 +35,7 @@ export const ManageClasse = () => {
     !isMenuOpen && (
       <div className="ml-6 mt-6 md:w-[98%]">
         <div className="w-[100%] px-2">
-          <h1 className="text-3xl font-semibold">Manage Classes</h1>
+          <h1 className="text-3xl font-semibold">My Classes</h1>
           <br></br>
         </div>
         <div className="mt-4 px-2">
@@ -49,7 +49,6 @@ export const ManageClasse = () => {
             <Table
               heads={["Class name", "Section", "Students Count"]}
               data={students}
-              viewButton={true}
               keys={["class_name", "section", "students_count"]}
               getData={getClassesAndStudentsByTeacher_FUNCTION}
               toUpdateOrDelete={"User"}

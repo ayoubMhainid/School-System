@@ -58,7 +58,7 @@ export const Announcements = () => {
             {announcements.map((announcement) => (
               <div
                 key={announcement.id}
-                className="border p-4 rounded-md shadow-sm "
+                className="p-4 rounded-md bg-gray-100 shadow-sm "
               >
                 <div className="flex justify-start items-center gap-10">
                   <div>
@@ -67,7 +67,7 @@ export const Announcements = () => {
                   </div>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-400">
+                  <span className="text-sm text-gray-500">
                     {moment(announcement.created_at).fromNow()} by{" "}
                     {announcement.admin.full_name}
                   </span>

@@ -45,7 +45,7 @@ export const Admins = () => {
     getAdmin(1);
   }, []);
   return (
-    <div className="m-10 p-4 rounded-md shadow-md w-[98%]">
+    <div className="ml-6 mt-6 md:w-[98%]">
       <h1 className="text-3xl font-semibold mb-6">Admins</h1>
       {loading && <LinearProgress />}
       {!loading && Admins && (

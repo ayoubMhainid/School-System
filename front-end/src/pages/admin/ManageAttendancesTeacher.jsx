@@ -135,7 +135,6 @@ export const ManageAttendancesTeacher = () => {
           <Input
             type={"text"}
             placholder={"Search by username"}
-            border={"white"}
             value={usernameSearch}
             onChange={(e) => setUsernameSearch(e.target.value)}
           />
@@ -174,9 +173,9 @@ export const ManageAttendancesTeacher = () => {
               teacherListAttendance &&
               teacherListAttendance.length && (
                 <Table
-                  heads={["Full name", "Date", "Total hours"]}
+                  heads={["Full name", "Date","Month", "Total hours"]}
                   data={teacherListAttendance}
-                  keys={["user.teacher.full_name", "year", "total_hours"]}
+                  keys={["user.teacher.full_name", "year",'month', "total_hours"]}
                   pagination={pagination}
                   paginate={paginate}
                   getData={viewAttendance}
