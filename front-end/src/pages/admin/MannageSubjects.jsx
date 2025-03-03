@@ -59,7 +59,7 @@ export const ManageSubjects = () => {
           {loading && <TableSkeleton />}
           {subject && subject.length && !loading ? (
             <Table
-              heads={["teacher name", "class name", "name"]}
+              heads={["Teacher name", "Class name", "Subject name"]}
               data={subject}
               viewButton={false}
               updateButton={true}

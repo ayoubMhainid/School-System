@@ -1,10 +1,8 @@
 @import "tailwindcss";
 
 body{
-    background-color: rgb(14, 14, 14);
-    /* background-color: white; */
-    color: white;
-    /* color: black; */
+    background-color: white;
+    color: black;
 }
 @keyframes bg-move {
     0% { background-position: 0% 50%; }

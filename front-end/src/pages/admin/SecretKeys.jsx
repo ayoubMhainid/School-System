@@ -89,7 +89,6 @@ export const SecretKeys = () => {
                 <Input
                   type={"text"}
                   placholder={"Ex: SOF1DEV002"}
-                  border={"white"}
                   name={"secretKey"}
                   value={formData.secretKey}
                   onChange={handleChange}

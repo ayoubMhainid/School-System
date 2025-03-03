@@ -85,10 +85,10 @@ export const Class = () => {
                     />
                   </div>
                   <div className="flex justify-start flex-col">
-                    <span className="text-gray-400">
+                    <span className="text-gray-600">
                       Class Name : {c.class_name}
                     </span>
-                    <span className="text-gray-400">Section: {c.section}</span>
+                    <span className="text-gray-600">Section: {c.section}</span>
                   </div>
                 </div>
               </div>

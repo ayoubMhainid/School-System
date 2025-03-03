@@ -82,7 +82,7 @@ export const ManageEvents = () => {
               {events.map((event) => (
                 <div
                   key={event.id}
-                  className="border p-4 rounded-md shadow-sm "
+                  className="p-4 rounded-md shadow-sm bg-gray-100"
                 >
                   <div className="flex justify-start items-center gap-10">
                     <img

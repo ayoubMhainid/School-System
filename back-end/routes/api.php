@@ -140,7 +140,7 @@ Route::prefix("subject")->group(function () {
     Route::post("/createSubject", [SubjectController::class, "createSubject"])->middleware(CheckRole::class . ":admin");
     Route::delete("/deleteSubject/{id}", [SubjectController::class, "deleteSubject"])->middleware(CheckRole::class . ":admin");
     Route::put("/updateSubject", [SubjectController::class, "updateSubject"])->middleware(CheckRole::class . ":admin");
-    Route::get("/getSubjectsByteacherAndClass/{class_id}", [SubjectController::class, "getSubjectsByteacherAndClass"])->middleware(CheckRole::class . ":teacher");
+    Route::get("/getSubjectsByteacherAndClass/{class_id}", [SubjectController::class, "getSubjectsByteacherAndClass"]);
 });
 
 Route::prefix('attendancesTeacher')->middleware(CheckRole::class . ":admin")->group(function () {

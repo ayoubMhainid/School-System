@@ -95,7 +95,7 @@ export const GradeStudents = () => {
             />
 
             <select
-              className="bg-gray-900 px-3 rounded-sm border border-white"
+              className="bg-gray-100 px-3 rounded-sm border border-gray-600"
               value={selectedExam.class_id}
               onChange={(e) => {
                 const selectedExamObj = exams.find(

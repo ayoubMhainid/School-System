@@ -55,7 +55,7 @@ export const Notification = ({ notification }) => {
     }
   };
   return (
-    <div className="bg-gray-900 px-3 py-2 rounded-md">
+    <div className="bg-gray-100 px-3 py-2 rounded-md">
       <div>
         <div className="flex justify-between">
           <h1 className="font-semibold text-lg">
@@ -81,7 +81,7 @@ export const Notification = ({ notification }) => {
               aria-expanded={open ? "true" : undefined}
               onClick={handleClick}
             >
-              <EllipsisVerticalIcon className="w-5 h-5 text-white" />
+              <EllipsisVerticalIcon className="w-5 h-5 text-black" />
             </Button>
             <Menu
               id="fade-menu"

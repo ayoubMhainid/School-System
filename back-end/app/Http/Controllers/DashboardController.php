@@ -41,13 +41,14 @@ class DashboardController extends Controller
                 ->with('admin')
                 ->take(6)
                 ->get();
-            $upcomingExams = Exam::where('date', '<', now()->toDateString())
+            $upcomingExams = Exam::where('date', '>', now()->toDateString())
                 ->with('class')
                 ->with('subject')
+                ->take(6)
+                ->latest()
                 ->get();
 
             $sixMonthsAgo = Carbon::now()->subMonths(6);
-            // $teacherAttendances = Attendance::selectRaw('
             $teacherAttendances = AttendancesTeacher::selectRaw('
                                     YEAR(date) as year,
                                     MONTH(date) as month,

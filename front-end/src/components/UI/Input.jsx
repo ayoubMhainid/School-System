@@ -26,7 +26,7 @@ export const Input = ({
       maxLength={maxLength}
       checked={checked}
       className={`border ${border ? `border-${border}` : "border-gray-600"} ${
-        text ? `text-${text}` : "text-white"
+        text ? `text-${text}` : "text-black"
       } px-3 py-1 text-md bg-inherit rounded-sm outline-none ${
         width ? `w-[${width}]` : "w-[100%]"
       } ${style}`}

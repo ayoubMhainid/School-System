@@ -70,7 +70,6 @@ export const ManageClasses = () => {
             <Table
               heads={["class_name", "section"]}
               data={classe}
-              viewButton={true}
               updateButton={true}
               deleteButton={true}
               keys={["class_name", "section"]}

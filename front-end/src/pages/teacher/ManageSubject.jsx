@@ -34,7 +34,7 @@ export const ManageSubject = () => {
     !isMenuOpen && (
       <div className="ml-6 mt-6 md:w-[98%]">
         <div className="w-[100%] px-2">
-          <h1 className="text-3xl font-semibold">Manage Subjects</h1>
+          <h1 className="text-3xl font-semibold">My Subjects</h1>
           <br></br>
         </div>
         <div className="mt-4 px-2">
