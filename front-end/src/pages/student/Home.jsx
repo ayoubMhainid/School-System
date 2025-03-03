@@ -7,7 +7,7 @@ import teacher from "../../../public/teacher.png";
 import school from "../../../public/school.jpg";
 import contact from "../../../public/contact.png";
 import logo from "../../../public/logo.png";
-import { motion, useInView } from "framer-motion";
+import { motion} from "framer-motion";
 import { useAppContext } from "../../context/AppContext";
 import { Button } from "../../components/UI/Button";
 import { useNavigate } from "react-router-dom";
@@ -104,7 +104,7 @@ export const Home = () => {
           <div className="mb-10">
             <img src={mark} className="w-[100%]" alt="" />
             <div className="text-black border-1 px-2 py-4 rounded-md">
-              <h1 className="text-2xl mb-3 2xl:text-3xl">
+              <h1 className="text-2xl mb-3 2xl:text-3xl font-semibold">
                 See Your Marks & Exams
               </h1>
               <h2 className="text-gray-600 2xl:text-xl">
@@ -124,7 +124,7 @@ export const Home = () => {
           <div className="mb-3">
             <img src={teacher} className="w-[100%]" alt="" />
             <div className="text-black border-1 px-2 py-4 rounded-md">
-              <h1 className="text-2xl mb-3 2xl:text-3xl">See Teachers</h1>
+              <h1 className="text-2xl mb-3 2xl:text-3xl font-semibold">See Teachers</h1>
               <h2 className="text-gray-600  2xl:text-xl">
                 Discover passionate educators dedicated to your growth.
               </h2>
@@ -142,7 +142,7 @@ export const Home = () => {
           <div className="mb-3">
             <img src={ann} className="w-[100%]" alt="" />
             <div className="text-black border-1 px-2 py-4 rounded-md">
-              <h1 className="text-2xl mb-3 2xl:text-3xl">
+              <h1 className="text-2xl mb-3 2xl:text-3xl font-semibold">
                 Events & Announcements
               </h1>
               <h2 className="text-gray-600  2xl:text-xl">
@@ -162,7 +162,7 @@ export const Home = () => {
           <div className="mb-3">
             <img src={event} className="w-[100%]" alt="" />
             <div className="text-black border-1 px-2 py-4 rounded-md">
-              <h1 className="text-2xl mb-3 2xl:text-3xl">Notifications</h1>
+              <h1 className="text-2xl mb-3 2xl:text-3xl font-semibold">Notifications</h1>
               <h2 className="text-gray-600  2xl:text-xl">
                 Receive instant updates on what matters most.
               </h2>

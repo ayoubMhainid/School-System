@@ -1,13 +1,13 @@
-import student from "../../../public/students.png";
-import mark from "../../../public/note.png";
-import ann from "../../../public/announcement.png";
-import event from "../../../public/event.png";
-import teacher from "../../../public/teacher.png";
-import school from "../../../public/school.jpg";
+// import student from "../../../public/students.png";
+// import mark from "../../../public/note.png";
+// import ann from "../../../public/announcement.png";
+// import event from "../../../public/event.png";
+// import teacher from "../../../public/teacher.png";
+// import school from "../../../public/school.jpg";
 import contact from "../../../public/contact.png";
 import logo from "../../../public/logo.png";
 import { motion } from "framer-motion";
-import { useAppContext } from "../../context/AppContext";
+// import { useAppContext } from "../../context/AppContext";
 import { Button } from "../../components/UI/Button";
 import { useNavigate } from "react-router-dom";
 
