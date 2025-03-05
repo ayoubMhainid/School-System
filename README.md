@@ -12,13 +12,30 @@ The **School Management System** is a web-based application designed to streamli
 
 - Manage:
   - **Students** (add, update, delete, view profiles)
-  - **Teachers** (assign subjects, manage profiles, update details)
+    ![ADDSTUDENT](https://github.com/user-attachments/assets/8293cee4-fc21-4d10-b072-bca1c7ab58c8)
+    ![manageStudentAdmin](https://github.com/user-attachments/assets/3e2cdf71-3591-4e0e-8c3f-40509b8e8b6c)
+
+  - **Teachers** (assign subjects, update details)
+    ![manageteacher](https://github.com/user-attachments/assets/9b9963df-1b44-48b9-8bec-f837d7e061ae)
+
   - **Classes** (create, edit, delete, assign teachers and students)
+    ![manageClasse](https://github.com/user-attachments/assets/9821fa7c-ec7b-4bda-b3c9-f585fd1603cf)
+
   - **Subjects** (add, modify, remove subjects assigned to classes and teachers)
+    ![manageSubject](https://github.com/user-attachments/assets/3453aab7-f283-478a-ace3-6f01e25f4514)
+
   - **Attendance** (track teacher attendance records)
+    ![attendenceTeacher](https://github.com/user-attachments/assets/7ac228f4-02f5-47b6-ab63-bde3c9c52547)
+
   - **Notifications** (send announcements and updates to students and teachers)
+    ![notification](https://github.com/user-attachments/assets/50eb7869-22ae-46dc-b5e7-3ddb547b8c13)
+
   - **Team Management** (manage the administration team and roles)
+    ![team](https://github.com/user-attachments/assets/962fbf9e-0df0-49fa-b243-90ffa8e60fbb)
+
   - **Profile Management** (update admin profile information)
+    ![profile](https://github.com/user-attachments/assets/93875599-ae5a-4099-9b58-9bd2cc349a0e)
+
 
 ### Teacher Features:
 - View assigned **classes** and **subjects**.
