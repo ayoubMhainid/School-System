@@ -93,3 +93,44 @@ The **School Management System** is a web-based application designed to streamli
   ###
   ![Announcementstudent](https://github.com/user-attachments/assets/018f26f9-0a06-45cb-8c12-cbeba92c5ebe)
 
+
+### Tech stack 
+## Front-end
+- React.js
+- Tailwind.css
+## Back-end
+- Laravel php
+## Databases
+- MySQL
+
+## INSTALLATION
+### Set up the laravel backend app
+1. Clone the repository
+   ```
+   git clone https://github.com/ayoubMhainid/School-System.git
+   ```
+2. laravel backend Setup
+   ```
+   cd back-end
+   composer install
+   php artisan migrate --seed
+   php artisan storage:link
+   ```
+3. Setup .env file
+   Set up the database credentials
+
+### Setup the react frontend app
+1. express backend setup
+   ```
+   cd front-end
+   npm install
+   ```
+2. set up the .env file
+   Make sure to make a variable named `VITE_API_URL` and set it to `http://localhost:3000/api/`
+
+3. Start the app
+   ```
+   cd front-end
+   npm run dev
+   cd ../back-end
+   php artisan serve
