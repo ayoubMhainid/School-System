@@ -49,15 +49,47 @@ The **School Management System** is a web-based application designed to streamli
 
 ### Teacher Features:
 - View assigned **classes** and **subjects**.
+  ###
+  ![CLASSESTEACHER](https://github.com/user-attachments/assets/2d3a0ca9-5405-47b4-820b-846563d8f1fb)
+  
 - Manage **exams** (schedule, edit, and delete exams).
+  ###
+  ![MANAGEXAMES](https://github.com/user-attachments/assets/e385d5df-74af-46a5-98ed-b1f19e06383a)
+  
 - Grade students and update **marks**.
+  ###
+  ![marks](https://github.com/user-attachments/assets/71d16ed0-1ffd-4494-8b74-d26e325e320a)
+
 - Take **student attendance**.
+  ###
+  ![Attendance](https://github.com/user-attachments/assets/4f7f0c49-2b60-4de8-ad7b-5995cb137841)
+
 - View and participate in **events**.
+  ###
+  ![EVENT](https://github.com/user-attachments/assets/8ef215e6-37e7-46a3-adad-5e199056346f)
+
 - Post and view **announcements** for students.
+  ###
+  ![Announcementstudent](https://github.com/user-attachments/assets/ca2037b8-122b-4e46-96d8-6890bd9c9f59)
 
 ### Student Features:
 - View assigned **class** and subjects.
+  ###
+  ![CLASSESSTUDENT](https://github.com/user-attachments/assets/6f99a600-7136-4f98-b707-37badfaec1d7)
+  
 - Access upcoming **exams** and schedules.
+  ###
+  ![EXAMSSTUDENT](https://github.com/user-attachments/assets/d5985462-d1f2-4389-9b84-03c6d3604b1c)
+
 - Check **marks** and results.
+  ###
+  ![GRADESTUDENT](https://github.com/user-attachments/assets/ce977ef9-c014-48ff-8292-869dd9a502f5)
+
 - View assigned **teachers** and their details.
+  ###
+  ![myteachers](https://github.com/user-attachments/assets/949e81f0-42b1-4f1b-98c0-1ffa66bd592a)
+
 - Stay updated with **events** and announcements.
+  ###
+  ![Announcementstudent](https://github.com/user-attachments/assets/018f26f9-0a06-45cb-8c12-cbeba92c5ebe)
+
